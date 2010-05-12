@@ -19,7 +19,7 @@ public class WNXplorerProperties {
 
 	public static final String PROPERTY_WORDNET_PATH = "PROPERTY_WORDNET_PATH";
 
-	public static String WORDNET_PATH;
+	private static String wordnet_path;
 
 	public static void loadProperties() {
 		properties = new Properties();
@@ -30,14 +30,14 @@ public class WNXplorerProperties {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		WORDNET_PATH = properties.getProperty(PROPERTY_WORDNET_PATH);
+		wordnet_path = properties.getProperty(PROPERTY_WORDNET_PATH);
 	}
 
 	public static String getWN_PATH() {
 		if (properties == null) {
 			loadProperties();
 		}
-		return WORDNET_PATH;
+		return wordnet_path;
 	}
 
 }
