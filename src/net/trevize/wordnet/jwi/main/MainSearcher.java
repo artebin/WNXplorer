@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import net.trevize.wordnet.explorer.Configuration;
+import net.trevize.wordnet.explorer.WNXplorerProperties;
 import net.trevize.wordnet.jwi.JWIWNSearcher;
 import net.trevize.wordnet.jwi.resultspanel.JWIWNResultsPanel;
 import edu.mit.jwi.Dictionary;
@@ -34,7 +34,7 @@ public class MainSearcher {
 		//for JWI.
 		IDictionary dict;
 
-		String wordnet_path = Configuration.getWN_PATH();
+		String wordnet_path = WNXplorerProperties.getWN_PATH();
 		URL url = null;
 		try {
 			url = new URL("file", null, wordnet_path);
