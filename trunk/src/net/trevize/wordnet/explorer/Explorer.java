@@ -66,7 +66,7 @@ public class Explorer {
 			GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
 
 	private void initWordNet() {
-		String wordnet_path = Configuration.getWN_PATH();
+		String wordnet_path = WNXplorerProperties.getWN_PATH();
 		URL url = null;
 		try {
 			url = new URL("file", null, wordnet_path);
