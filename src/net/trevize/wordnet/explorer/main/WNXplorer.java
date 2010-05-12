@@ -9,10 +9,10 @@ import net.trevize.wordnet.explorer.Explorer;
  * 
  * 
  * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
- * Main.java - Mar 24, 2010
+ * WNXplorer.java - Mar 24, 2010
  */
 
-public class Main {
+public class WNXplorer {
 
 	public static void main(String[] args) {
 		// setting the system look and feel
