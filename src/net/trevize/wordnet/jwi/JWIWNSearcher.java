@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
@@ -33,7 +34,10 @@ public class JWIWNSearcher {
 
 		ArrayList<IWordID> all_word_id = new ArrayList<IWordID>();
 		for (String stem : stems) {
-			all_word_id.addAll(dict.getIndexWord(stem, POS.NOUN).getWordIDs());
+			IIndexWord index_word = dict.getIndexWord(stem, POS.NOUN);
+			if (index_word != null) {
+				all_word_id.addAll(index_word.getWordIDs());
+			}
 		}
 
 		results = new ArrayList<ISynset>();
@@ -49,7 +53,7 @@ public class JWIWNSearcher {
 	/***************************************************************************
 	 * getters and setters.
 	 **************************************************************************/
-	
+
 	public IDictionary getDict() {
 		return dict;
 	}
