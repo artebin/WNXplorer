@@ -33,7 +33,7 @@ import edu.mit.jwi.item.Pointer;
 
 public class SynsetInfoPanel implements HyperlinkListener {
 
-	private static final String STYLESHEET_FILEPATH = "./SynsetInfoPanel.css";
+	private static final String STYLESHEET_FILEPATH = "./gfx/style.css";
 
 	private Explorer explorer;
 

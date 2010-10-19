@@ -148,6 +148,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		b0.addActionListener(this);
 		status_bar.addComponent("auto layout", b0);
 
+		status_bar.addComponent("PopupSemanticRelationButton", new PopupSemanticRelationButton());
+		
 		p0.add(status_bar, BorderLayout.SOUTH);
 	}
 
