@@ -23,7 +23,7 @@ import edu.mit.jwi.item.ISynset;
 
 public class JWIWNResultsPanel {
 
-	public static final String STYLESHEET_FILEPATH = "./SynsetInfoPanel.css";
+	public static final String STYLESHEET_FILEPATH = "./gfx/style.css";
 
 	private IDictionary dict;
 	private ArrayList<ISynset> results;
