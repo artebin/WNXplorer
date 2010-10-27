@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.trevize.wnxplorer.jung.SemanticRelationEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
-import net.trevize.wordnet.WNUtils;
+import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
