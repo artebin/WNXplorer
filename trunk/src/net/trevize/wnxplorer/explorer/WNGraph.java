@@ -95,7 +95,6 @@ public class WNGraph {
 				.getISynsetIDFromString(picked_vertex.getSynset_id()));
 
 		for (Pointer pointer : WNUtils.getPointers()) {
-
 			List<ISynsetID> pointered_synsets = picked_synset
 					.getRelatedSynsets(pointer);
 			for (ISynsetID next_sid : pointered_synsets) {
@@ -123,7 +122,6 @@ public class WNGraph {
 				//add the edge to the graph.
 				g.addEdge(e1, picked_vertex, v1);
 			}
-
 		}
 	}
 
