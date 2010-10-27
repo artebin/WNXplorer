@@ -102,12 +102,12 @@ public class Explorer {
 		splitpane.add(tabbedpane, JSplitPane.LEFT);
 
 		search_panel = new SearchPanel(this);
-		tabbedpane.add("Search", search_panel.getSearch_panel());
+		tabbedpane.add("<html><body><b><u>S</u></b>earch</body></html>", search_panel.getSearch_panel());
 
 		synset_info_panel = new SynsetInfoPanel(this);
-		tabbedpane.add("Synset info", synset_info_panel.getScrollpane());
+		tabbedpane.add("<html><body>Synset <b><u>i</u></b>nfo</body></html>", synset_info_panel.getScrollpane());
 
-		tabbedpane.add("Graph", new JPanel());
+		tabbedpane.add("<html><body><b><u>G</u></b>raph</body></html>", new JPanel());
 
 		//setting the splitpane right component.
 		initGraphView();
