@@ -1,7 +1,6 @@
 package net.trevize.wnxplorer.explorer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,6 +34,10 @@ public class SynsetInfoPanel implements HyperlinkListener {
 
 	private static final String STYLESHEET_FILEPATH = "./gfx/style.css";
 
+	/*
+	 * this class needs a reference to the Explorer, in order to be updated following the synset that is selected
+	 * in the graph.
+	 */
 	private Explorer explorer;
 
 	//the resulting panel.
@@ -45,7 +48,7 @@ public class SynsetInfoPanel implements HyperlinkListener {
 	private JEditorPane editorp;
 	private StringBuffer sb;
 
-	//the synset_id string of the currently displayed synset.
+	//the synset_id string of the currently displayed synset (brought by the graph).
 	private String synset_id;
 
 	public SynsetInfoPanel(Explorer explorer) {
@@ -62,10 +65,10 @@ public class SynsetInfoPanel implements HyperlinkListener {
 		synset_info_panel.add(scrollpane, BorderLayout.CENTER);
 
 		//remove the ugly border of the scrollpane viewport.
-		//Border empty = new EmptyBorder(0, 0, 0, 0);
-		//scrollpane.setViewportBorder(empty);
-		//scrollpane.getHorizontalScrollBar().setBorder(empty);
-		//scrollpane.getVerticalScrollBar().setBorder(empty);
+		Border empty = new EmptyBorder(0, 0, 0, 0);
+		scrollpane.setViewportBorder(empty);
+		scrollpane.getHorizontalScrollBar().setBorder(empty);
+		scrollpane.getVerticalScrollBar().setBorder(empty);
 
 		editorp = new JEditorPane();
 		editorp.addHyperlinkListener(this);

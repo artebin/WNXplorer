@@ -50,6 +50,7 @@ public class Explorer {
 		init();
 
 		main_frame.setVisible(true);
+
 		jsp0.setDividerLocation(.25);
 	}
 

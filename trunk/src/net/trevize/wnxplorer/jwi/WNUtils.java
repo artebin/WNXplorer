@@ -2,6 +2,7 @@ package net.trevize.wnxplorer.jwi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IPointer;
@@ -59,6 +60,26 @@ public class WNUtils {
 		pointers.add(Pointer.USAGE);
 		pointers.add(Pointer.USAGE_MEMBER);
 		pointers.add(Pointer.VERB_GROUP);
+	}
+
+	/*
+	 * As there is no POS descriptions in JWI, we introduced them here.
+	 */
+	private static TreeMap<POS, String> pos_labels;
+
+	public static TreeMap<POS, String> getPOSLabels() {
+		if (pointers == null) {
+			initPOSLabels();
+		}
+		return pos_labels;
+	}
+
+	private static void initPOSLabels() {
+		pos_labels = new TreeMap<POS, String>();
+		pos_labels.put(POS.ADJECTIVE, "ADJECTIF");
+		pos_labels.put(POS.ADVERB, "ADVERB");
+		pos_labels.put(POS.NOUN, "NOUN");
+		pos_labels.put(POS.VERB, "VERB");
 	}
 
 	public static ISynsetID getISynsetIDFromString(String synset_id_string) {

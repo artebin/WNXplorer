@@ -14,29 +14,32 @@ import edu.mit.jwi.morph.WordnetStemmer;
  * 
  * 
  * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
- * JWIWNSearcher.java - Mar 25, 2010
+ * Searcher.java - Mar 25, 2010
  */
 
-public class JWIWNSearcher {
+public class Searcher {
 
 	private IDictionary dict;
 	private WordnetStemmer stemmer;
 	private ArrayList<ISynset> results;
 
-	public JWIWNSearcher(IDictionary dict) {
+	public Searcher(IDictionary dict) {
 		this.dict = dict;
 		stemmer = new WordnetStemmer(dict);
 	}
 
-	public void search(POS pos, String queryString) {
+	public void search(List<POS> pos_list, String queryString) {
 		//calling the stemmer.
 		List<String> stems = stemmer.findStems(queryString);
 
 		ArrayList<IWordID> all_word_id = new ArrayList<IWordID>();
-		for (String stem : stems) {
-			IIndexWord index_word = dict.getIndexWord(stem, POS.NOUN);
-			if (index_word != null) {
-				all_word_id.addAll(index_word.getWordIDs());
+
+		for (POS pos : pos_list) {
+			for (String stem : stems) {
+				IIndexWord index_word = dict.getIndexWord(stem, pos);
+				if (index_word != null) {
+					all_word_id.addAll(index_word.getWordIDs());
+				}
 			}
 		}
 

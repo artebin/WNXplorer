@@ -3,6 +3,7 @@ package net.trevize.wnxplorer.jwi;
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -42,13 +43,13 @@ public class MainSearcher {
 		dict = new Dictionary(url);
 		dict.open();
 
-		JWIWNSearcher searcher = new JWIWNSearcher(dict);
+		Searcher searcher = new Searcher(dict);
 		JFrame f = new JFrame("JWIWNResultsPanel");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(1024, 512);
 		f.setLocationRelativeTo(null);
 
-		searcher.search(POS.NOUN, "drive");
+		searcher.search(Arrays.asList(new POS[] { POS.NOUN }), "drive");
 
 		JWIWNResultsPanel p = new JWIWNResultsPanel(dict, searcher.getResults());
 		p.retrieveResults(0, 42);
@@ -58,5 +59,5 @@ public class MainSearcher {
 
 		f.setVisible(true);
 	}
-	
+
 }
