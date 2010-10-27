@@ -10,7 +10,6 @@ import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
 
 /**
@@ -23,20 +22,18 @@ import edu.mit.jwi.item.ISynset;
 public class ResultsPanel {
 
 	public static final String STYLESHEET_FILEPATH = "./gfx/style.css";
+	public static final int DEFAULT_NUMBER_OF_RESULTS_PER_PAGE = 5;
 
-	private IDictionary dict;
 	private ArrayList<ISynset> results;
 
 	//swing components.
 	private JEditorPane view;
 	private HTMLEditorKit kit;
 
-	public static final int DEFAULT_NUMBER_OF_RESULTS_PER_PAGE = 5;
 	private int num_of_results_per_page;
 	private int current_page_number;
 
-	public ResultsPanel(IDictionary dict, ArrayList<ISynset> results) {
-		this.dict = dict;
+	public ResultsPanel(ArrayList<ISynset> results) {
 		this.results = results;
 		num_of_results_per_page = DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
 		current_page_number = 0;
@@ -100,7 +97,7 @@ public class ResultsPanel {
 	private String getResultHTMLFragment(int result_id, ISynset synset) {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("[" + result_id + "] ");
+		sb.append("[" + (result_id + 1) + "] ");
 		String synset_id = synset.getID().toString();
 		sb.append("<a href=\"synset_id:" + synset_id + "\">");
 		sb.append(synset_id);
@@ -136,9 +133,9 @@ public class ResultsPanel {
 			last_idx = (current_page_number + 1) * num_of_results_per_page - 1;
 		}
 
-		sb.append(first_idx);
+		sb.append(first_idx + 1);
 		sb.append(" - ");
-		sb.append(last_idx);
+		sb.append(last_idx + 1);
 		sb.append(" | ");
 		sb.append(results.size() + " results");
 

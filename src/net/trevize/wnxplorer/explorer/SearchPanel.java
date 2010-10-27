@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,7 +28,6 @@ import net.trevize.wnxplorer.jwi.Searcher;
 import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
-import edu.mit.jwi.item.POS;
 
 /**
  * 
@@ -151,12 +149,6 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		scrollpane = new JScrollPane();
 		scrollpane.setViewportView(new JPanel()); //at starting time no results, so an empty panel is used.
 
-		//remove the ugly border of the scrollpane viewport.
-		//Border empty = new EmptyBorder(0, 0, 0, 0);
-		//scrollpane.setViewportBorder(empty);
-		//scrollpane.getHorizontalScrollBar().setBorder(empty);
-		//scrollpane.getVerticalScrollBar().setBorder(empty);
-
 		xgb.add(scrollpane, style_p1, 2, 0);
 	}
 
@@ -173,96 +165,19 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		String action_command = e.getActionCommand();
 
 		if (action_command.equals(ACTION_COMMAND_DO_QUERY)) {
-			System.out.println("ACTION_COMMAND_DO_QUERY: "
-					+ search_textfield.getText());
-
-			//instantiate a new Searcher and make the search.
-			Searcher searcher = new Searcher(explorer.getDict());
-			searcher.search(pos_selector_button.getSelectedPOS(),
-					search_textfield.getText());
-
-			//instantiate a ResultsPanel (a JEditorPane that contains the results).
-			results_panel = new ResultsPanel(explorer.getDict(), searcher
-					.getResults());
-			results_panel.getView().addHyperlinkListener(this);
-			results_panel.setNum_of_results_per_page(num_of_results_per_page);
-			results_panel.retrievePage(0);
-
-			//update the results_status.
-			results_status.setText(results_panel.getResultsStatus());
-
-			//save the divider location, update the results_container and restore the divider location.
-			int divider_location = explorer.getJsp0().getDividerLocation();
-			scrollpane.setViewportView(results_panel.getView());
-			explorer.getJsp0().setDividerLocation(divider_location);
-
-			/*
-			 * put the scrollbars value of the scrollpane that contained the JeditorPane
-			 * to 0. 
-			 * Because of the JEditorPane, this has to be done in a separate thread.
-			 */
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					scrollpane.getVerticalScrollBar().setValue(0);
-					scrollpane.getHorizontalScrollBar().setValue(0);
-				}
-			});
+			doQuery();
 		}
 
 		else
 
 		if (action_command.equals(ACTION_COMMAND_PREVIOUS_RESULT_PAGE)) {
-			System.out.println("ACTION_COMMAND_PREVIOUS_RESULT_PAGE");
-			if (results_panel.isTheFirstPage()) {
-				return;
-			}
-			results_panel
-					.retrievePage(results_panel.getCurrent_page_number() - 1);
-
-			//update the results_status.
-			results_status.setText(results_panel.getResultsStatus());
-
-			/*
-			 * put the scrollbars value of the scrollpane that contained the JeditorPane
-			 * to 0. 
-			 * Because of the JEditorPane, this has to be done in a separate thread.
-			 */
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					scrollpane.getVerticalScrollBar().setValue(0);
-					scrollpane.getHorizontalScrollBar().setValue(0);
-				}
-			});
-
-			results_panel.getView().repaint();
+			displayPreviousResultPage();
 		}
 
 		else
 
 		if (action_command.equals(ACTION_COMMAND_NEXT_RESULT_PAGE)) {
-			System.out.println("ACTION_COMMAND_NEXT_RESULT_PAGE");
-			if (results_panel.isTheLastPage()) {
-				return;
-			}
-			results_panel
-					.retrievePage(results_panel.getCurrent_page_number() + 1);
-
-			//update the results_status.
-			results_status.setText(results_panel.getResultsStatus());
-
-			/*
-			 * put the scrollbars value of the scrollpane that contained the JeditorPane
-			 * to 0. 
-			 * Because of the JEditorPane, this has to be done in a separate thread.
-			 */
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					scrollpane.getVerticalScrollBar().setValue(0);
-					scrollpane.getHorizontalScrollBar().setValue(0);
-				}
-			});
-
-			results_panel.getView().repaint();
+			displayNextResultPage();
 		}
 
 		else
@@ -270,7 +185,92 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		if (action_command.equals(ACTION_COMMAND_ADD_SYNSET_TO_GRAPH)) {
 			System.out.println("ACTION_COMMAND_ADD_SYNSET_TO_GRAPH");
 		}
+	}
 
+	private void doQuery() {
+		//		System.out.println("ACTION_COMMAND_DO_QUERY: "
+		//					+ search_textfield.getText());
+
+		//instantiate a new Searcher and make the search.
+		Searcher searcher = new Searcher(explorer.getDict());
+		searcher.search(pos_selector_button.getSelectedPOS(), search_textfield
+				.getText());
+
+		//instantiate the ResultsPanel.
+		results_panel = new ResultsPanel(searcher.getResults());
+		results_panel.getView().addHyperlinkListener(this);
+		//results_panel.setNum_of_results_per_page(num_of_results_per_page);
+		results_panel.retrievePage(0);
+
+		//update the results_status.
+		results_status.setText(results_panel.getResultsStatus());
+
+		//save the divider location, update the results_container and restore the divider location.
+		int divider_location = explorer.getSplitpane().getDividerLocation();
+		scrollpane.setViewportView(results_panel.getView());
+		explorer.getSplitpane().setDividerLocation(divider_location);
+
+		/*
+		 * put the scrollbars value of the scrollpane that contained the JeditorPane
+		 * to 0. 
+		 * Because of the JEditorPane, this has to be done in a separate thread.
+		 */
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				scrollpane.getVerticalScrollBar().setValue(0);
+				scrollpane.getHorizontalScrollBar().setValue(0);
+			}
+		});
+	}
+
+	private void displayPreviousResultPage() {
+		System.out.println("ACTION_COMMAND_PREVIOUS_RESULT_PAGE");
+		if (results_panel.isTheFirstPage()) {
+			return;
+		}
+		results_panel.retrievePage(results_panel.getCurrent_page_number() - 1);
+
+		//update the results_status.
+		results_status.setText(results_panel.getResultsStatus());
+
+		/*
+		 * put the scrollbars value of the scrollpane that contained the JeditorPane
+		 * to 0. 
+		 * Because of the JEditorPane, this has to be done in a separate thread.
+		 */
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				scrollpane.getVerticalScrollBar().setValue(0);
+				scrollpane.getHorizontalScrollBar().setValue(0);
+			}
+		});
+
+		results_panel.getView().repaint();
+	}
+
+	private void displayNextResultPage() {
+		System.out.println("ACTION_COMMAND_NEXT_RESULT_PAGE");
+		if (results_panel.isTheLastPage()) {
+			return;
+		}
+		results_panel.retrievePage(results_panel.getCurrent_page_number() + 1);
+
+		//update the results_status.
+		results_status.setText(results_panel.getResultsStatus());
+
+		/*
+		 * put the scrollbars value of the scrollpane that contained the JeditorPane
+		 * to 0. 
+		 * Because of the JEditorPane, this has to be done in a separate thread.
+		 */
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				scrollpane.getVerticalScrollBar().setValue(0);
+				scrollpane.getHorizontalScrollBar().setValue(0);
+			}
+		});
+
+		results_panel.getView().repaint();
 	}
 
 	/***************************************************************************
@@ -300,45 +300,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if (key == KeyEvent.VK_ENTER) {
-			//			System.out.println("ACTION_COMMAND_DO_QUERY: "
-			//					+ search_textfield.getText());
-
-			/*
-			 * retrieve all the POS enable for the search.
-			 */
-			ArrayList<POS> pos_list = new ArrayList<POS>();
-
-			//instantiate a new Searcher and make the search.
-			Searcher searcher = new Searcher(explorer.getDict());
-			searcher.search(pos_selector_button.getSelectedPOS(),
-					search_textfield.getText());
-
-			//instantiate the ResultsPanel.
-			results_panel = new ResultsPanel(explorer.getDict(), searcher
-					.getResults());
-			results_panel.getView().addHyperlinkListener(this);
-			results_panel.setNum_of_results_per_page(num_of_results_per_page);
-			results_panel.retrievePage(0);
-
-			//update the results_status.
-			results_status.setText(results_panel.getResultsStatus());
-
-			//save the divider location, update the results_container and restore the divider location.
-			int divider_location = explorer.getJsp0().getDividerLocation();
-			scrollpane.setViewportView(results_panel.getView());
-			explorer.getJsp0().setDividerLocation(divider_location);
-
-			/*
-			 * put the scrollbars value of the scrollpane that contained the JeditorPane
-			 * to 0. 
-			 * Because of the JEditorPane, this has to be done in a separate thread.
-			 */
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					scrollpane.getVerticalScrollBar().setValue(0);
-					scrollpane.getHorizontalScrollBar().setValue(0);
-				}
-			});
+			doQuery();
 		}
 	}
 

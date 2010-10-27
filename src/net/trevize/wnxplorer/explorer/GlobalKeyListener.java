@@ -34,28 +34,32 @@ public class GlobalKeyListener implements AWTEventListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.isAltDown() && e.getKeyChar() == '&') {
+		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
+				&& e.getKeyCode() == KeyEvent.VK_S) {
 			//System.out.println("tab0");
-			explorer.getJtp().setSelectedIndex(0);
+			explorer.getTabbedpane().setSelectedIndex(0);
 		}
 
 		else
 
-		if (e.isAltDown() && e.getKeyChar() == 'é') {
+		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
+				&& e.getKeyCode() == KeyEvent.VK_I) {
 			//System.out.println("tab1");
-			explorer.getJtp().setSelectedIndex(1);
+			explorer.getTabbedpane().setSelectedIndex(1);
 		}
 
 		else
 
-		if (e.isAltDown() && e.getKeyChar() == '"') {
+		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
+				&& e.getKeyCode() == KeyEvent.VK_G) {
 			//System.out.println("tab2");
-			explorer.getJtp().setSelectedIndex(2);
+			explorer.getTabbedpane().setSelectedIndex(2);
 		}
 
 		else
 
-		if (e.isAltDown() && e.getKeyChar() == 'c') {
+		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
+				&& e.getKeyCode() == KeyEvent.VK_C) {
 			//System.out.println("clear");
 			explorer.clearView();
 		}
