@@ -31,7 +31,7 @@ public class Explorer {
 	private JSplitPane splitpane;
 
 	//splitpane left component.
-	private JTabbedPane jtp;
+	private JTabbedPane tabbedpane;
 	private SynsetInfoPanel synset_info_panel;
 	private SearchPanel search_panel;
 
@@ -98,16 +98,16 @@ public class Explorer {
 		main_frame.getContentPane().add(splitpane, BorderLayout.CENTER);
 
 		//setting the splitpane left component.
-		jtp = new JTabbedPane();
-		splitpane.add(jtp, JSplitPane.LEFT);
+		tabbedpane = new JTabbedPane();
+		splitpane.add(tabbedpane, JSplitPane.LEFT);
 
 		search_panel = new SearchPanel(this);
-		jtp.add("Search", search_panel.getSearch_panel());
+		tabbedpane.add("Search", search_panel.getSearch_panel());
 
 		synset_info_panel = new SynsetInfoPanel(this);
-		jtp.add("Synset info", synset_info_panel.getScrollpane());
+		tabbedpane.add("Synset info", synset_info_panel.getScrollpane());
 
-		jtp.add("Graph", new JPanel());
+		tabbedpane.add("Graph", new JPanel());
 
 		//setting the splitpane right component.
 		initGraphView();
@@ -141,44 +141,24 @@ public class Explorer {
 	 * getters and setters. 
 	 **************************************************************************/
 
-	public JSplitPane getJsp0() {
+	public JSplitPane getSplitpane() {
 		return splitpane;
-	}
-
-	public void setJsp0(JSplitPane jsp0) {
-		this.splitpane = jsp0;
-	}
-
-	public JTabbedPane getJtp() {
-		return jtp;
-	}
-
-	public void setJtp(JTabbedPane jtp) {
-		this.jtp = jtp;
 	}
 
 	public WNGraph getWngraph() {
 		return wngraph;
 	}
 
-	public void setWngraph(WNGraph wngraph) {
-		this.wngraph = wngraph;
-	}
-
 	public WNGraphPanel getWngraphp() {
 		return wngraphp;
-	}
-
-	public void setWngraphp(WNGraphPanel wngraphp) {
-		this.wngraphp = wngraphp;
 	}
 
 	public IDictionary getDict() {
 		return dict;
 	}
 
-	public void setDict(IDictionary dict) {
-		this.dict = dict;
+	public JTabbedPane getTabbedpane() {
+		return tabbedpane;
 	}
 
 }

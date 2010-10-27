@@ -51,7 +51,7 @@ public class MainSearcher {
 
 		searcher.search(Arrays.asList(new POS[] { POS.NOUN }), "drive");
 
-		ResultsPanel p = new ResultsPanel(dict, searcher.getResults());
+		ResultsPanel p = new ResultsPanel(searcher.getResults());
 		p.retrieveResults(0, 42);
 
 		f.getContentPane().setLayout(new BorderLayout());
