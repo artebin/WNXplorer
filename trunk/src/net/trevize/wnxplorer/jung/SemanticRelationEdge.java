@@ -1,5 +1,7 @@
 package net.trevize.wnxplorer.jung;
 
+import edu.mit.jwi.item.Pointer;
+
 /**
  * 
  * 
@@ -9,17 +11,17 @@ package net.trevize.wnxplorer.jung;
 
 public class SemanticRelationEdge {
 
-	private String semantic_relation_type;
+	private Pointer semantic_relation_type;
 
-	public SemanticRelationEdge(String semantic_relation_type) {
+	public SemanticRelationEdge(Pointer semantic_relation_type) {
 		this.semantic_relation_type = semantic_relation_type;
 	}
 
-	public String getSemantic_relation_type() {
+	public Pointer getSemantic_relation_type() {
 		return semantic_relation_type;
 	}
 
-	public void setSemantic_relation_type(String semanticRelationType) {
+	public void setSemantic_relation_type(Pointer semanticRelationType) {
 		semantic_relation_type = semanticRelationType;
 	}
 

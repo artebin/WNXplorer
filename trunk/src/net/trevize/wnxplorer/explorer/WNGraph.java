@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.trevize.wnxplorer.jung.SemanticRelationEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
-import net.trevize.wnxplorer.jwi.JWISynsetDocument;
 import net.trevize.wordnet.WNUtils;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
@@ -75,7 +74,7 @@ public class WNGraph {
 
 	public boolean edgeExistsBetweenVerticesForRelationType(
 			SynsetVertex vertex_src, SynsetVertex vertex_dest,
-			String relation_type) {
+			Pointer relation_type) {
 		Iterator<SemanticRelationEdge> edges_iter = g.getOutEdges(vertex_src)
 				.iterator();
 		boolean found = false;
@@ -108,11 +107,11 @@ public class WNGraph {
 			SynsetVertex v = vertex_idx_0.get(sid.getID().toString());
 			if (v != null) {
 				if (edgeExistsBetweenVerticesForRelationType(picked_vertex, v,
-						JWISynsetDocument.FIELD_POINTER_HYPERNYM)) {
+						Pointer.HYPERNYM)) {
 					continue;
 				}
 				if (edgeExistsBetweenVerticesForRelationType(v, picked_vertex,
-						JWISynsetDocument.FIELD_POINTER_HYPONYM)) {
+						Pointer.HYPONYM)) {
 					continue;
 				}
 			}
@@ -121,8 +120,7 @@ public class WNGraph {
 			SynsetVertex v1 = addVertexForSynset(sid);
 
 			//create the edge.
-			SemanticRelationEdge e1 = new SemanticRelationEdge(
-					JWISynsetDocument.FIELD_POINTER_HYPERNYM);
+			SemanticRelationEdge e1 = new SemanticRelationEdge(Pointer.HYPERNYM);
 
 			//add the edge to the graph.
 			g.addEdge(e1, picked_vertex, v1);
@@ -141,11 +139,11 @@ public class WNGraph {
 			SynsetVertex v = vertex_idx_0.get(sid.getID().toString());
 			if (v != null) {
 				if (edgeExistsBetweenVerticesForRelationType(picked_vertex, v,
-						JWISynsetDocument.FIELD_POINTER_HYPONYM)) {
+						Pointer.HYPONYM)) {
 					continue;
 				}
 				if (edgeExistsBetweenVerticesForRelationType(v, picked_vertex,
-						JWISynsetDocument.FIELD_POINTER_HYPERNYM)) {
+						Pointer.HYPERNYM)) {
 					continue;
 				}
 			}
@@ -154,8 +152,7 @@ public class WNGraph {
 			SynsetVertex v1 = addVertexForSynset(sid);
 
 			//create the edge.
-			SemanticRelationEdge e1 = new SemanticRelationEdge(
-					JWISynsetDocument.FIELD_POINTER_HYPONYM);
+			SemanticRelationEdge e1 = new SemanticRelationEdge(Pointer.HYPONYM);
 
 			//add the edge to the graph.
 			g.addEdge(e1, picked_vertex, v1);

@@ -21,20 +21,6 @@ import edu.mit.jwi.item.SynsetID;
 
 public class WNUtils {
 
-	public static String getWords(ISynset synset) {
-		//get the words.
-		StringBuffer sb = new StringBuffer();
-		List<IWord> words = synset.getWords();
-		sb.append("{ ");
-		sb.append(words.get(0).getLemma());
-		for (int i = 1; i < words.size(); ++i) {
-			sb.append(" , " + words.get(i).getLemma());
-		}
-		sb.append(" a}");
-		String synset_words = sb.toString();
-		return synset_words;
-	}
-
 	private static ArrayList<Pointer> pointers;
 
 	public static ArrayList<Pointer> getPointers() {
@@ -77,13 +63,28 @@ public class WNUtils {
 
 	public static ISynsetID getISynsetIDFromString(String synset_id_string) {
 		//retrieving an ISynset from the vertex.
-		int offset = Integer.parseInt(synset_id_string.split("-")[1]);
-		char pos = synset_id_string.split("-")[2].charAt(0);
+		int offset = Integer.parseInt(synset_id_string.split("-")[1]); //get the offset.
+		char pos = synset_id_string.split("-")[2].charAt(0); //get the Part Of Speech.
 		SynsetID synset_id = new SynsetID(offset, POS.getPartOfSpeech(pos));
 		return synset_id;
 	}
 
-	public static String getSynsetHTMLDescription(IDictionary dict, ISynset synset) {
+	public static String getWords(ISynset synset) {
+		//get the words.
+		StringBuffer sb = new StringBuffer();
+		List<IWord> words = synset.getWords();
+		sb.append("{ ");
+		sb.append(words.get(0).getLemma());
+		for (int i = 1; i < words.size(); ++i) {
+			sb.append(" , " + words.get(i).getLemma());
+		}
+		sb.append(" }");
+		String synset_words = sb.toString();
+		return synset_words;
+	}
+
+	public static String getSynsetHTMLDescription(IDictionary dict,
+			ISynset synset) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<html><body>");
 
