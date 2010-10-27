@@ -28,17 +28,14 @@ import edu.mit.jwi.IDictionary;
 public class Explorer {
 
 	private JFrame main_frame;
+	private JSplitPane splitpane;
 
-	private JPanel p0;
-
-	private JSplitPane jsp0;
-
-	//jsp0 left component.
+	//splitpane left component.
 	private JTabbedPane jtp;
 	private SynsetInfoPanel synset_info_panel;
 	private SearchPanel search_panel;
 
-	//jsp0 right component.
+	//splitpane right component.
 	private WNGraph wngraph;
 	private WNGraphPanel wngraphp;
 
@@ -51,7 +48,7 @@ public class Explorer {
 
 		main_frame.setVisible(true);
 
-		jsp0.setDividerLocation(.25);
+		splitpane.setDividerLocation(.25); //have to be done after the switch of the frame visibility to be taken in account.
 	}
 
 	private void initWordNet() {
@@ -82,19 +79,13 @@ public class Explorer {
 
 		main_frame.getContentPane().setLayout(new BorderLayout());
 
-		//setting main panel.
-		p0 = new JPanel();
-		p0.setLayout(new BorderLayout());
-		p0.setBorder(new EmptyBorder(3, 3, 3, 3));
-		main_frame.getContentPane().add(p0, BorderLayout.CENTER);
-
 		//setting the JSplitPane.
-		jsp0 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
 		/*
 		 * setting a divider on the JSplitPane (due to the bug of the GTK PLAF). 
 		 */
-		jsp0.setUI(new BasicSplitPaneUI() {
+		splitpane.setUI(new BasicSplitPaneUI() {
 			public BasicSplitPaneDivider createDefaultDivider() {
 				BasicSplitPaneDivider pane_divider = new BasicSplitPaneDivider(
 						this) {
@@ -103,12 +94,12 @@ public class Explorer {
 			}
 		});
 
-		jsp0.setBorder(null);
-		p0.add(jsp0, BorderLayout.CENTER);
+		splitpane.setBorder(new EmptyBorder(3, 3, 3, 3));
+		main_frame.getContentPane().add(splitpane, BorderLayout.CENTER);
 
-		//setting the jsp0 left component.
+		//setting the splitpane left component.
 		jtp = new JTabbedPane();
-		jsp0.add(jtp, JSplitPane.LEFT);
+		splitpane.add(jtp, JSplitPane.LEFT);
 
 		search_panel = new SearchPanel(this);
 		jtp.add("Search", search_panel.getSearch_panel());
@@ -118,9 +109,9 @@ public class Explorer {
 
 		jtp.add("Graph", new JPanel());
 
-		//setting the jsp0 right component.
+		//setting the splitpane right component.
 		initGraphView();
-		jsp0.add(wngraphp.getPanel(), JSplitPane.RIGHT);
+		splitpane.add(wngraphp.getPanel(), JSplitPane.RIGHT);
 	}
 
 	public void initGraphView() {
@@ -137,12 +128,12 @@ public class Explorer {
 	}
 
 	public void clearView() {
-		//setting the jsp0 right component.
+		//setting the splitpane right component.
 		initGraphView();
 		//save the divider location, install the new graph view and restore the divider location.
-		int divider_location = jsp0.getDividerLocation();
-		jsp0.add(wngraphp.getPanel(), JSplitPane.RIGHT);
-		jsp0.setDividerLocation(divider_location);
+		int divider_location = splitpane.getDividerLocation();
+		splitpane.add(wngraphp.getPanel(), JSplitPane.RIGHT);
+		splitpane.setDividerLocation(divider_location);
 
 	}
 
@@ -151,11 +142,11 @@ public class Explorer {
 	 **************************************************************************/
 
 	public JSplitPane getJsp0() {
-		return jsp0;
+		return splitpane;
 	}
 
 	public void setJsp0(JSplitPane jsp0) {
-		this.jsp0 = jsp0;
+		this.splitpane = jsp0;
 	}
 
 	public JTabbedPane getJtp() {
