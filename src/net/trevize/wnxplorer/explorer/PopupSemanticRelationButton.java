@@ -1,25 +1,8 @@
-/* 
- * Copyright (c) 2007 Wayne Meissner
- * 
- * This file is part of gstreamer-java.
- *
- * This code is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License version 3 only, as
- * published by the Free Software Foundation.
- *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
- * version 3 for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * version 3 along with this work.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package net.trevize.wnxplorer.explorer;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -49,7 +32,7 @@ import javax.swing.SwingUtilities;
 public class PopupSemanticRelationButton extends JToggleButton {
 
 	private Popup semanticRelationPopup;
-	JScrollPane jsp;
+	private JScrollPane jsp;
 
 	private AbstractAction semanticRelationAction = new AbstractAction("",
 			new ImageIcon("./gfx/semantic_web_32.png")) {
@@ -59,8 +42,8 @@ public class PopupSemanticRelationButton extends JToggleButton {
 				semanticRelationPopup.hide();
 				semanticRelationPopup = null;
 			} else {
-				if (!(semanticRelationList.getPreferredSize().height > jsp.getViewport()
-						.getPreferredSize().height)) {
+				if (!(semanticRelationList.getPreferredSize().height > jsp
+						.getViewport().getPreferredSize().height)) {
 					jsp.getViewport().setPreferredSize(
 							semanticRelationList.getPreferredSize());
 					semanticRelationPanel.setPreferredSize(jsp
@@ -114,6 +97,8 @@ public class PopupSemanticRelationButton extends JToggleButton {
 	private JList semanticRelationList;
 
 	public PopupSemanticRelationButton() {
+		setMargin(new Insets(0, 0, 0, 0));
+
 		/*
 		 * Construct the popup for the list of the semantic relations.
 		 */

@@ -6,6 +6,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,15 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
 import net.trevize.wnxplorer.jwi.JWIWNResultsPanel;
-import net.trevize.wnxplorer.jwi.JWIWNSearcher;
+import net.trevize.wnxplorer.jwi.Searcher;
 import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
@@ -37,12 +38,16 @@ import edu.mit.jwi.item.POS;
  * SearchPanel.java - Mar 30, 2010
  */
 
-public class SearchPanel implements ActionListener, HyperlinkListener {
+public class SearchPanel implements ActionListener, HyperlinkListener,
+		KeyListener {
 
 	public static final String ACTION_COMMAND_DO_QUERY = "ACTION_COMMAND_DO_QUERY";
 	public static final String ACTION_COMMAND_PREVIOUS_RESULT_PAGE = "ACTION_COMMAND_PREVIOUS_RESULT_PAGE";
 	public static final String ACTION_COMMAND_NEXT_RESULT_PAGE = "ACTION_COMMAND_NEXT_RESULT_PAGE";
 	public static final String ACTION_COMMAND_ADD_SYNSET_TO_GRAPH = "ACTION_COMMAND_ADD_SYNSET_TO_GRAPH";
+
+	public static final String ICON_PATH_GO_PREVIOUS = "./gfx/org/freedesktop/tango/go-previous.png";
+	public static final String ICON_PATH_GO_NEXT = "./gfx/org/freedesktop/tango/go-next.png";
 
 	/*
 	 * this class needs a reference to the Explorer, for updating the graph when the
@@ -55,14 +60,14 @@ public class SearchPanel implements ActionListener, HyperlinkListener {
 	private XGridBag xgb;
 
 	//components for the query search field.
-	private JTextField jtf0;
-	private JButton jb0;
+	private JTextField search_textfield;
+	private JButton do_query_button;
+	private PopupPOSButton pos_selector_button;
 
 	//components of the toolbar.
-	private JButton b1; //previous page button.
-	private JButton b2; //next page button.
-	private JButton b3;
-	private JLabel results_status;
+	private JButton button_previous_result_page;
+	private JButton button_next_result_page;
+	private JLabel results_status; //how many results etc.
 
 	//components for displaying the results.
 	private JScrollPane scrollpane;
@@ -90,14 +95,25 @@ public class SearchPanel implements ActionListener, HyperlinkListener {
 		//setting the search query text field.
 		JPanel p0 = new JPanel();
 		p0.setLayout(new BorderLayout());
+
 		JLabel l0 = new JLabel("Query:");
 		p0.add(l0, BorderLayout.WEST);
-		jtf0 = new JTextField();
-		p0.add(jtf0, BorderLayout.CENTER);
-		jb0 = new JButton("search \u21B5");
-		jb0.addActionListener(this);
-		jb0.setActionCommand(ACTION_COMMAND_DO_QUERY);
-		p0.add(jb0, BorderLayout.EAST);
+
+		search_textfield = new JTextField();
+		search_textfield.addKeyListener(this);
+		p0.add(search_textfield, BorderLayout.CENTER);
+
+		JPanel p2 = new JPanel();
+		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
+		do_query_button = new JButton("\u21B5");
+		do_query_button.setActionCommand(ACTION_COMMAND_DO_QUERY);
+		do_query_button.addActionListener(this);
+		p2.add(do_query_button);
+
+		pos_selector_button = new PopupPOSButton();
+		p2.add(pos_selector_button);
+		p0.add(p2, BorderLayout.EAST);
+
 		p0.add(Box.createVerticalStrut(3), BorderLayout.SOUTH);
 		xgb.add(p0, style_p0, 0, 0);
 
@@ -105,34 +121,35 @@ public class SearchPanel implements ActionListener, HyperlinkListener {
 		JPanel p1 = new JPanel();
 		p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
 
-		b1 = new JButton(new ImageIcon("./gfx/left.jpg"));
-		b1.setActionCommand(ACTION_COMMAND_PREVIOUS_RESULT_PAGE);
-		b1.addActionListener(this);
-		p1.add(b1);
+		button_previous_result_page = new JButton(new ImageIcon(
+				ICON_PATH_GO_PREVIOUS));
+		button_previous_result_page.setMargin(new Insets(0, 0, 0, 0));
+		button_previous_result_page
+				.setActionCommand(ACTION_COMMAND_PREVIOUS_RESULT_PAGE);
+		button_previous_result_page.addActionListener(this);
+		p1.add(button_previous_result_page);
 
-		b2 = new JButton(new ImageIcon("./gfx/right.jpg"));
-		b2.setActionCommand(ACTION_COMMAND_NEXT_RESULT_PAGE);
-		b2.addActionListener(this);
+		button_next_result_page = new JButton(new ImageIcon(ICON_PATH_GO_NEXT));
+		button_next_result_page.setMargin(new Insets(0, 0, 0, 0));
+		button_next_result_page
+				.setActionCommand(ACTION_COMMAND_NEXT_RESULT_PAGE);
+		button_next_result_page.addActionListener(this);
+		p1.add(button_next_result_page);
 
-		p1.add(b2);
 		p1.add(Box.createHorizontalGlue());
+
 		results_status = new JLabel();
 		p1.add(results_status);
+
 		p1.add(Box.createHorizontalGlue());
 
-		/*
-		b3 = new JButton(new ImageIcon("./gfx/plus.jpg"));
-		b3.setActionCommand(ACTION_COMMAND_ADD_SYNSET_TO_GRAPH);
-		b3.addActionListener(this);
-		p1.add(b3);
-		*/
-
 		xgb.add(p1, style_p0, 1, 0);
+
 		xgb.add(Box.createVerticalStrut(3), style_p0, 2, 0);
 
-		//setting the results panel.
+		//setting the scrollpane for the results panel.
 		scrollpane = new JScrollPane();
-		scrollpane.setViewportView(new JPanel());
+		scrollpane.setViewportView(new JPanel()); //at starting time no results, so an empty panel is used.
 
 		//remove the ugly border of the scrollpane viewport.
 		//Border empty = new EmptyBorder(0, 0, 0, 0);
@@ -144,7 +161,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener {
 	}
 
 	public String getQuery() {
-		return jtf0.getText();
+		return search_textfield.getText();
 	}
 
 	/***************************************************************************
@@ -156,11 +173,13 @@ public class SearchPanel implements ActionListener, HyperlinkListener {
 		String action_command = e.getActionCommand();
 
 		if (action_command.equals(ACTION_COMMAND_DO_QUERY)) {
-			System.out.println("ACTION_COMMAND_DO_QUERY: " + jtf0.getText());
+			System.out.println("ACTION_COMMAND_DO_QUERY: "
+					+ search_textfield.getText());
 
-			//instantiate a new JWIWNSearcher and make the search.
-			JWIWNSearcher searcher = new JWIWNSearcher(explorer.getDict());
-			searcher.search(POS.NOUN, jtf0.getText());
+			//instantiate a new Searcher and make the search.
+			Searcher searcher = new Searcher(explorer.getDict());
+			searcher.search(pos_selector_button.getSelectedPOS(),
+					search_textfield.getText());
 
 			//instantiate the JWIWNResultsPanel.
 			results_panel = new JWIWNResultsPanel(explorer.getDict(), searcher
@@ -271,6 +290,64 @@ public class SearchPanel implements ActionListener, HyperlinkListener {
 			explorer.getWngraph().addVertexForSynset(synset);
 			explorer.getWngraphp().getVv().repaint();
 		}
+	}
+
+	/***************************************************************************
+	 * implementation of KeyListener.
+	 **************************************************************************/
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		if (key == KeyEvent.VK_ENTER) {
+			//			System.out.println("ACTION_COMMAND_DO_QUERY: "
+			//					+ search_textfield.getText());
+
+			/*
+			 * retrieve all the POS enable for the search.
+			 */
+			ArrayList<POS> pos_list = new ArrayList<POS>();
+
+			//instantiate a new Searcher and make the search.
+			Searcher searcher = new Searcher(explorer.getDict());
+			searcher.search(pos_selector_button.getSelectedPOS(),
+					search_textfield.getText());
+
+			//instantiate the JWIWNResultsPanel.
+			results_panel = new JWIWNResultsPanel(explorer.getDict(), searcher
+					.getResults());
+			results_panel.getView().addHyperlinkListener(this);
+			results_panel.setNum_of_results_per_page(num_of_results_per_page);
+			results_panel.retrievePage(0);
+
+			//update the results_status.
+			results_status.setText(results_panel.getResultsStatus());
+
+			//save the divider location, update the results_container and restore the divider location.
+			int divider_location = explorer.getJsp0().getDividerLocation();
+			scrollpane.setViewportView(results_panel.getView());
+			explorer.getJsp0().setDividerLocation(divider_location);
+
+			/*
+			 * put the scrollbars value of the scrollpane that contained the JeditorPane
+			 * to 0. 
+			 * Because of the JEditorPane, this has to be done in a separate thread.
+			 */
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					scrollpane.getVerticalScrollBar().setValue(0);
+					scrollpane.getHorizontalScrollBar().setValue(0);
+				}
+			});
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
 	}
 
 	/***************************************************************************
