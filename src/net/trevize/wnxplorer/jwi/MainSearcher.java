@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.jwi.main;
+package net.trevize.wnxplorer.jwi;
 
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
@@ -9,8 +9,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import net.trevize.wnxplorer.explorer.WNXplorerProperties;
-import net.trevize.wnxplorer.jwi.JWIWNSearcher;
-import net.trevize.wnxplorer.jwi.resultspanel.JWIWNResultsPanel;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.POS;
