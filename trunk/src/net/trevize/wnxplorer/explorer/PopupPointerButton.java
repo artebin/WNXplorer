@@ -107,6 +107,9 @@ public class PopupPointerButton extends JToggleButton {
 		for (Pointer pointer : WNUtils.getPointers()) {
 			String pointer_name = pointer.getName();
 			JCheckBox pointer_checkbox = new JCheckBox(pointer_name);
+			pointer_checkbox.setOpaque(true);
+			pointer_checkbox.setBackground(WNUtils.getPointersColor().get(
+					pointer));
 			pointer_checkbox.setSelected(true); //by default all pointers are displayed whatever the types.
 			model.addElement(pointer_checkbox);
 			pointer_checkboxes.put(pointer, pointer_checkbox);

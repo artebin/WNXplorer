@@ -12,19 +12,19 @@ import edu.uci.ics.jung.visualization.decorators.AbstractVertexShapeTransformer;
  * 
  * 
  * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
- * SynsetVertexShapeSizeAspect.java - Mar 25, 2010
+ * SynsetVertexShapeSizeAspectTransformer.java - Mar 25, 2010
  * @param <V>
  * @param <E>
  */
 
-public class SynsetVertexShapeSizeAspect<V, E> extends
+public class SynsetVertexShapeSizeAspectTransformer<V, E> extends
 		AbstractVertexShapeTransformer<V> implements Transformer<V, Shape> {
 
 	protected boolean stretch = false;
 	protected boolean scale = false;
 	protected Graph<V, E> graph;
 
-	public SynsetVertexShapeSizeAspect(Graph<V, E> graphIn) {
+	public SynsetVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
 		this.graph = graphIn;
 		setSizeTransformer(new Transformer<V, Integer>() {
 			public Integer transform(V v) {

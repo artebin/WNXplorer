@@ -13,13 +13,14 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import net.trevize.wnxplorer.jung.PointerEdgeDrawPaintTransformer;
 import net.trevize.wnxplorer.jung.PopupGraphMousePlugin;
-import net.trevize.wnxplorer.jung.SemanticRelationEdge;
-import net.trevize.wnxplorer.jung.SemanticRelationEdgeLabelTranformer;
+import net.trevize.wnxplorer.jung.PointerEdge;
+import net.trevize.wnxplorer.jung.PointerEdgeLabelTranformer;
 import net.trevize.wnxplorer.jung.SynsetVertex;
 import net.trevize.wnxplorer.jung.SynsetVertexLabelRenderer;
 import net.trevize.wnxplorer.jung.SynsetVertexLabelTransformer;
-import net.trevize.wnxplorer.jung.SynsetVertexShapeSizeAspect;
+import net.trevize.wnxplorer.jung.SynsetVertexShapeSizeAspectTransformer;
 import net.trevize.wnxplorer.jung.SynsetVertexTooltip;
 import net.trevize.wnxplorer.jung.VertexStrokeHighlight;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
@@ -49,12 +50,12 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	private WNGraph wngraph;
 
 	//for jung.
-	private DirectedSparseMultigraph<SynsetVertex, SemanticRelationEdge> g;
-	private VisualizationViewer<SynsetVertex, SemanticRelationEdge> vv;
-	private Layout<SynsetVertex, SemanticRelationEdge> layout;
+	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> g;
+	private VisualizationViewer<SynsetVertex, PointerEdge> vv;
+	private Layout<SynsetVertex, PointerEdge> layout;
 
 	private GraphZoomScrollPane scrollpane;
-	private DefaultModalGraphMouse<SynsetVertex, SemanticRelationEdge> gm;
+	private DefaultModalGraphMouse<SynsetVertex, PointerEdge> gm;
 
 	private SynsetVertex last_clicked_vertex;
 
@@ -75,8 +76,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		p0.setLayout(new BorderLayout());
 
 		//setting the panel BorderLayout.CENTER
-		layout = new FRLayout2<SynsetVertex, SemanticRelationEdge>(g);
-		vv = new VisualizationViewer<SynsetVertex, SemanticRelationEdge>(layout);
+		layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
+		vv = new VisualizationViewer<SynsetVertex, PointerEdge>(layout);
 
 		//setting the PickedVertexPaintTransformer.
 		PickableVertexPaintTransformer<SynsetVertex> vpt = new PickableVertexPaintTransformer<SynsetVertex>(
@@ -84,7 +85,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv.getRenderContext().setVertexFillPaintTransformer(vpt);
 
 		//setting the PickedEdgePaintTransformer.
-		PickableEdgePaintTransformer<SemanticRelationEdge> vet = new PickableEdgePaintTransformer<SemanticRelationEdge>(
+		PickableEdgePaintTransformer<PointerEdge> vet = new PickableEdgePaintTransformer<PointerEdge>(
 				vv.getPickedEdgeState(), Color.GRAY, Color.YELLOW);
 		vv.getRenderContext().setEdgeDrawPaintTransformer(vet);
 		vv.getRenderContext().setArrowDrawPaintTransformer(vet);
@@ -93,16 +94,18 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv
 				.getRenderContext()
 				.setVertexShapeTransformer(
-						new SynsetVertexShapeSizeAspect<SynsetVertex, SemanticRelationEdge>(
+						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
 								g));
 
 		//setting the EdgeShapeTransformer.
 		vv.getRenderContext().setEdgeShapeTransformer(
-				new EdgeShape.Line<SynsetVertex, SemanticRelationEdge>());
+				new EdgeShape.Line<SynsetVertex, PointerEdge>());
+		
+		vv.getRenderContext().setEdgeDrawPaintTransformer(new PointerEdgeDrawPaintTransformer());
 
 		//setting the VertexStrokeTransformer.
 		vv.getRenderContext().setVertexStrokeTransformer(
-				new VertexStrokeHighlight<SynsetVertex, SemanticRelationEdge>(
+				new VertexStrokeHighlight<SynsetVertex, PointerEdge>(
 						this));
 
 		//setting the label renderer.
@@ -118,10 +121,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 				Renderer.VertexLabel.Position.E);
 
 		vv.getRenderContext().setEdgeLabelTransformer(
-				new SemanticRelationEdgeLabelTranformer());
+				new PointerEdgeLabelTranformer());
 
 		scrollpane = new GraphZoomScrollPane(vv);
-		gm = new DefaultModalGraphMouse<SynsetVertex, SemanticRelationEdge>();
+		gm = new DefaultModalGraphMouse<SynsetVertex, PointerEdge>();
 		gm.add(new PopupGraphMousePlugin(wngraph, this));
 
 		vv.setGraphMouse(gm);
@@ -247,7 +250,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		if (action_command.equals(ACTION_RESTART_LAYOUT)) {
 			System.out.println("ACTION_RESTART_LAYOUT");
 
-			layout = new FRLayout2<SynsetVertex, SemanticRelationEdge>(g);
+			layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
 			vv.setGraphLayout(layout);
 		}
 	}
@@ -256,19 +259,19 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	 * getters and setters.
 	 **************************************************************************/
 
-	public VisualizationViewer<SynsetVertex, SemanticRelationEdge> getVv() {
+	public VisualizationViewer<SynsetVertex, PointerEdge> getVv() {
 		return vv;
 	}
 
-	public void setVv(VisualizationViewer<SynsetVertex, SemanticRelationEdge> vv) {
+	public void setVv(VisualizationViewer<SynsetVertex, PointerEdge> vv) {
 		this.vv = vv;
 	}
 
-	public Layout<SynsetVertex, SemanticRelationEdge> getLayout() {
+	public Layout<SynsetVertex, PointerEdge> getLayout() {
 		return layout;
 	}
 
-	public void setLayout(Layout<SynsetVertex, SemanticRelationEdge> layout) {
+	public void setLayout(Layout<SynsetVertex, PointerEdge> layout) {
 		this.layout = layout;
 	}
 
@@ -280,12 +283,12 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		last_clicked_vertex = lastClickedVertex;
 	}
 
-	public DefaultModalGraphMouse<SynsetVertex, SemanticRelationEdge> getGm() {
+	public DefaultModalGraphMouse<SynsetVertex, PointerEdge> getGm() {
 		return gm;
 	}
 
 	public void setGm(
-			DefaultModalGraphMouse<SynsetVertex, SemanticRelationEdge> gm) {
+			DefaultModalGraphMouse<SynsetVertex, PointerEdge> gm) {
 		this.gm = gm;
 	}
 
