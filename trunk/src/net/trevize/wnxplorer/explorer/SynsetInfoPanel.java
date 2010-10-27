@@ -18,7 +18,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import net.trevize.wordnet.WNUtils;
+import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;

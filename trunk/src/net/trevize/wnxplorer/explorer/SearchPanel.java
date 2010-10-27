@@ -25,7 +25,7 @@ import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
 import net.trevize.wnxplorer.jwi.JWIWNResultsPanel;
 import net.trevize.wnxplorer.jwi.JWIWNSearcher;
-import net.trevize.wordnet.WNUtils;
+import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.POS;

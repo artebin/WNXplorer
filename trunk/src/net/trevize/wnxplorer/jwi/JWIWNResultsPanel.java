@@ -10,7 +10,6 @@ import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import net.trevize.wordnet.WNUtils;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
 

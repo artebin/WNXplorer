@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 import net.trevize.wnxplorer.explorer.SynsetInfoPanel;
 import net.trevize.wnxplorer.explorer.WNGraphPanel;
-import net.trevize.wordnet.WNUtils;
+import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
