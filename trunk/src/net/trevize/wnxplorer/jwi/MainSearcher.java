@@ -44,14 +44,14 @@ public class MainSearcher {
 		dict.open();
 
 		Searcher searcher = new Searcher(dict);
-		JFrame f = new JFrame("JWIWNResultsPanel");
+		JFrame f = new JFrame("ResultsPanel");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(1024, 512);
 		f.setLocationRelativeTo(null);
 
 		searcher.search(Arrays.asList(new POS[] { POS.NOUN }), "drive");
 
-		JWIWNResultsPanel p = new JWIWNResultsPanel(dict, searcher.getResults());
+		ResultsPanel p = new ResultsPanel(dict, searcher.getResults());
 		p.retrieveResults(0, 42);
 
 		f.getContentPane().setLayout(new BorderLayout());

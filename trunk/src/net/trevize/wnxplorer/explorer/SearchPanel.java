@@ -24,7 +24,7 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
-import net.trevize.wnxplorer.jwi.JWIWNResultsPanel;
+import net.trevize.wnxplorer.jwi.ResultsPanel;
 import net.trevize.wnxplorer.jwi.Searcher;
 import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.ISynset;
@@ -71,7 +71,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	//components for displaying the results.
 	private JScrollPane scrollpane;
-	private JWIWNResultsPanel results_panel;
+	private ResultsPanel results_panel;
 	private int num_of_results_per_page = 10;
 
 	private CellStyle style_p0 = new CellStyle(1., 0.,
@@ -181,8 +181,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			searcher.search(pos_selector_button.getSelectedPOS(),
 					search_textfield.getText());
 
-			//instantiate the JWIWNResultsPanel.
-			results_panel = new JWIWNResultsPanel(explorer.getDict(), searcher
+			//instantiate a ResultsPanel (a JEditorPane that contains the results).
+			results_panel = new ResultsPanel(explorer.getDict(), searcher
 					.getResults());
 			results_panel.getView().addHyperlinkListener(this);
 			results_panel.setNum_of_results_per_page(num_of_results_per_page);
@@ -313,8 +313,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			searcher.search(pos_selector_button.getSelectedPOS(),
 					search_textfield.getText());
 
-			//instantiate the JWIWNResultsPanel.
-			results_panel = new JWIWNResultsPanel(explorer.getDict(), searcher
+			//instantiate the ResultsPanel.
+			results_panel = new ResultsPanel(explorer.getDict(), searcher
 					.getResults());
 			results_panel.getView().addHyperlinkListener(this);
 			results_panel.setNum_of_results_per_page(num_of_results_per_page);

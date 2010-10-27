@@ -17,10 +17,10 @@ import edu.mit.jwi.item.ISynset;
  * 
  * 
  * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
- * JWIWNResultsPanel.java - Apr 6, 2010
+ * ResultsPanel.java - Apr 6, 2010
  */
 
-public class JWIWNResultsPanel {
+public class ResultsPanel {
 
 	public static final String STYLESHEET_FILEPATH = "./gfx/style.css";
 
@@ -35,7 +35,7 @@ public class JWIWNResultsPanel {
 	private int num_of_results_per_page;
 	private int current_page_number;
 
-	public JWIWNResultsPanel(IDictionary dict, ArrayList<ISynset> results) {
+	public ResultsPanel(IDictionary dict, ArrayList<ISynset> results) {
 		this.dict = dict;
 		this.results = results;
 		num_of_results_per_page = DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
