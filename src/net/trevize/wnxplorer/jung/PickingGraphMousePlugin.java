@@ -23,7 +23,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 public class PickingGraphMousePlugin
 		extends
-		edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin<SynsetVertex, SemanticRelationEdge>
+		edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin<SynsetVertex, PointerEdge>
 		implements MouseListener {
 
 	private SynsetInfoPanel synset_info_panel;
@@ -59,11 +59,11 @@ public class PickingGraphMousePlugin
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		VisualizationViewer<SynsetVertex, SemanticRelationEdge> vv = (VisualizationViewer<SynsetVertex, SemanticRelationEdge>) e
+		VisualizationViewer<SynsetVertex, PointerEdge> vv = (VisualizationViewer<SynsetVertex, PointerEdge>) e
 				.getSource();
 		Point2D p = e.getPoint();
 
-		GraphElementAccessor<SynsetVertex, SemanticRelationEdge> pickSupport = vv
+		GraphElementAccessor<SynsetVertex, PointerEdge> pickSupport = vv
 				.getPickSupport();
 
 		if (pickSupport != null) {

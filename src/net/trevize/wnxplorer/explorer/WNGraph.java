@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import net.trevize.wnxplorer.jung.SemanticRelationEdge;
+import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
 import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.IDictionary;
@@ -25,7 +25,7 @@ public class WNGraph {
 	private IDictionary dict;
 
 	//for jung.
-	private DirectedSparseMultigraph<SynsetVertex, SemanticRelationEdge> g;
+	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> g;
 
 	//to index the "ever encountered" synsets.
 	//vertices are indexed by the synset ID.
@@ -33,12 +33,12 @@ public class WNGraph {
 
 	public WNGraph(IDictionary dict) {
 		this.dict = dict;
-		g = new DirectedSparseMultigraph<SynsetVertex, SemanticRelationEdge>();
+		g = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
 		vertex_idx_0 = new HashMap<String, SynsetVertex>();
 	}
 
 	public void clear() {
-		g = new DirectedSparseMultigraph<SynsetVertex, SemanticRelationEdge>();
+		g = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
 		vertex_idx_0 = new HashMap<String, SynsetVertex>();
 	}
 
@@ -75,13 +75,12 @@ public class WNGraph {
 	public boolean edgeExistsBetweenVerticesForRelationType(
 			SynsetVertex vertex_src, SynsetVertex vertex_dest,
 			Pointer relation_type) {
-		Iterator<SemanticRelationEdge> edges_iter = g.getOutEdges(vertex_src)
-				.iterator();
+		Iterator<PointerEdge> edges_iter = g.getOutEdges(vertex_src).iterator();
 		boolean found = false;
 		while (edges_iter.hasNext()) {
-			SemanticRelationEdge edge = edges_iter.next();
+			PointerEdge edge = edges_iter.next();
 			if (g.getDest(edge) == vertex_dest) {
-				if (edge.getSemantic_relation_type().equals(relation_type)) {
+				if (edge.getPointer_type().equals(relation_type)) {
 					found = true;
 					break;
 				}
@@ -95,81 +94,48 @@ public class WNGraph {
 		ISynset picked_synset = dict.getSynset(WNUtils
 				.getISynsetIDFromString(picked_vertex.getSynset_id()));
 
-		/*
-		 * explore hypernymy links.
-		 */
-		List<ISynsetID> hypernyms = picked_synset
-				.getRelatedSynsets(Pointer.HYPERNYM);
-		for (ISynsetID next_sid : hypernyms) {
-			ISynset sid = dict.getSynset(next_sid);
+		for (Pointer pointer : WNUtils.getPointers()) {
 
-			//is this synset ever present in the graph ?
-			SynsetVertex v = vertex_idx_0.get(sid.getID().toString());
-			if (v != null) {
-				if (edgeExistsBetweenVerticesForRelationType(picked_vertex, v,
-						Pointer.HYPERNYM)) {
-					continue;
+			List<ISynsetID> pointered_synsets = picked_synset
+					.getRelatedSynsets(pointer);
+			for (ISynsetID next_sid : pointered_synsets) {
+				ISynset sid = dict.getSynset(next_sid);
+
+				//is this synset ever present in the graph ?
+				SynsetVertex v = vertex_idx_0.get(sid.getID().toString());
+				if (v != null) {
+					if (edgeExistsBetweenVerticesForRelationType(picked_vertex,
+							v, pointer)) {
+						continue;
+					}
+					if (edgeExistsBetweenVerticesForRelationType(v,
+							picked_vertex, pointer)) {
+						continue;
+					}
 				}
-				if (edgeExistsBetweenVerticesForRelationType(v, picked_vertex,
-						Pointer.HYPONYM)) {
-					continue;
-				}
+
+				//add the vertex.
+				SynsetVertex v1 = addVertexForSynset(sid);
+
+				//create the edge.
+				PointerEdge e1 = new PointerEdge(pointer);
+
+				//add the edge to the graph.
+				g.addEdge(e1, picked_vertex, v1);
 			}
 
-			//add the vertex.
-			SynsetVertex v1 = addVertexForSynset(sid);
-
-			//create the edge.
-			SemanticRelationEdge e1 = new SemanticRelationEdge(Pointer.HYPERNYM);
-
-			//add the edge to the graph.
-			g.addEdge(e1, picked_vertex, v1);
 		}
-		hypernyms = null;
-
-		/*
-		 * explore hyponymy links.
-		 */
-		List<ISynsetID> hyponyms = picked_synset
-				.getRelatedSynsets(Pointer.HYPONYM);
-		for (ISynsetID next_sid : hyponyms) {
-			ISynset sid = dict.getSynset(next_sid);
-
-			//is this synset ever present in the graph ?
-			SynsetVertex v = vertex_idx_0.get(sid.getID().toString());
-			if (v != null) {
-				if (edgeExistsBetweenVerticesForRelationType(picked_vertex, v,
-						Pointer.HYPONYM)) {
-					continue;
-				}
-				if (edgeExistsBetweenVerticesForRelationType(v, picked_vertex,
-						Pointer.HYPERNYM)) {
-					continue;
-				}
-			}
-
-			//add the vertex.
-			SynsetVertex v1 = addVertexForSynset(sid);
-
-			//create the edge.
-			SemanticRelationEdge e1 = new SemanticRelationEdge(Pointer.HYPONYM);
-
-			//add the edge to the graph.
-			g.addEdge(e1, picked_vertex, v1);
-		}
-		hyponyms = null;
 	}
 
 	/***************************************************************************
 	 * getters and setters.
 	 **************************************************************************/
 
-	public DirectedSparseMultigraph<SynsetVertex, SemanticRelationEdge> getG() {
+	public DirectedSparseMultigraph<SynsetVertex, PointerEdge> getG() {
 		return g;
 	}
 
-	public void setG(
-			DirectedSparseMultigraph<SynsetVertex, SemanticRelationEdge> g) {
+	public void setG(DirectedSparseMultigraph<SynsetVertex, PointerEdge> g) {
 		this.g = g;
 	}
 

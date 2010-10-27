@@ -1,9 +1,11 @@
 package net.trevize.wnxplorer.jwi;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
+import net.trevize.tinker.X11Colors2;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
@@ -62,20 +64,51 @@ public class WNUtils {
 		pointers.add(Pointer.VERB_GROUP);
 	}
 
+	private static HashMap<Pointer, Color> pointers_color;
+
+	public static HashMap<Pointer, Color> getPointersColor() {
+		if (pointers_color == null) {
+			initPointersColor();
+		}
+		return pointers_color;
+	}
+
+	private static void initPointersColor() {
+		pointers_color = new HashMap<Pointer, Color>();
+
+		X11Colors2.excludeGray();
+		X11Colors2.excludeGrey();
+		X11Colors2.excludeLight();
+		X11Colors2.excludeDark();
+
+		int nb_x11_color = X11Colors2.getX11_colors().size();
+		int nb_pointers = getPointers().size();
+		int pitch = (int) (nb_x11_color / nb_pointers);
+
+		for (Pointer pointer : getPointers()) {
+			int pointer_index = WNUtils.getPointers().indexOf(pointer);
+			int color_index = pitch * pointer_index + (pitch / 2);
+			String color_name = X11Colors2.getX11_colors().keySet().toArray(
+					new String[] {})[color_index];
+			pointers_color.put(pointer, new Color(X11Colors2.getX11_colors()
+					.get(color_name)));
+		}
+	}
+
 	/*
 	 * As there is no POS descriptions in JWI, we introduced them here.
 	 */
-	private static TreeMap<POS, String> pos_labels;
+	private static HashMap<POS, String> pos_labels;
 
-	public static TreeMap<POS, String> getPOSLabels() {
-		if (pointers == null) {
+	public static HashMap<POS, String> getPOSLabels() {
+		if (pos_labels == null) {
 			initPOSLabels();
 		}
 		return pos_labels;
 	}
 
 	private static void initPOSLabels() {
-		pos_labels = new TreeMap<POS, String>();
+		pos_labels = new HashMap<POS, String>();
 		pos_labels.put(POS.ADJECTIVE, "ADJECTIF");
 		pos_labels.put(POS.ADVERB, "ADVERB");
 		pos_labels.put(POS.NOUN, "NOUN");

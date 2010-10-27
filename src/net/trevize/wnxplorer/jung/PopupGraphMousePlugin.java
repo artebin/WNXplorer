@@ -39,11 +39,11 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 	}
 
 	protected void handlePopup(MouseEvent e) {
-		final VisualizationViewer<SynsetVertex, SemanticRelationEdge> vv = (VisualizationViewer<SynsetVertex, SemanticRelationEdge>) e
+		final VisualizationViewer<SynsetVertex, PointerEdge> vv = (VisualizationViewer<SynsetVertex, PointerEdge>) e
 				.getSource();
 		Point2D p = e.getPoint();
 
-		GraphElementAccessor<SynsetVertex, SemanticRelationEdge> pickSupport = vv
+		GraphElementAccessor<SynsetVertex, PointerEdge> pickSupport = vv
 				.getPickSupport();
 		if (pickSupport != null) {
 			final SynsetVertex v = pickSupport.getVertex(wngraphp.getLayout(),
@@ -94,7 +94,7 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 			}
 
 			else {
-				final SemanticRelationEdge edge = pickSupport.getEdge(wngraphp
+				final PointerEdge edge = pickSupport.getEdge(wngraphp
 						.getLayout(), p.getX(), p.getY());
 				if (edge != null) {
 					JPopupMenu popup = new JPopupMenu();
