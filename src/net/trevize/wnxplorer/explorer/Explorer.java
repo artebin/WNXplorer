@@ -2,9 +2,6 @@ package net.trevize.wnxplorer.explorer;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,8 +14,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
-import net.trevize.gui.layout.CellStyle;
-import net.trevize.gui.layout.XGridBag;
 import net.trevize.wnxplorer.jung.PickingGraphMousePlugin;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
@@ -35,7 +30,6 @@ public class Explorer {
 	private JFrame main_frame;
 
 	private JPanel p0;
-	private XGridBag xgb;
 
 	private JSplitPane jsp0;
 
@@ -59,12 +53,6 @@ public class Explorer {
 		jsp0.setDividerLocation(.25);
 	}
 
-	private CellStyle style0 = new CellStyle(1., 0.,
-			GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
-			new Insets(0, 0, 0, 0), 0, 0);
-	private CellStyle style1 = new CellStyle(1., 1., GridBagConstraints.CENTER,
-			GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
-
 	private void initWordNet() {
 		String wordnet_path = WNXplorerProperties.getWN_PATH();
 		URL url = null;
@@ -81,22 +69,27 @@ public class Explorer {
 		//setting the main frame.
 		main_frame = new JFrame("WNXplorer");
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		main_frame.setSize(1024, 768);
+		main_frame
+				.setSize(
+						(int) (Toolkit.getDefaultToolkit().getScreenSize().width * .80),
+						(int) (Toolkit.getDefaultToolkit().getScreenSize().width * .60));
 		main_frame.setLocationRelativeTo(null);
 
 		//adding a global key listener
 		Toolkit.getDefaultToolkit().addAWTEventListener(
 				new GlobalKeyListener(this), AWTEvent.KEY_EVENT_MASK);
 
+		main_frame.getContentPane().setLayout(new BorderLayout());
+
 		//setting main panel.
 		p0 = new JPanel();
-		p0.setLayout(new GridBagLayout());
-		xgb = new XGridBag(p0);
+		p0.setLayout(new BorderLayout());
 		p0.setBorder(new EmptyBorder(3, 3, 3, 3));
 		main_frame.getContentPane().add(p0, BorderLayout.CENTER);
 
 		//setting the JSplitPane.
 		jsp0 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+
 		/*
 		 * setting a divider on the JSplitPane (due to the bug of the GTK PLAF). 
 		 */
@@ -108,8 +101,9 @@ public class Explorer {
 				return pane_divider;
 			}
 		});
+
 		jsp0.setBorder(null);
-		xgb.add(jsp0, style1, 0, 0);
+		p0.add(jsp0, BorderLayout.CENTER);
 
 		//setting the jsp0 left component.
 		jtp = new JTabbedPane();
