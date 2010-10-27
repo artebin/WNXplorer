@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.jwi.resultspanel;
+package net.trevize.wnxplorer.jwi;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
