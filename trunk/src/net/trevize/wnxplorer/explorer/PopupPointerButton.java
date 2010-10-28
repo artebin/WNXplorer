@@ -98,6 +98,7 @@ public class PopupPointerButton extends JToggleButton implements
 	private HashMap<Pointer, JCheckBox> pointer_checkboxes;
 	private JPanel pointer_list_panel;
 	private JList pointer_list;
+	private JCheckBox show_all_vertices_checkbox;
 
 	public PopupPointerButton(WNGraph wngraph, WNGraphPanel wngraph_panel) {
 		this.wngraph = wngraph;
@@ -120,12 +121,19 @@ public class PopupPointerButton extends JToggleButton implements
 				.setActionCommand(ACTION_COMMAND_SELECT_ALL_POINTERS_TYPES);
 		select_all_button.addActionListener(this);
 		tool_panel.add(select_all_button);
+
 		JButton select_none_button = new JButton("none");
 		select_none_button
 				.setActionCommand(ACTION_COMMAND_SELECT_NONE_POINTERS_TYPES);
 		select_none_button.addActionListener(this);
 		tool_panel.add(select_none_button);
+
 		tool_panel.add(Box.createHorizontalGlue());
+
+		show_all_vertices_checkbox = new JCheckBox("show all vertices");
+		show_all_vertices_checkbox.setSelected(true);
+		show_all_vertices_checkbox.addChangeListener(this);
+		tool_panel.add(show_all_vertices_checkbox);
 		pointer_list_panel.add(tool_panel);
 
 		//the pointer list.
@@ -212,7 +220,8 @@ public class PopupPointerButton extends JToggleButton implements
 		if (pointer_list_panel.isVisible()) {
 			pointer_list_panel.repaint();
 		}
-		wngraph.updateView(getSelectedPointersTypes());
+		wngraph.updateView(getSelectedPointersTypes(),
+				show_all_vertices_checkbox.isSelected());
 		wngraph_panel.getPanel().repaint();
 	}
 
@@ -222,7 +231,8 @@ public class PopupPointerButton extends JToggleButton implements
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		wngraph.updateView(getSelectedPointersTypes());
+		wngraph.updateView(getSelectedPointersTypes(),
+				show_all_vertices_checkbox.isSelected());
 		wngraph_panel.getPanel().repaint();
 	}
 

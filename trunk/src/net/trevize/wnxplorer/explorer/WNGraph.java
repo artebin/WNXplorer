@@ -1,6 +1,5 @@
 package net.trevize.wnxplorer.explorer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -132,7 +131,8 @@ public class WNGraph {
 		}
 	}
 
-	public void updateView(HashMap<Pointer, Boolean> pointers_list) {
+	public void updateView(HashMap<Pointer, Boolean> pointers_list,
+			boolean show_all_vertices) {
 		//removing the edges.
 		for (PointerEdge pointer_edge : full_graph.getEdges()) {
 			if (!pointers_list.get(pointer_edge.getPointer_type())) {
@@ -144,9 +144,19 @@ public class WNGraph {
 		}
 
 		//removing the vertices.
-		for (SynsetVertex synset_vertex : full_graph.getVertices()) {
-			if (viewed_graph.getNeighborCount(synset_vertex) == 0) {
-				viewed_graph.removeVertex(synset_vertex);
+		if (!show_all_vertices) {
+			for (SynsetVertex synset_vertex : full_graph.getVertices()) {
+				if (viewed_graph.getVertices().contains(synset_vertex)) {
+					if (viewed_graph.getNeighborCount(synset_vertex) == 0) {
+						viewed_graph.removeVertex(synset_vertex);
+					}
+				}
+			}
+		} else {
+			for (SynsetVertex synset_vertex : full_graph.getVertices()) {
+				if (!viewed_graph.getVertices().contains(synset_vertex)) {
+					viewed_graph.addVertex(synset_vertex);
+				}
 			}
 		}
 	}
