@@ -64,6 +64,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	private JCheckBox cb0;
 	private JButton b0;
 
+	private PopupPointerButton pointer_selector_button;
+
 	public WNGraphPanel(WNGraph wngraph) {
 		this.wngraph = wngraph;
 		this.g = wngraph.getG();
@@ -159,7 +161,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		b0.addActionListener(this);
 		status_bar.addComponent("auto layout", b0);
 
-		status_bar.addComponent("PopupPointerButton", new PopupPointerButton(wngraph, this));
+		pointer_selector_button = new PopupPointerButton(wngraph, this);
+		status_bar.addComponent("PopupPointerButton", pointer_selector_button);
 
 		p0.add(status_bar, BorderLayout.SOUTH);
 	}
@@ -297,6 +300,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	public void setGm(DefaultModalGraphMouse<SynsetVertex, PointerEdge> gm) {
 		this.gm = gm;
+	}
+
+	public PopupPointerButton getPointer_selector_button() {
+		return pointer_selector_button;
 	}
 
 }

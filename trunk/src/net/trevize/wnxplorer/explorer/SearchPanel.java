@@ -324,4 +324,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		search_panel = searchPanel;
 	}
 
+	public PopupPOSButton getPos_selector_button() {
+		return pos_selector_button;
+	}
+
 }
