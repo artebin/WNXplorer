@@ -13,12 +13,11 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import net.trevize.wnxplorer.jung.PointerEdgeDrawPaintTransformer;
-import net.trevize.wnxplorer.jung.PopupGraphMousePlugin;
 import net.trevize.wnxplorer.jung.PointerEdge;
+import net.trevize.wnxplorer.jung.PointerEdgeDrawPaintTransformer;
 import net.trevize.wnxplorer.jung.PointerEdgeLabelTranformer;
+import net.trevize.wnxplorer.jung.PopupGraphMousePlugin;
 import net.trevize.wnxplorer.jung.SynsetVertex;
-import net.trevize.wnxplorer.jung.SynsetVertexLabelRenderer;
 import net.trevize.wnxplorer.jung.SynsetVertexLabelTransformer;
 import net.trevize.wnxplorer.jung.SynsetVertexShapeSizeAspectTransformer;
 import net.trevize.wnxplorer.jung.SynsetVertexTooltip;
@@ -33,6 +32,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.PickableEdgePaintTransformer;
 import edu.uci.ics.jung.visualization.decorators.PickableVertexPaintTransformer;
+import edu.uci.ics.jung.visualization.renderers.BasicEdgeArrowRenderingSupport;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 
 /**
@@ -100,20 +100,28 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		//setting the EdgeShapeTransformer.
 		vv.getRenderContext().setEdgeShapeTransformer(
 				new EdgeShape.Line<SynsetVertex, PointerEdge>());
-		
-		vv.getRenderContext().setEdgeDrawPaintTransformer(new PointerEdgeDrawPaintTransformer());
+
+		vv.getRenderContext().setEdgeDrawPaintTransformer(
+				new PointerEdgeDrawPaintTransformer());
+
+		//setting the Arrow transformer.
+		//vv.getRenderContext().setArrowFillPaintTransformer(new PointerEdgeDrawPaintTransformer());
+		//vv.getRenderContext().setArrowDrawPaintTransformer(new PointerEdgeDrawPaintTransformer());
+		vv.getRenderer().getEdgeRenderer().setEdgeArrowRenderingSupport(
+				new BasicEdgeArrowRenderingSupport());
 
 		//setting the VertexStrokeTransformer.
 		vv.getRenderContext().setVertexStrokeTransformer(
-				new VertexStrokeHighlight<SynsetVertex, PointerEdge>(
-						this));
+				new VertexStrokeHighlight<SynsetVertex, PointerEdge>(this));
 
 		//setting the label renderer.
+		/*
 		SynsetVertexLabelRenderer<SynsetVertex> vertex_label_renderer = new SynsetVertexLabelRenderer<SynsetVertex>(
 				Color.YELLOW);
 		vertex_label_renderer.setBackgroundColor(Color.BLACK);
 		vertex_label_renderer.setForegroundColor(Color.WHITE);
 		vv.getRenderContext().setVertexLabelRenderer(vertex_label_renderer);
+		 */
 
 		vv.getRenderContext().setVertexLabelTransformer(
 				new SynsetVertexLabelTransformer());
@@ -151,8 +159,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		b0.addActionListener(this);
 		status_bar.addComponent("auto layout", b0);
 
-		status_bar.addComponent("PopupPointerButton", new PopupPointerButton());
-		
+		status_bar.addComponent("PopupPointerButton", new PopupPointerButton(wngraph, this));
+
 		p0.add(status_bar, BorderLayout.SOUTH);
 	}
 
@@ -287,8 +295,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		return gm;
 	}
 
-	public void setGm(
-			DefaultModalGraphMouse<SynsetVertex, PointerEdge> gm) {
+	public void setGm(DefaultModalGraphMouse<SynsetVertex, PointerEdge> gm) {
 		this.gm = gm;
 	}
 
