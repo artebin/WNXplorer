@@ -8,10 +8,10 @@ import javax.swing.UnsupportedLookAndFeelException;
  * 
  * 
  * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
- * WNXplorer.java - Mar 24, 2010
+ * Main.java - Mar 24, 2010
  */
 
-public class WNXplorer {
+public class Main {
 
 	public static void main(String[] args) {
 		// setting the system look and feel

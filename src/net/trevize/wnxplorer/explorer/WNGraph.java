@@ -47,7 +47,7 @@ public class WNGraph {
 		String synset_id = synset.getID().toString();
 
 		if (vertex_idx_0.get(synset_id) != null) {
-			return null;
+			return vertex_idx_0.get(synset_id);
 		}
 
 		//get the synset POS.

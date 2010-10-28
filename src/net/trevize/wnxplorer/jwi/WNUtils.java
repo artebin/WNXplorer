@@ -80,6 +80,7 @@ public class WNUtils {
 		X11Colors2.excludeGrey();
 		X11Colors2.excludeLight();
 		X11Colors2.excludeDark();
+		X11Colors2.excludeBlack();
 
 		int nb_x11_color = X11Colors2.getX11_colors().size();
 		int nb_pointers = getPointers().size();

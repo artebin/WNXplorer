@@ -65,7 +65,7 @@ public class Explorer {
 
 	private void init() {
 		//setting the main frame.
-		main_frame = new JFrame("WNXplorer");
+		main_frame = new JFrame("Main");
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		main_frame
 				.setSize(
