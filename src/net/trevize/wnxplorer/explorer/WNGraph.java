@@ -1,5 +1,6 @@
 package net.trevize.wnxplorer.explorer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +26,8 @@ public class WNGraph {
 	private IDictionary dict;
 
 	//for jung.
-	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> g;
+	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> full_graph;
+	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> viewed_graph;
 
 	//to index the "ever encountered" synsets.
 	//vertices are indexed by the synset ID.
@@ -33,12 +35,14 @@ public class WNGraph {
 
 	public WNGraph(IDictionary dict) {
 		this.dict = dict;
-		g = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
+		full_graph = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
+		viewed_graph = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
 		vertex_idx_0 = new HashMap<String, SynsetVertex>();
 	}
 
 	public void clear() {
-		g = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
+		full_graph = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
+		viewed_graph = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
 		vertex_idx_0 = new HashMap<String, SynsetVertex>();
 	}
 
@@ -64,7 +68,8 @@ public class WNGraph {
 				short_label);
 
 		//add the vertex to the graph.
-		g.addVertex(vertex);
+		full_graph.addVertex(vertex);
+		viewed_graph.addVertex(vertex);
 
 		//index the vertex.
 		vertex_idx_0.put(synset_id, vertex);
@@ -75,11 +80,12 @@ public class WNGraph {
 	public boolean edgeExistsBetweenVerticesForRelationType(
 			SynsetVertex vertex_src, SynsetVertex vertex_dest,
 			Pointer relation_type) {
-		Iterator<PointerEdge> edges_iter = g.getOutEdges(vertex_src).iterator();
+		Iterator<PointerEdge> edges_iter = full_graph.getOutEdges(vertex_src)
+				.iterator();
 		boolean found = false;
 		while (edges_iter.hasNext()) {
 			PointerEdge edge = edges_iter.next();
-			if (g.getDest(edge) == vertex_dest) {
+			if (full_graph.getDest(edge) == vertex_dest) {
 				if (edge.getPointer_type().equals(relation_type)) {
 					found = true;
 					break;
@@ -120,7 +126,27 @@ public class WNGraph {
 				PointerEdge e1 = new PointerEdge(pointer);
 
 				//add the edge to the graph.
-				g.addEdge(e1, picked_vertex, v1);
+				full_graph.addEdge(e1, picked_vertex, v1);
+				viewed_graph.addEdge(e1, picked_vertex, v1);
+			}
+		}
+	}
+
+	public void updateView(HashMap<Pointer, Boolean> pointers_list) {
+		//removing the edges.
+		for (PointerEdge pointer_edge : full_graph.getEdges()) {
+			if (!pointers_list.get(pointer_edge.getPointer_type())) {
+				viewed_graph.removeEdge(pointer_edge);
+			} else {
+				viewed_graph.addEdge(pointer_edge, full_graph
+						.getIncidentVertices(pointer_edge));
+			}
+		}
+
+		//removing the vertices.
+		for (SynsetVertex synset_vertex : full_graph.getVertices()) {
+			if (viewed_graph.getNeighborCount(synset_vertex) == 0) {
+				viewed_graph.removeVertex(synset_vertex);
 			}
 		}
 	}
@@ -130,11 +156,11 @@ public class WNGraph {
 	 **************************************************************************/
 
 	public DirectedSparseMultigraph<SynsetVertex, PointerEdge> getG() {
-		return g;
+		return viewed_graph;
 	}
 
 	public void setG(DirectedSparseMultigraph<SynsetVertex, PointerEdge> g) {
-		this.g = g;
+		this.viewed_graph = g;
 	}
 
 }

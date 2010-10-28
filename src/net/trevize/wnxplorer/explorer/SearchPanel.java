@@ -199,7 +199,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		//instantiate the ResultsPanel.
 		results_panel = new ResultsPanel(searcher.getResults());
 		results_panel.getView().addHyperlinkListener(this);
-		//results_panel.setNum_of_results_per_page(num_of_results_per_page);
+		results_panel.setNum_of_results_per_page(num_of_results_per_page);
 		results_panel.retrievePage(0);
 
 		//update the results_status.
