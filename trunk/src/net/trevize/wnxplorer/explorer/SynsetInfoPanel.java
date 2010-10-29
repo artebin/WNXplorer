@@ -101,13 +101,13 @@ public class SynsetInfoPanel implements HyperlinkListener {
 
 	public void updateContent(ISynset synset) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("<html><body>");
+		sb.append("<html><body class=\"style1\">");
 
 		sb.append("<h1>");
 		sb.append(synset.getID().toString());
 		sb.append("</h1>");
 
-		sb.append(WNUtils.getWords(synset));
+		sb.append("<b>" + WNUtils.getWords(synset) + "</b>");
 		sb.append("<br/>");
 		sb.append(synset.getGloss());
 
