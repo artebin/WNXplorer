@@ -2,6 +2,7 @@ package net.trevize.wnxplorer.explorer;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -38,6 +39,16 @@ public class WNXplorerProperties {
 			loadProperties();
 		}
 		return wordnet_path;
+	}
+
+	public static void setWN_PATH(String wn_path) {
+		properties.setProperty(PROPERTY_WORDNET_PATH, wn_path);
+		try {
+			properties.store(new FileWriter(PROPERTIES_FILEPATH), "");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		wordnet_path = wn_path;
 	}
 
 }

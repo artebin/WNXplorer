@@ -53,6 +53,14 @@ public class Explorer {
 
 	private void initWordNet() {
 		String wordnet_path = WNXplorerProperties.getWN_PATH();
+
+		//if no wordnet installation path indicated in the properties file, show the directory selector.
+		if (wordnet_path.equals("")) {
+			GetWordNetPathDialog d = new GetWordNetPathDialog(splitpane);
+			d.setVisible(true);
+			wordnet_path = WNXplorerProperties.getWN_PATH();
+		}
+
 		URL url = null;
 		try {
 			url = new URL("file", null, wordnet_path);
