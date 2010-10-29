@@ -28,6 +28,10 @@ public class WNGraph {
 	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> full_graph;
 	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> viewed_graph;
 
+	//for filtering the graph for the rendering view.
+	private boolean show_all_vertices;
+	private HashMap<Pointer, Boolean> pointers_list;
+
 	//to index the "ever encountered" synsets.
 	//vertices are indexed by the synset ID.
 	private HashMap<String, SynsetVertex> vertex_idx_0;
@@ -73,6 +77,8 @@ public class WNGraph {
 		//index the vertex.
 		vertex_idx_0.put(synset_id, vertex);
 
+		applyRenderingFilter();
+		
 		return vertex;
 	}
 
@@ -129,10 +135,20 @@ public class WNGraph {
 				viewed_graph.addEdge(e1, picked_vertex, v1);
 			}
 		}
+		
+		applyRenderingFilter();
 	}
 
-	public void updateView(HashMap<Pointer, Boolean> pointers_list,
+	/*
+	 * this method is used when the filter over the pointers types has changed.
+	 */
+	public void setRenderingFilter(HashMap<Pointer, Boolean> pointers_list,
 			boolean show_all_vertices) {
+		this.pointers_list = pointers_list;
+		this.show_all_vertices = show_all_vertices;
+	}
+
+	public void applyRenderingFilter() {
 		//removing the edges.
 		for (PointerEdge pointer_edge : full_graph.getEdges()) {
 			if (!pointers_list.get(pointer_edge.getPointer_type())) {

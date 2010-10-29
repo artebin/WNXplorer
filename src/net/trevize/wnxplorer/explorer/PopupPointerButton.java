@@ -106,14 +106,14 @@ public class PopupPointerButton extends JToggleButton implements
 
 		setMargin(new Insets(0, 0, 0, 0));
 
-		/*
-		 * Construct the popup for the pointers list.
-		 */
+		/* construct the popup for the pointers list **************************/
+
 		pointer_list_panel = new JPanel();
 		pointer_list_panel.setLayout(new BoxLayout(pointer_list_panel,
 				BoxLayout.Y_AXIS));
 
-		//a tool panel.
+		/* a tool panel *******************************************************/
+
 		JPanel tool_panel = new JPanel();
 		tool_panel.setLayout(new BoxLayout(tool_panel, BoxLayout.X_AXIS));
 		JButton select_all_button = new JButton("all");
@@ -136,7 +136,7 @@ public class PopupPointerButton extends JToggleButton implements
 		tool_panel.add(show_all_vertices_checkbox);
 		pointer_list_panel.add(tool_panel);
 
-		//the pointer list.
+		/* the list of pointers types *****************************************/
 		pointer_list = new JList();
 
 		pointer_list.setCellRenderer(new JCheckboxCellRenderer());
@@ -157,7 +157,7 @@ public class PopupPointerButton extends JToggleButton implements
 
 		pointer_list.setModel(model);
 
-		// Add a mouse listener to handle changing selection
+		/* add a mouse listener to handle changing selection ******************/
 
 		pointer_list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {
@@ -181,6 +181,10 @@ public class PopupPointerButton extends JToggleButton implements
 		pointer_list_panel.add(scrollpane);
 
 		setAction(show_popup_action);
+
+		/* push the rendering filter initial state to the WNGraph *************/
+		wngraph.setRenderingFilter(getSelectedPointersTypes(),
+				show_all_vertices_checkbox.isSelected());
 	}
 
 	public HashMap<Pointer, Boolean> getSelectedPointersTypes() {
@@ -220,8 +224,9 @@ public class PopupPointerButton extends JToggleButton implements
 		if (pointer_list_panel.isVisible()) {
 			pointer_list_panel.repaint();
 		}
-		wngraph.updateView(getSelectedPointersTypes(),
+		wngraph.setRenderingFilter(getSelectedPointersTypes(),
 				show_all_vertices_checkbox.isSelected());
+		wngraph.applyRenderingFilter();
 		wngraph_panel.getPanel().repaint();
 	}
 
@@ -231,8 +236,9 @@ public class PopupPointerButton extends JToggleButton implements
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		wngraph.updateView(getSelectedPointersTypes(),
+		wngraph.setRenderingFilter(getSelectedPointersTypes(),
 				show_all_vertices_checkbox.isSelected());
+		wngraph.applyRenderingFilter();
 		wngraph_panel.getPanel().repaint();
 	}
 

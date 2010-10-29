@@ -73,6 +73,8 @@ public class ResultsPanel {
 	public void retrieveResults(int idx_start, int idx_stop) {
 		StringBuffer sb = new StringBuffer();
 
+		sb.append("<html><body class=\"style1\">");
+
 		sb.append("<ul>");
 
 		for (int result_id = idx_start; result_id < results.size()
@@ -157,9 +159,9 @@ public class ResultsPanel {
 			last_idx = (current_page_number + 1) * num_of_results_per_page - 1;
 		}
 
-		sb.append(first_idx);
+		sb.append(first_idx + 1);
 		sb.append(" - ");
-		sb.append(last_idx);
+		sb.append(last_idx + 1);
 		sb.append(" | ");
 		sb.append(results.size() + " results");
 
@@ -171,10 +173,12 @@ public class ResultsPanel {
 	public static String getDocumentShortTextDescription(ISynset synset) {
 		StringBuffer sb = new StringBuffer();
 
+		/*
 		sb.append(synset.getID().toString());
 		sb.append("\n");
+		*/
 
-		sb.append(WNUtils.getWords(synset));
+		sb.append("<b>" + WNUtils.getWords(synset) + "</b>");
 		sb.append("\n");
 		sb.append(synset.getGloss());
 

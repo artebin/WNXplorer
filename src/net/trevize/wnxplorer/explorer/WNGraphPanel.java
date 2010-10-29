@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -45,7 +46,8 @@ import edu.uci.ics.jung.visualization.renderers.Renderer;
 public class WNGraphPanel implements MouseListener, KeyListener, ActionListener {
 
 	public static final String ACTION_COMMAND_MODE = "ACTION_COMMAND_MODE";
-	public static final String ACTION_RESTART_LAYOUT = "ACTION_RESTART_LAYOUT";
+	public static final String ACTION_COMMAND_RESTART_LAYOUT = "ACTION_COMMAND_RESTART_LAYOUT";
+	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
 
 	private WNGraph wngraph;
 
@@ -59,12 +61,13 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	private SynsetVertex last_clicked_vertex;
 
-	//classical swing components.
-	private JPanel p0;
-	private JCheckBox cb0;
-	private JButton b0;
-
+	//classical swing components for the StatusBar.
+	private JPanel main_panel;
+	private JCheckBox picking_mode_checkbox;
+	private JButton restart_layout_button;
 	private PopupPointerButton pointer_selector_button;
+	private JButton help_button;
+	private HelpDialog help_dialog;
 
 	public WNGraphPanel(WNGraph wngraph) {
 		this.wngraph = wngraph;
@@ -74,8 +77,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	}
 
 	public void init() {
-		p0 = new JPanel();
-		p0.setLayout(new BorderLayout());
+		main_panel = new JPanel();
+		main_panel.setLayout(new BorderLayout());
 
 		//setting the panel BorderLayout.CENTER
 		layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
@@ -145,30 +148,37 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv.addMouseListener(this);
 		vv.addKeyListener(this);
 
-		p0.add(scrollpane, BorderLayout.CENTER);
+		main_panel.add(scrollpane, BorderLayout.CENTER);
 
 		//setting the panel BorderLayout.SOUTH (i.e. the status bar).
 		StatusBar status_bar = new StatusBar();
 
-		cb0 = new JCheckBox("picking mode");
-		cb0.setActionCommand(ACTION_COMMAND_MODE);
-		cb0.addActionListener(this);
-		status_bar.addComponent("mode", cb0);
+		picking_mode_checkbox = new JCheckBox("picking mode");
+		picking_mode_checkbox.setActionCommand(ACTION_COMMAND_MODE);
+		picking_mode_checkbox.addActionListener(this);
+		status_bar.addComponent("mode", picking_mode_checkbox);
 
-		b0 = new JButton("Restart layout");
-		b0.setToolTipText("Reset layout");
-		b0.setActionCommand(ACTION_RESTART_LAYOUT);
-		b0.addActionListener(this);
-		status_bar.addComponent("auto layout", b0);
+		restart_layout_button = new JButton("Restart layout");
+		restart_layout_button.setToolTipText("Reset layout");
+		restart_layout_button.setActionCommand(ACTION_COMMAND_RESTART_LAYOUT);
+		restart_layout_button.addActionListener(this);
+		status_bar.addComponent("auto layout", restart_layout_button);
 
 		pointer_selector_button = new PopupPointerButton(wngraph, this);
 		status_bar.addComponent("PopupPointerButton", pointer_selector_button);
 
-		p0.add(status_bar, BorderLayout.SOUTH);
+		help_button = new JButton(new ImageIcon(
+				"./gfx/org/freedesktop/tango/help-browser.png"));
+		help_button.setActionCommand(ACTION_COMMAND_HELP);
+		help_button.addActionListener(this);
+		help_dialog = new HelpDialog(main_panel);
+		status_bar.addComponent("help button", help_button);
+
+		main_panel.add(status_bar, BorderLayout.SOUTH);
 	}
 
 	public JPanel getPanel() {
-		return p0;
+		return main_panel;
 	}
 
 	public void addPickingPlugin(
@@ -191,9 +201,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == 'p') {
-			cb0.setSelected(!cb0.isSelected());
+			picking_mode_checkbox.setSelected(!picking_mode_checkbox
+					.isSelected());
 			if (gm != null) { //if a GraphZoomScrollPane has ever been instantiated.
-				if (cb0.isSelected()) {
+				if (picking_mode_checkbox.isSelected()) {
 					gm.setMode(Mode.PICKING);
 				} else {
 					gm.setMode(Mode.TRANSFORMING);
@@ -248,7 +259,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 			System.out.println("ACTION_COMMAND_MODE");
 
 			if (gm != null) { //if a GraphZoomScrollPane has ever been instantiated.
-				if (cb0.isSelected()) {
+				if (picking_mode_checkbox.isSelected()) {
 					gm.setMode(Mode.PICKING);
 				} else {
 					gm.setMode(Mode.TRANSFORMING);
@@ -258,11 +269,17 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		else
 
-		if (action_command.equals(ACTION_RESTART_LAYOUT)) {
-			System.out.println("ACTION_RESTART_LAYOUT");
+		if (action_command.equals(ACTION_COMMAND_RESTART_LAYOUT)) {
+			System.out.println("ACTION_COMMAND_RESTART_LAYOUT");
 
 			layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
 			vv.setGraphLayout(layout);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_HELP)) {
+			help_dialog.setVisible(true);
 		}
 	}
 

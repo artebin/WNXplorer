@@ -4,7 +4,7 @@ body {
   padding: 0px 0px 0px 0px;
 }
 
-h1 {
+.style1 h1 {
 	color: #ffffff;
 	font-size: 14px;
 	background-color: #701224;
@@ -14,7 +14,7 @@ h1 {
   border: 0px 0px 0px 0px;
 }
 
-h2 {
+.style1 h2 {
 	color: #ffffff;
 	font-size: 14px;
 	background-color: #701224;
@@ -24,10 +24,14 @@ h2 {
   border: 0px 0px 0px 0px;
 }
 
-ul {
+.style1 ul {
   margin: 0px 0px 0px 16px;
 }
 
-li {
+.style1 li {
   padding-bottom: 8px;
+}
+
+.help {
+  vertical-align: top;
 }

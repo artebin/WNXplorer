@@ -37,6 +37,10 @@ public class PickingGraphMousePlugin
 		this.dict = dict;
 	}
 
+	/***************************************************************************
+	 * implementation of MouseListener.
+	 **************************************************************************/
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -59,6 +63,7 @@ public class PickingGraphMousePlugin
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		//get the VisualizationViewer.
 		VisualizationViewer<SynsetVertex, PointerEdge> vv = (VisualizationViewer<SynsetVertex, PointerEdge>) e
 				.getSource();
 		Point2D p = e.getPoint();

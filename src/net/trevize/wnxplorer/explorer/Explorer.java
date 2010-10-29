@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
@@ -32,12 +31,13 @@ public class Explorer {
 
 	//splitpane left component.
 	private JTabbedPane tabbedpane;
-	private SynsetInfoPanel synset_info_panel;
 	private SearchPanel search_panel;
+	private SynsetInfoPanel synset_info_panel;
+	private WNGraphInfoPanel wngraph_info_panel;
 
 	//splitpane right component.
 	private WNGraph wngraph;
-	private WNGraphPanel wngraphp;
+	private WNGraphPanel wngraph_panel;
 
 	//for JWI.
 	private IDictionary dict;
@@ -48,7 +48,7 @@ public class Explorer {
 
 		main_frame.setVisible(true);
 
-		splitpane.setDividerLocation(.25); //have to be done after the switch of the frame visibility to be taken in account.
+		splitpane.setDividerLocation(.25); //have to be done after to switch the frame visibility to be taken in account.
 	}
 
 	private void initWordNet() {
@@ -64,8 +64,8 @@ public class Explorer {
 	}
 
 	private void init() {
-		//setting the main frame.
-		main_frame = new JFrame("Main");
+		/* setting the main frame. ********************************************/
+		main_frame = new JFrame("WNXplorer");
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		main_frame
 				.setSize(
@@ -73,17 +73,18 @@ public class Explorer {
 						(int) (Toolkit.getDefaultToolkit().getScreenSize().width * .60));
 		main_frame.setLocationRelativeTo(null);
 
-		//adding a global key listener
+		//adding the global key listener
 		Toolkit.getDefaultToolkit().addAWTEventListener(
 				new GlobalKeyListener(this), AWTEvent.KEY_EVENT_MASK);
 
 		main_frame.getContentPane().setLayout(new BorderLayout());
 
-		//setting the JSplitPane.
+		/* setting the JSplitPane *********************************************/
+
 		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
 		/*
-		 * setting a divider on the JSplitPane (due to the bug of the GTK PLAF). 
+		 * setting the divider of the JSplitPane (due to the bug of the GTK PLAF). 
 		 */
 		splitpane.setUI(new BasicSplitPaneUI() {
 			public BasicSplitPaneDivider createDefaultDivider() {
@@ -97,7 +98,8 @@ public class Explorer {
 		splitpane.setBorder(new EmptyBorder(3, 3, 3, 3));
 		main_frame.getContentPane().add(splitpane, BorderLayout.CENTER);
 
-		//setting the splitpane left component.
+		/* setting the splitpane left component *******************************/
+
 		tabbedpane = new JTabbedPane();
 		splitpane.add(tabbedpane, JSplitPane.LEFT);
 
@@ -109,35 +111,45 @@ public class Explorer {
 		tabbedpane.add("<html><body>Synset <b><u>i</u></b>nfo</body></html>",
 				synset_info_panel.getScrollpane());
 
+		wngraph_info_panel = new WNGraphInfoPanel();
 		tabbedpane.add("<html><body><b><u>G</u></b>raph</body></html>",
-				new JPanel());
+				wngraph_info_panel);
 
-		//setting the splitpane right component.
+		/* setting the splitpane right component. *****************************/
 		initGraphView();
-		splitpane.add(wngraphp.getPanel(), JSplitPane.RIGHT);
+		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
 	}
 
 	public void initGraphView() {
+		//instantiate a new WNGraph.
 		wngraph = new WNGraph(dict);
 
-		wngraphp = new WNGraphPanel(wngraph);
+		//instantiate a new WNGraphPanel.
+		wngraph_panel = new WNGraphPanel(wngraph);
 
 		/*
-		 * set a new PickingGraphMousePlugin for allowing the "selection mode".
+		 * set a new PickingGraphMousePlugin for allowing the "node picked mode".
+		 * Basically there are two mode of mouse interaction with the WNGraphPanel:
+		 * (1) pan mode
+		 * (2) picking mode
+		 * 
+		 * Whatever the current mode is, if you use the left mouse button on a node, this has 
+		 * for effect to display the synset properties in the synset_info_panel.
 		 */
+
 		PickingGraphMousePlugin picking_plugin = new PickingGraphMousePlugin(
-				synset_info_panel, wngraphp, dict);
-		wngraphp.addPickingPlugin(picking_plugin);
+				synset_info_panel, wngraph_panel, dict);
+		wngraph_panel.addPickingPlugin(picking_plugin);
 	}
 
 	public void clearView() {
 		//setting the splitpane right component.
 		initGraphView();
+
 		//save the divider location, install the new graph view and restore the divider location.
 		int divider_location = splitpane.getDividerLocation();
-		splitpane.add(wngraphp.getPanel(), JSplitPane.RIGHT);
+		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
 		splitpane.setDividerLocation(divider_location);
-
 	}
 
 	/***************************************************************************
@@ -153,7 +165,7 @@ public class Explorer {
 	}
 
 	public WNGraphPanel getWngraphp() {
-		return wngraphp;
+		return wngraph_panel;
 	}
 
 	public IDictionary getDict() {
