@@ -49,7 +49,7 @@ public class HelpDialog extends JDialog implements WindowListener,
 
 	public HelpDialog(JComponent main_component) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("Load dataset");
+		setTitle("Help WNXplorer");
 		init();
 		setSize(512, 512);
 		setLocationRelativeTo(main_component);

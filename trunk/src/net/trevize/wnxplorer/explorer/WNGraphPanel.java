@@ -159,7 +159,6 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		status_bar.addComponent("mode", picking_mode_checkbox);
 
 		restart_layout_button = new JButton("Restart layout");
-		restart_layout_button.setToolTipText("Reset layout");
 		restart_layout_button.setActionCommand(ACTION_COMMAND_RESTART_LAYOUT);
 		restart_layout_button.addActionListener(this);
 		status_bar.addComponent("auto layout", restart_layout_button);
@@ -256,7 +255,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		String action_command = e.getActionCommand();
 
 		if (action_command.equals(ACTION_COMMAND_MODE)) {
-			System.out.println("ACTION_COMMAND_MODE");
+			//System.out.println("ACTION_COMMAND_MODE");
 
 			if (gm != null) { //if a GraphZoomScrollPane has ever been instantiated.
 				if (picking_mode_checkbox.isSelected()) {
@@ -270,7 +269,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		else
 
 		if (action_command.equals(ACTION_COMMAND_RESTART_LAYOUT)) {
-			System.out.println("ACTION_COMMAND_RESTART_LAYOUT");
+			//System.out.println("ACTION_COMMAND_RESTART_LAYOUT");
 
 			layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
 			vv.setGraphLayout(layout);
