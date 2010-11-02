@@ -13,17 +13,18 @@ import edu.mit.jwi.item.POS;
 
 public class SynsetVertex {
 
-	private ISynset synset;
+	private ISynset isynset;
 	private String synset_id;
 	private POS pos;
 	private String short_label;
 	private String synset_words;
 
-	public SynsetVertex(ISynset synset) {
-		synset_id = synset.getID().toString();
-		pos = synset.getPOS();
-		synset_words = WNUtils.getWords(synset);
-		short_label = synset.getWords().get(0).getLemma();
+	public SynsetVertex(ISynset isynset) {
+		this.isynset = isynset;
+		synset_id = isynset.getID().toString();
+		pos = isynset.getPOS();
+		synset_words = WNUtils.getWords(isynset);
+		short_label = isynset.getWords().get(0).getLemma();
 	}
 
 	public String getSynset_id() {
@@ -56,6 +57,14 @@ public class SynsetVertex {
 
 	public void setPOS(POS pos) {
 		this.pos = pos;
+	}
+
+	public ISynset getIsynset() {
+		return isynset;
+	}
+
+	public void setIsynset(ISynset isynset) {
+		this.isynset = isynset;
 	}
 
 }
