@@ -114,7 +114,7 @@ public class WNGraph {
 									picked_vertex, Pointer.HYPONYM)) {
 						continue;
 					}
-					
+
 					if (pointer == Pointer.HYPONYM
 							&& edgeExistsBetweenVerticesForPointerType(v,
 									picked_vertex, Pointer.HYPERNYM)) {
@@ -126,7 +126,7 @@ public class WNGraph {
 									picked_vertex, Pointer.HYPONYM_INSTANCE)) {
 						continue;
 					}
-					
+
 					if (pointer == Pointer.HYPONYM_INSTANCE
 							&& edgeExistsBetweenVerticesForPointerType(v,
 									picked_vertex, Pointer.HYPERNYM_INSTANCE)) {
@@ -138,7 +138,7 @@ public class WNGraph {
 									picked_vertex, Pointer.MERONYM_PART)) {
 						continue;
 					}
-					
+
 					if (pointer == Pointer.MERONYM_PART
 							&& edgeExistsBetweenVerticesForPointerType(v,
 									picked_vertex, Pointer.HOLONYM_PART)) {
@@ -150,7 +150,7 @@ public class WNGraph {
 									picked_vertex, Pointer.MERONYM_SUBSTANCE)) {
 						continue;
 					}
-					
+
 					if (pointer == Pointer.MERONYM_SUBSTANCE
 							&& edgeExistsBetweenVerticesForPointerType(v,
 									picked_vertex, Pointer.HOLONYM_SUBSTANCE)) {
@@ -162,7 +162,7 @@ public class WNGraph {
 									picked_vertex, Pointer.MERONYM_MEMBER)) {
 						continue;
 					}
-					
+
 					if (pointer == Pointer.MERONYM_MEMBER
 							&& edgeExistsBetweenVerticesForPointerType(v,
 									picked_vertex, Pointer.HOLONYM_MEMBER)) {
