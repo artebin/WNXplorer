@@ -148,4 +148,11 @@ public class PopupPOSButton extends JToggleButton {
 		return pos_list;
 	}
 
+	public void hidePopup() {
+		if (popup != null) {
+			popup.hide();
+			setSelected(false);
+		}
+	}
+
 }
