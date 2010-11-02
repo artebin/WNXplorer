@@ -54,23 +54,23 @@ public class SynsetVertexShapeSizeAspectTransformer<V, E> extends
 
 	public Shape transform(V v) {
 		SynsetVertex vertex = (SynsetVertex) v;
-		if (vertex.getPos().equals(POS.NOUN.toString())) {
+		if (vertex.getPOS().equals(POS.NOUN)) {
 			return factory.getEllipse(v);
 		}
 
 		else
 
-		if (vertex.getPos().equals(POS.VERB.toString())) {
+		if (vertex.getPOS().equals(POS.VERB)) {
 			return factory.getRectangle(v);
 		}
 
 		else
 
-		if (vertex.getPos().equals(POS.ADJECTIVE.toString())) {
+		if (vertex.getPOS().equals(POS.ADJECTIVE)) {
 			return factory.getRegularPolygon(v, 5);
 		}
 
-		else if (vertex.getPos().equals(POS.ADVERB.toString())) {
+		else if (vertex.getPOS().equals(POS.ADVERB)) {
 			return factory.getRegularPolygon(v, 3);
 		}
 

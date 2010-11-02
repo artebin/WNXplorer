@@ -50,36 +50,19 @@ public class WNGraph {
 	}
 
 	public SynsetVertex addVertexForSynset(ISynset synset) {
-		//get the synset ID.
-		String synset_id = synset.getID().toString();
-
-		if (vertex_idx_0.get(synset_id) != null) {
-			return vertex_idx_0.get(synset_id);
-		}
-
-		//get the synset POS.
-		String pos = synset.getPOS().toString();
-
-		//get the words.
-		String synset_words = WNUtils.getWords(synset);
-
-		//get the short label.
-		String short_label = synset.getWords().get(0).getLemma();
-
 		//create the new vertex.
-		SynsetVertex vertex = new SynsetVertex(synset_id, pos, synset_words,
-				short_label);
+		SynsetVertex synset_vertex = new SynsetVertex(synset);
 
 		//add the vertex to the graph.
-		full_graph.addVertex(vertex);
-		viewed_graph.addVertex(vertex);
+		full_graph.addVertex(synset_vertex);
+		viewed_graph.addVertex(synset_vertex);
 
 		//index the vertex.
-		vertex_idx_0.put(synset_id, vertex);
+		vertex_idx_0.put(synset_vertex.getSynset_id(), synset_vertex);
 
 		applyRenderingFilter();
-		
-		return vertex;
+
+		return synset_vertex;
 	}
 
 	public boolean edgeExistsBetweenVerticesForRelationType(
@@ -135,7 +118,7 @@ public class WNGraph {
 				viewed_graph.addEdge(e1, picked_vertex, v1);
 			}
 		}
-		
+
 		applyRenderingFilter();
 	}
 
