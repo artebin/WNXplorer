@@ -1,0 +1,21 @@
+WNXplorer 0.8 (November 02, 2010)
+
+Author: Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
+
+This is version 0.8 of WNXplorer, a WordNet graph-based visualization using the
+Jung2 library.
+
+See http://njames.trevize.net/wiki/projects:wnxplorer
+
+You can checkout the SVN repository at http://svn.trevize.net/WNXplorer
+login: anonymous
+password: anonymous
+
+Copyright 2010 Nicolas James
+WNXplorer is under GPLv3 license, see the COPYING file.
+
+ Installation Instructions
+===========================
+
+Simply update the shell script WNXplorer.sh by indicated the installation path of WNXplorer.
+Execute the shell script.
