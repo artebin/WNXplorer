@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#indicate here your path to Galatee
+cd /home/nicolas/apps/WNXplorer/WNXplorer-0.8-2010.11.02
+
 libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
 ./lib/lucene-core-3.0.1.jar:\
 ./lib/jung2-2_0_1/collections-generic-4.01.jar:\
