@@ -124,9 +124,9 @@ public class SynsetInfoPanel implements HyperlinkListener {
 					sb.append("<a href=\"synset_id:" + synset_id + "\">");
 					sb.append(synset_id);
 					sb.append("</a>");
-					sb.append(": "
+					sb.append(": <b>"
 							+ WNUtils.getWords(explorer.getDict().getSynset(
-									synset_id)));
+									synset_id)) + "</b>");
 					sb.append("</li>");
 				}
 				sb.append("</ul>");
