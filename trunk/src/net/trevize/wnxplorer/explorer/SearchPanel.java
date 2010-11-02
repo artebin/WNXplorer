@@ -280,8 +280,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			System.out.println("link clicked");
-			System.out.println(e.getDescription());
+			//System.out.println("link clicked");
+			System.out.println("result selected: " + e.getDescription());
 
 			String synset_id_string = e.getDescription().split(":")[1];
 			ISynsetID synset_id = WNUtils

@@ -46,8 +46,8 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener {
 		header.setBackground(Color.WHITE);
 		header.setBorder(new MatteBorder(0, 15, 0, 0, Color.BLUE));
 		header
-				.setText("<html><body><h1>WordNet installation path</h1><p>WNXplorer needs to know where is installed WordNet, indicate here the path to the <b><code>dict</code></b> directory of WordNet.</p>"
-						+ "<p>This path will be recorded in the WNXplorer.properties file, the next times you launch WNXplorer, I will not ask you again for it.</p>");
+				.setText("<html><body style=\"margin: 10px 10px 10px 10px;\"><h1>WordNet installation path</h1><p>WNXplorer needs to know where is installed WordNet, indicate here the path to the <b><code>dict</code></b> directory of WordNet.</p>"
+						+ "<p>This path will be recorded in the WNXplorer.properties file, the next times you launch WNXplorer, I will not ask you again for it.<br/>(If you want to modify it, update the file WNXplorer.properties)</p>");
 		CellStyle style0 = new CellStyle(1., 0., GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
 		xgb.add(header, style0, 0, 0, 1, 2);
