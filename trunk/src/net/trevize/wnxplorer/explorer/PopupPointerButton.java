@@ -199,6 +199,13 @@ public class PopupPointerButton extends JToggleButton implements
 		return pointers_list;
 	}
 
+	public void hidePopup() {
+		if (popup != null) {
+			popup.hide();
+			setSelected(false);
+		}
+	}
+
 	/***************************************************************************
 	 * implementation of ActionListener.
 	 **************************************************************************/

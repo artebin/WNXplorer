@@ -3,6 +3,8 @@ package net.trevize.wnxplorer.explorer;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -24,7 +26,9 @@ import edu.mit.jwi.IDictionary;
  * Explorer.java - Mar 24, 2010
  */
 
-public class Explorer {
+public class Explorer implements ComponentListener {
+
+	public static final String WNXPLORER_APPLICATION_ICON_PATH = "./gfx/WNXplorer-icon.png";
 
 	private JFrame main_frame;
 	private JSplitPane splitpane;
@@ -73,7 +77,10 @@ public class Explorer {
 
 	private void init() {
 		/* setting the main frame. ********************************************/
+
 		main_frame = new JFrame("WNXplorer");
+		main_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				WNXPLORER_APPLICATION_ICON_PATH));
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		main_frame
 				.setSize(
@@ -86,6 +93,7 @@ public class Explorer {
 				new GlobalKeyListener(this), AWTEvent.KEY_EVENT_MASK);
 
 		main_frame.getContentPane().setLayout(new BorderLayout());
+		main_frame.getContentPane().addComponentListener(this);
 
 		/* setting the JSplitPane *********************************************/
 
@@ -150,7 +158,7 @@ public class Explorer {
 		wngraph_panel.addPickingPlugin(picking_plugin);
 	}
 
-	public void clearView() {
+	public void clearGraphView() {
 		//setting the splitpane right component.
 		initGraphView();
 
@@ -158,6 +166,32 @@ public class Explorer {
 		int divider_location = splitpane.getDividerLocation();
 		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
 		splitpane.setDividerLocation(divider_location);
+	}
+
+	public void hideAllPopups() {
+		search_panel.getPos_selector_button().hidePopup();
+		wngraph_panel.getPointer_selector_button().hidePopup();
+	}
+
+	/***************************************************************************
+	 * implementation of ComponentListener.
+	 **************************************************************************/
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		hideAllPopups();
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
 	}
 
 	/***************************************************************************
