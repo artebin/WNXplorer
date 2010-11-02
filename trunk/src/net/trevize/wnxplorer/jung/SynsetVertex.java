@@ -1,5 +1,9 @@
 package net.trevize.wnxplorer.jung;
 
+import net.trevize.wnxplorer.jwi.WNUtils;
+import edu.mit.jwi.item.ISynset;
+import edu.mit.jwi.item.POS;
+
 /**
  * 
  * 
@@ -9,17 +13,17 @@ package net.trevize.wnxplorer.jung;
 
 public class SynsetVertex {
 
+	private ISynset synset;
 	private String synset_id;
-	private String pos;
+	private POS pos;
 	private String short_label;
 	private String synset_words;
 
-	public SynsetVertex(String synset_id, String pos, String synset_words,
-			String short_label) {
-		this.synset_id = synset_id;
-		this.pos = pos;
-		this.synset_words = synset_words;
-		this.short_label = short_label;
+	public SynsetVertex(ISynset synset) {
+		synset_id = synset.getID().toString();
+		pos = synset.getPOS();
+		synset_words = WNUtils.getWords(synset);
+		short_label = synset.getWords().get(0).getLemma();
 	}
 
 	public String getSynset_id() {
@@ -46,11 +50,11 @@ public class SynsetVertex {
 		synset_words = synsetWords;
 	}
 
-	public String getPos() {
+	public POS getPOS() {
 		return pos;
 	}
 
-	public void setPos(String pos) {
+	public void setPOS(POS pos) {
 		this.pos = pos;
 	}
 
