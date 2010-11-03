@@ -85,7 +85,7 @@ public class Explorer implements ComponentListener {
 		main_frame
 				.setSize(
 						(int) (Toolkit.getDefaultToolkit().getScreenSize().width * .80),
-						(int) (Toolkit.getDefaultToolkit().getScreenSize().width * .60));
+						(int) (Toolkit.getDefaultToolkit().getScreenSize().height * .80));
 		main_frame.setLocationRelativeTo(null);
 
 		//adding the global key listener
@@ -216,6 +216,10 @@ public class Explorer implements ComponentListener {
 
 	public JTabbedPane getTabbedpane() {
 		return tabbedpane;
+	}
+
+	public JFrame getMain_frame() {
+		return main_frame;
 	}
 
 }
