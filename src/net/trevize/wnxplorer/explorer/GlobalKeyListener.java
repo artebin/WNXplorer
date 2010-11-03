@@ -1,6 +1,8 @@
 package net.trevize.wnxplorer.explorer;
 
 import java.awt.AWTEvent;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
 
@@ -14,9 +16,11 @@ import java.awt.event.KeyEvent;
 public class GlobalKeyListener implements AWTEventListener {
 
 	private Explorer explorer;
+	private boolean fullscreen;
 
 	public GlobalKeyListener(Explorer explorer) {
 		this.explorer = explorer;
+		fullscreen = false;
 	}
 
 	public void eventDispatched(AWTEvent e) {
@@ -62,6 +66,26 @@ public class GlobalKeyListener implements AWTEventListener {
 				&& e.getKeyCode() == KeyEvent.VK_C) {
 			//System.out.println("clear");
 			explorer.clearGraphView();
+		}
+
+		else
+
+		if (e.getKeyCode() == KeyEvent.VK_F11) {
+			//System.out.println("fullscreen");
+
+			//determine if full-screen mode is supported directly. 
+			GraphicsEnvironment ge = GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
+			GraphicsDevice gs = ge.getDefaultScreenDevice();
+			if (gs.isFullScreenSupported()) {
+				if (!fullscreen) {
+					gs.setFullScreenWindow(explorer.getMain_frame());
+					fullscreen = true;
+				} else {
+					gs.setFullScreenWindow(null);
+					fullscreen = false;
+				}
+			}
 		}
 	}
 
