@@ -225,9 +225,11 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void displayPreviousResultPage() {
 		System.out.println("ACTION_COMMAND_PREVIOUS_RESULT_PAGE");
+		
 		if (results_panel == null || results_panel.isTheFirstPage()) {
 			return;
 		}
+		
 		results_panel.retrievePage(results_panel.getCurrent_page_number() - 1);
 
 		//update the results_status.
@@ -250,9 +252,11 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void displayNextResultPage() {
 		System.out.println("ACTION_COMMAND_NEXT_RESULT_PAGE");
+		
 		if (results_panel == null || results_panel.isTheLastPage()) {
 			return;
 		}
+		
 		results_panel.retrievePage(results_panel.getCurrent_page_number() + 1);
 
 		//update the results_status.

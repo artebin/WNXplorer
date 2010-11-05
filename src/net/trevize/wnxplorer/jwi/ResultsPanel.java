@@ -112,7 +112,8 @@ public class ResultsPanel {
 	}
 
 	public int getPageCount() {
-		return results.size() / num_of_results_per_page + 1;
+		return results.size() / num_of_results_per_page
+				+ ((results.size() % num_of_results_per_page == 0) ? 0 : 1);
 	}
 
 	public boolean isTheFirstPage() {
@@ -126,19 +127,23 @@ public class ResultsPanel {
 	public String getResultsStatus() {
 		StringBuffer sb = new StringBuffer();
 
-		int first_idx = current_page_number * num_of_results_per_page;
-		int last_idx = -1;
+		if (results.size() != 0) {
+			int first_idx = current_page_number * num_of_results_per_page;
+			int last_idx = -1;
 
-		if (isTheLastPage()) {
-			last_idx = results.size() - 1;
-		} else {
-			last_idx = (current_page_number + 1) * num_of_results_per_page - 1;
+			if (isTheLastPage()) {
+				last_idx = results.size() - 1;
+			} else {
+				last_idx = (current_page_number + 1) * num_of_results_per_page
+						- 1;
+			}
+
+			sb.append(first_idx + 1);
+			sb.append(" - ");
+			sb.append(last_idx + 1);
+			sb.append(" | ");
 		}
 
-		sb.append(first_idx + 1);
-		sb.append(" - ");
-		sb.append(last_idx + 1);
-		sb.append(" | ");
 		sb.append(results.size() + " results");
 
 		return sb.toString();
@@ -150,19 +155,23 @@ public class ResultsPanel {
 		sb
 				.append("<html><body><div style=\"font-size:12px;text-align:center;\">");
 
-		int first_idx = current_page_number * num_of_results_per_page;
-		int last_idx = -1;
+		if (results.size() != 0) {
+			int first_idx = current_page_number * num_of_results_per_page;
+			int last_idx = -1;
 
-		if (isTheLastPage()) {
-			last_idx = results.size() - 1;
-		} else {
-			last_idx = (current_page_number + 1) * num_of_results_per_page - 1;
+			if (isTheLastPage()) {
+				last_idx = results.size() - 1;
+			} else {
+				last_idx = (current_page_number + 1) * num_of_results_per_page
+						- 1;
+			}
+
+			sb.append(first_idx + 1);
+			sb.append(" - ");
+			sb.append(last_idx + 1);
+			sb.append(" | ");
 		}
 
-		sb.append(first_idx + 1);
-		sb.append(" - ");
-		sb.append(last_idx + 1);
-		sb.append(" | ");
 		sb.append(results.size() + " results");
 
 		sb.append("</div></body></html>");
