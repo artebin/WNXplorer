@@ -2,6 +2,7 @@ package net.trevize.wnxplorer.explorer;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -11,7 +12,7 @@ import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
@@ -111,7 +112,7 @@ public class Explorer implements ComponentListener {
 			}
 		});
 
-		splitpane.setBorder(new EmptyBorder(3, 3, 3, 3));
+		splitpane.setBorder(new MatteBorder(3, 3, 3, 3, Color.LIGHT_GRAY));
 		main_frame.getContentPane().add(splitpane, BorderLayout.CENTER);
 
 		/* setting the splitpane left component *******************************/
