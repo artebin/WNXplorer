@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.MatteBorder;
@@ -19,6 +20,8 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import net.trevize.wnxplorer.jung.PickingGraphMousePlugin;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.POS;
+import edu.mit.jwi.item.SynsetID;
 
 /**
  * 
@@ -73,7 +76,19 @@ public class Explorer implements ComponentListener {
 			e.printStackTrace();
 		}
 		dict = new Dictionary(url);
-		dict.open();
+		try {
+			dict.open();
+
+			//try to do a request for testing.
+			dict.getSynset(new SynsetID(0, POS.NOUN));
+		} catch (Exception e) {
+			WNXplorerProperties.setWN_PATH("");
+			JOptionPane
+					.showMessageDialog(
+							splitpane,
+							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or accessible (or not the WordNet <b>dict</b> directory).</body></html>");
+			initWordNet();
+		}
 	}
 
 	private void init() {

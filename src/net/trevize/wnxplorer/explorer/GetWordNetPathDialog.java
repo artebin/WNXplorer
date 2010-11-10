@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.regex.Pattern;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.MatteBorder;
 
 import net.trevize.FSExplorer.FSTree.FSTree;
@@ -25,16 +28,20 @@ import net.trevize.gui.layout.XGridBag;
  * GetWordNetPathDialog.java - Oct 29, 2010
  */
 
-public class GetWordNetPathDialog extends JDialog implements FSEListener {
+public class GetWordNetPathDialog extends JDialog implements FSEListener,
+		WindowListener {
 
+	private JComponent main_component;
 	private FSTree fstree;
 
 	public GetWordNetPathDialog(JComponent main_component) {
+		this.main_component = main_component;
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("WordNet installation path");
 		init();
 		setSize(512, 512);
 		setLocationRelativeTo(main_component);
+		addWindowListener(this);
 	}
 
 	private void init() {
@@ -72,6 +79,13 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener {
 
 	@Override
 	public void open(FSEEvent e) {
+		if (e.getSelectedFile() == null) {
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"<html><body>Indicate the WordNet <b>dict</b> directory please.</body></html>");
+			return;
+		}
 		WNXplorerProperties.setWN_PATH(e.getSelectedFile().getPath());
 		setVisible(false);
 	}
@@ -82,6 +96,39 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener {
 
 	@Override
 	public void selectionChanged(FSEEvent e) {
+	}
+
+	/***************************************************************************
+	 * implementation of WindowListener.
+	 **************************************************************************/
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		System.exit(0);
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
 	}
 
 }

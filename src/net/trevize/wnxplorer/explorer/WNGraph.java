@@ -33,7 +33,7 @@ public class WNGraph {
 	private HashMap<Pointer, Boolean> pointers_list;
 
 	/*
-	 * index of the vertices by synset ID?
+	 * index of the vertices by synset ID.
 	 */
 	private HashMap<String, SynsetVertex> vertex_idx;
 
@@ -51,6 +51,10 @@ public class WNGraph {
 	}
 
 	public SynsetVertex addVertexForSynset(ISynset synset) {
+		if (vertex_idx.keySet().contains(synset.getID().toString())) {
+			return vertex_idx.get(synset.getID().toString());
+		}
+
 		//create the new vertex.
 		SynsetVertex synset_vertex = new SynsetVertex(synset);
 
