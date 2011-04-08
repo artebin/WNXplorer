@@ -2,7 +2,6 @@ package net.trevize.wnxplorer.explorer;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -11,12 +10,14 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
+import javax.swing.SwingUtilities;
 
+import net.infonode.docking.RootWindow;
+import net.infonode.docking.SplitWindow;
+import net.infonode.docking.TabWindow;
+import net.infonode.docking.View;
+import net.infonode.docking.util.DockingUtil;
+import net.infonode.docking.util.ViewMap;
 import net.trevize.wnxplorer.jung.PickingGraphMousePlugin;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
@@ -35,15 +36,15 @@ public class Explorer implements ComponentListener {
 	public static final String WNXPLORER_APPLICATION_ICON_PATH = "./gfx/WNXplorer-icon.png";
 
 	private JFrame main_frame;
-	private JSplitPane splitpane;
+	private RootWindow root_window;
+	private ViewMap view_map;
+	private View[] views;
+	private JFrame frame;
 
-	//splitpane left component.
-	private JTabbedPane tabbedpane;
 	private SearchPanel search_panel;
 	private SynsetInfoPanel synset_info_panel;
 	private WNGraphInfoPanel wngraph_info_panel;
 
-	//splitpane right component.
 	private WNGraph wngraph;
 	private WNGraphPanel wngraph_panel;
 
@@ -55,8 +56,6 @@ public class Explorer implements ComponentListener {
 		init();
 
 		main_frame.setVisible(true);
-
-		splitpane.setDividerLocation(.25); //have to be done after to switch the frame visibility to be taken in account.
 	}
 
 	private void initWordNet() {
@@ -64,7 +63,7 @@ public class Explorer implements ComponentListener {
 
 		//if no wordnet installation path indicated in the properties file, show the directory selector.
 		if (wordnet_path.equals("")) {
-			GetWordNetPathDialog d = new GetWordNetPathDialog(splitpane);
+			GetWordNetPathDialog d = new GetWordNetPathDialog(main_frame);
 			d.setVisible(true);
 			wordnet_path = WNXplorerProperties.getWN_PATH();
 		}
@@ -85,7 +84,7 @@ public class Explorer implements ComponentListener {
 			WNXplorerProperties.setWN_PATH("");
 			JOptionPane
 					.showMessageDialog(
-							splitpane,
+							main_frame,
 							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or accessible (or not the WordNet <b>dict</b> directory).</body></html>");
 			initWordNet();
 		}
@@ -111,45 +110,48 @@ public class Explorer implements ComponentListener {
 		main_frame.getContentPane().setLayout(new BorderLayout());
 		main_frame.getContentPane().addComponentListener(this);
 
-		/* setting the JSplitPane *********************************************/
-
-		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-
-		/*
-		 * setting the divider of the JSplitPane (due to the bug of the GTK PLAF). 
-		 */
-		splitpane.setUI(new BasicSplitPaneUI() {
-			public BasicSplitPaneDivider createDefaultDivider() {
-				BasicSplitPaneDivider pane_divider = new BasicSplitPaneDivider(
-						this) {
-				};
-				return pane_divider;
-			}
-		});
-
-		splitpane.setBorder(new MatteBorder(3, 3, 3, 3, Color.LIGHT_GRAY));
-		main_frame.getContentPane().add(splitpane, BorderLayout.CENTER);
-
-		/* setting the splitpane left component *******************************/
-
-		tabbedpane = new JTabbedPane();
-		splitpane.add(tabbedpane, JSplitPane.LEFT);
+		/* setting the application component for the GUI **********************/
 
 		search_panel = new SearchPanel(this);
-		tabbedpane.add("<html><body><b><u>S</u></b>earch</body></html>",
-				search_panel.getSearch_panel());
 
 		synset_info_panel = new SynsetInfoPanel(this);
-		tabbedpane.add("<html><body>Synset <b><u>i</u></b>nfo</body></html>",
-				synset_info_panel.getScrollpane());
 
 		wngraph_info_panel = new WNGraphInfoPanel();
-		tabbedpane.add("<html><body><b><u>G</u></b>raph</body></html>",
-				wngraph_info_panel);
 
-		/* setting the splitpane right component. *****************************/
 		initGraphView();
-		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
+
+		//instantiate the GUI
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				views = new View[4];
+				view_map = new ViewMap();
+
+				views[0] = new View("Search", null, search_panel
+						.getSearch_panel());
+				view_map.addView(0, views[0]);
+
+				views[1] = new View("Synset info", null, synset_info_panel
+						.getScrollpane());
+				view_map.addView(1, views[1]);
+
+				views[2] = new View("Graph", null, wngraph_info_panel);
+				view_map.addView(2, views[2]);
+
+				views[3] = new View("Graph view", null, wngraph_panel
+						.getPanel());
+				view_map.addView(3, views[3]);
+
+				root_window = DockingUtil.createRootWindow(view_map, true);
+				TabWindow tab_windows = new TabWindow(new View[] { views[0],
+						views[1], views[2] });
+				tab_windows.setSelectedTab(0);
+				root_window.setWindow(new SplitWindow(true, 0.3f, tab_windows,
+						views[3]));
+
+				main_frame.getContentPane().add(root_window,
+						BorderLayout.CENTER);
+			}
+		});
 	}
 
 	public void initGraphView() {
@@ -179,9 +181,9 @@ public class Explorer implements ComponentListener {
 		initGraphView();
 
 		//save the divider location, install the new graph view and restore the divider location.
-		int divider_location = splitpane.getDividerLocation();
-		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
-		splitpane.setDividerLocation(divider_location);
+		//		int divider_location = splitpane.getDividerLocation();
+		//		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
+		//		splitpane.setDividerLocation(divider_location);
 	}
 
 	public void hideAllPopups() {
@@ -214,10 +216,6 @@ public class Explorer implements ComponentListener {
 	 * getters and setters. 
 	 **************************************************************************/
 
-	public JSplitPane getSplitpane() {
-		return splitpane;
-	}
-
 	public WNGraph getWngraph() {
 		return wngraph;
 	}
@@ -228,10 +226,6 @@ public class Explorer implements ComponentListener {
 
 	public IDictionary getDict() {
 		return dict;
-	}
-
-	public JTabbedPane getTabbedpane() {
-		return tabbedpane;
 	}
 
 	public JFrame getMain_frame() {

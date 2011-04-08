@@ -41,7 +41,7 @@ public class GlobalKeyListener implements AWTEventListener {
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_S) {
 			//System.out.println("tab0");
-			explorer.getTabbedpane().setSelectedIndex(0);
+			//			explorer.getTabbedpane().setSelectedIndex(0);
 		}
 
 		else
@@ -49,7 +49,7 @@ public class GlobalKeyListener implements AWTEventListener {
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_I) {
 			//System.out.println("tab1");
-			explorer.getTabbedpane().setSelectedIndex(1);
+			//			explorer.getTabbedpane().setSelectedIndex(1);
 		}
 
 		else
@@ -57,7 +57,7 @@ public class GlobalKeyListener implements AWTEventListener {
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_G) {
 			//System.out.println("tab2");
-			explorer.getTabbedpane().setSelectedIndex(2);
+			//			explorer.getTabbedpane().setSelectedIndex(2);
 		}
 
 		else
