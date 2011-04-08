@@ -19,8 +19,10 @@ public class WNXplorerProperties {
 	public static Properties properties;
 
 	public static final String PROPERTY_WORDNET_PATH = "PROPERTY_WORDNET_PATH";
+	public static final String PROPERTY_WNXPLORER_ICON_PATH = "PROPERTY_WNXPLORER_ICON_PATH";
 
 	private static String wordnet_path;
+	private static String wnxplorer_icon_path;
 
 	public static void loadProperties() {
 		properties = new Properties();
@@ -32,6 +34,8 @@ public class WNXplorerProperties {
 			e.printStackTrace();
 		}
 		wordnet_path = properties.getProperty(PROPERTY_WORDNET_PATH);
+		wnxplorer_icon_path = properties
+				.getProperty(PROPERTY_WNXPLORER_ICON_PATH);
 	}
 
 	public static String getWN_PATH() {
@@ -49,6 +53,13 @@ public class WNXplorerProperties {
 			e.printStackTrace();
 		}
 		wordnet_path = wn_path;
+	}
+
+	public static String getWnxplorer_icon_path() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return wnxplorer_icon_path;
 	}
 
 }

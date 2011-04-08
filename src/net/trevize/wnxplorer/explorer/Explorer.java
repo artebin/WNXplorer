@@ -37,8 +37,6 @@ import edu.mit.jwi.item.SynsetID;
 
 public class Explorer implements ComponentListener {
 
-	public static final String WNXPLORER_APPLICATION_ICON_PATH = "./gfx/WNXplorer-icon81.png";
-
 	private JFrame main_frame;
 	private RootWindow root_window;
 	private ViewMap view_map;
@@ -112,7 +110,7 @@ public class Explorer implements ComponentListener {
 
 		main_frame = new JFrame("WNXplorer");
 		main_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				WNXPLORER_APPLICATION_ICON_PATH));
+				WNXplorerProperties.getWnxplorer_icon_path()));
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		main_frame
 				.setSize(
@@ -162,8 +160,9 @@ public class Explorer implements ComponentListener {
 				TabWindow tab_windows = new TabWindow(new View[] { views[0],
 						views[1], views[2] });
 				tab_windows.setSelectedTab(0);
-				root_window.setWindow(new SplitWindow(true, 0.3f, tab_windows,
-						views[3]));
+				SplitWindow split_window = new SplitWindow(true, 0.3f,
+						tab_windows, views[3]);
+				root_window.setWindow(split_window);
 
 				/*
 				// Set gradient theme. The theme properties object is the super object

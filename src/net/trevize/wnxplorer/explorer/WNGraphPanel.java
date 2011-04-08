@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.PointerEdgeDrawPaintTransformer;
@@ -96,8 +97,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv.getRenderContext().setArrowDrawPaintTransformer(vet);
 
 		//setting the VertexShapeTransformer.
-		vv
-				.getRenderContext()
+		vv.getRenderContext()
 				.setVertexShapeTransformer(
 						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
 								g));
@@ -112,8 +112,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		//setting the Arrow transformer.
 		//vv.getRenderContext().setArrowFillPaintTransformer(new PointerEdgeDrawPaintTransformer());
 		//vv.getRenderContext().setArrowDrawPaintTransformer(new PointerEdgeDrawPaintTransformer());
-		vv.getRenderer().getEdgeRenderer().setEdgeArrowRenderingSupport(
-				new BasicEdgeArrowRenderingSupport());
+		vv.getRenderer()
+				.getEdgeRenderer()
+				.setEdgeArrowRenderingSupport(
+						new BasicEdgeArrowRenderingSupport());
 
 		//setting the VertexStrokeTransformer.
 		vv.getRenderContext().setVertexStrokeTransformer(
@@ -130,8 +132,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		vv.getRenderContext().setVertexLabelTransformer(
 				new SynsetVertexLabelTransformer());
-		vv.getRenderer().getVertexLabelRenderer().setPosition(
-				Renderer.VertexLabel.Position.E);
+		vv.getRenderer().getVertexLabelRenderer()
+				.setPosition(Renderer.VertexLabel.Position.E);
 
 		vv.getRenderContext().setEdgeLabelTransformer(
 				new PointerEdgeLabelTranformer());
@@ -152,6 +154,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		//setting the panel BorderLayout.SOUTH (i.e. the status bar).
 		StatusBar status_bar = new StatusBar();
+		status_bar.setBorder(new EmptyBorder(4, 4, 4, 4));
 
 		picking_mode_checkbox = new JCheckBox("picking mode");
 		picking_mode_checkbox.setActionCommand(ACTION_COMMAND_MODE);
