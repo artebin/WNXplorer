@@ -11,6 +11,7 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import net.infonode.docking.RootWindow;
@@ -138,7 +139,7 @@ public class Explorer implements ComponentListener {
 		//instantiate the GUI
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				views = new View[4];
+				views = new View[5];
 				view_map = new ViewMap();
 
 				views[0] = new View("Search", null, search_panel
@@ -156,12 +157,19 @@ public class Explorer implements ComponentListener {
 						.getPanel());
 				view_map.addView(3, views[3]);
 
+				views[4] = new View("Satellite view", null, new JPanel());
+				view_map.addView(4, views[4]);
+
 				root_window = DockingUtil.createRootWindow(view_map, true);
+
 				TabWindow tab_windows = new TabWindow(new View[] { views[0],
-						views[1], views[2] });
+						views[1], views[2], views[4] });
+
 				tab_windows.setSelectedTab(0);
+
 				SplitWindow split_window = new SplitWindow(true, 0.3f,
 						tab_windows, views[3]);
+
 				root_window.setWindow(split_window);
 
 				/*
