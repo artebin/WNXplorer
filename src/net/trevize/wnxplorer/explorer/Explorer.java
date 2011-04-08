@@ -63,7 +63,6 @@ public class Explorer implements ComponentListener {
 
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
-
 				@Override
 				public void run() {
 					main_frame.setVisible(true);
@@ -178,8 +177,13 @@ public class Explorer implements ComponentListener {
 				// theme and in our property object will be used by the root window
 				root_window.getRootWindowProperties().addSuperObject(properties);
 				*/
-				
-				root_window.getRootWindowProperties().getFloatingWindowProperties().setUseFrame(true);
+
+				root_window.getRootWindowProperties()
+						.getFloatingWindowProperties().setUseFrame(true);
+
+				root_window.getRootWindowProperties().getTabWindowProperties()
+						.getTabProperties().getTitledTabProperties()
+						.setFocusMarkerEnabled(false);
 
 				main_frame.getContentPane().add(root_window,
 						BorderLayout.CENTER);
