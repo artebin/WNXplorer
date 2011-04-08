@@ -193,8 +193,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 		//instantiate a new Searcher and make the search.
 		Searcher searcher = new Searcher(explorer.getDict());
-		searcher.search(pos_selector_button.getSelectedPOS(), search_textfield
-				.getText());
+		searcher.search(pos_selector_button.getSelectedPOS(),
+				search_textfield.getText());
 
 		//instantiate the ResultsPanel.
 		results_panel = new ResultsPanel(searcher.getResults());
@@ -206,9 +206,9 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		results_status.setText(results_panel.getResultsStatus());
 
 		//save the divider location, update the results_container and restore the divider location.
-		int divider_location = explorer.getSplitpane().getDividerLocation();
+		//		int divider_location = explorer.getSplitpane().getDividerLocation();
 		scrollpane.setViewportView(results_panel.getView());
-		explorer.getSplitpane().setDividerLocation(divider_location);
+		//		explorer.getSplitpane().setDividerLocation(divider_location);
 
 		/*
 		 * put the scrollbars value of the scrollpane that contained the JeditorPane
@@ -225,11 +225,11 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void displayPreviousResultPage() {
 		System.out.println("ACTION_COMMAND_PREVIOUS_RESULT_PAGE");
-		
+
 		if (results_panel == null || results_panel.isTheFirstPage()) {
 			return;
 		}
-		
+
 		results_panel.retrievePage(results_panel.getCurrent_page_number() - 1);
 
 		//update the results_status.
@@ -252,11 +252,11 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void displayNextResultPage() {
 		System.out.println("ACTION_COMMAND_NEXT_RESULT_PAGE");
-		
+
 		if (results_panel == null || results_panel.isTheLastPage()) {
 			return;
 		}
-		
+
 		results_panel.retrievePage(results_panel.getCurrent_page_number() + 1);
 
 		//update the results_status.
