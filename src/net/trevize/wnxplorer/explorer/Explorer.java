@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -16,6 +17,9 @@ import net.infonode.docking.RootWindow;
 import net.infonode.docking.SplitWindow;
 import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
+import net.infonode.docking.properties.RootWindowProperties;
+import net.infonode.docking.theme.DockingWindowsTheme;
+import net.infonode.docking.theme.ShapedGradientDockingTheme;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
 import net.trevize.wnxplorer.jung.PickingGraphMousePlugin;
@@ -33,13 +37,15 @@ import edu.mit.jwi.item.SynsetID;
 
 public class Explorer implements ComponentListener {
 
-	public static final String WNXPLORER_APPLICATION_ICON_PATH = "./gfx/WNXplorer-icon.png";
+	public static final String WNXPLORER_APPLICATION_ICON_PATH = "./gfx/WNXplorer-icon81.png";
 
 	private JFrame main_frame;
 	private RootWindow root_window;
 	private ViewMap view_map;
 	private View[] views;
-	private JFrame frame;
+	private RootWindowProperties properties = new RootWindowProperties();
+	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
+
 
 	private SearchPanel search_panel;
 	private SynsetInfoPanel synset_info_panel;
@@ -55,7 +61,19 @@ public class Explorer implements ComponentListener {
 		initWordNet();
 		init();
 
-		main_frame.setVisible(true);
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+
+				@Override
+				public void run() {
+					main_frame.setVisible(true);
+				}
+			});
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initWordNet() {
@@ -147,6 +165,21 @@ public class Explorer implements ComponentListener {
 				tab_windows.setSelectedTab(0);
 				root_window.setWindow(new SplitWindow(true, 0.3f, tab_windows,
 						views[3]));
+
+				/*
+				// Set gradient theme. The theme properties object is the super object
+				// of our properties object, which
+				// means our property value settings will override the theme values
+				properties.addSuperObject(currentTheme
+						.getRootWindowProperties());
+
+				// Our properties object is the super object of the root window
+				// properties object, so all property values of the
+				// theme and in our property object will be used by the root window
+				root_window.getRootWindowProperties().addSuperObject(properties);
+				*/
+				
+				root_window.getRootWindowProperties().getFloatingWindowProperties().setUseFrame(true);
 
 				main_frame.getContentPane().add(root_window,
 						BorderLayout.CENTER);
