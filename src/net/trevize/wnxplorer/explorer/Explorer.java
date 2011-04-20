@@ -11,7 +11,7 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import net.infonode.docking.RootWindow;
@@ -193,18 +193,26 @@ public class Explorer implements ComponentListener {
 				initView(views[3]);
 				view_map.addView(3, views[3]);
 
-				views[4] = new View("Satellite view", null, new JPanel());
+				views[4] = new View("Satellite view", null, new JScrollPane(
+						wngraph_panel.getSatelliteVisualizationViewer()));
 				initView(views[4]);
 				view_map.addView(4, views[4]);
 
 				root_window = DockingUtil.createRootWindow(view_map, true);
 
-				TabWindow tab_windows = new TabWindow(new View[] { views[0],
+				//the TabWindow for Search and SynsetInfo
+				TabWindow tab_windows_1 = new TabWindow(new View[] { views[0],
 						views[1], views[2], views[4] });
-				tab_windows.setSelectedTab(0);
+				tab_windows_1.setSelectedTab(0);
+
+				//the TabWindow for GraphInfo and SatelliteView
+				TabWindow tab_windows_2 = new TabWindow(new View[] { views[2],
+						views[4] });
+				tab_windows_2.setSelectedTab(0);
 
 				SplitWindow split_window = new SplitWindow(true, 0.3f,
-						tab_windows, views[3]);
+						new SplitWindow(false, 0.5f, tab_windows_1,
+								tab_windows_2), views[3]);
 
 				root_window.setWindow(split_window);
 
