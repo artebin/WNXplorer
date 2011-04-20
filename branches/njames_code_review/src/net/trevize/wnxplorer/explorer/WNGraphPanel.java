@@ -27,10 +27,15 @@ import net.trevize.wnxplorer.jung.VertexStrokeHighlight;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
+import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
+import edu.uci.ics.jung.visualization.VisualizationModel;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
+import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;
+import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.PickableEdgePaintTransformer;
 import edu.uci.ics.jung.visualization.decorators.PickableVertexPaintTransformer;
@@ -54,7 +59,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	//for jung.
 	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> g;
-	private VisualizationViewer<SynsetVertex, PointerEdge> vv;
+	private VisualizationViewer<SynsetVertex, PointerEdge> vv1;
+	private SatelliteVisualizationViewer<SynsetVertex, PointerEdge> vv2;
 	private Layout<SynsetVertex, PointerEdge> layout;
 
 	private GraphZoomScrollPane scrollpane;
@@ -83,42 +89,58 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		//setting the panel BorderLayout.CENTER
 		layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
-		vv = new VisualizationViewer<SynsetVertex, PointerEdge>(layout);
+
+		// create one model that both views will share
+		VisualizationModel<SynsetVertex, PointerEdge> vm = new DefaultVisualizationModel<SynsetVertex, PointerEdge>(
+				layout);
+
+		vv1 = new VisualizationViewer<SynsetVertex, PointerEdge>(layout);
+		vv2 = new SatelliteVisualizationViewer<SynsetVertex, PointerEdge>(vv1);
+
+		vv2.getRenderContext().setEdgeDrawPaintTransformer(
+				new PickableEdgePaintTransformer<PointerEdge>(vv2
+						.getPickedEdgeState(), Color.black, Color.cyan));
+		vv2.getRenderContext().setVertexFillPaintTransformer(
+				new PickableVertexPaintTransformer<SynsetVertex>(vv2
+						.getPickedVertexState(), Color.red, Color.yellow));
+
+		ScalingControl vv2Scaler = new CrossoverScalingControl();
+		vv2.scaleToLayout(vv2Scaler);
 
 		//setting the PickedVertexPaintTransformer.
 		PickableVertexPaintTransformer<SynsetVertex> vpt = new PickableVertexPaintTransformer<SynsetVertex>(
-				vv.getPickedVertexState(), Color.WHITE, Color.YELLOW);
-		vv.getRenderContext().setVertexFillPaintTransformer(vpt);
+				vv1.getPickedVertexState(), Color.WHITE, Color.YELLOW);
+		vv1.getRenderContext().setVertexFillPaintTransformer(vpt);
 
 		//setting the PickedEdgePaintTransformer.
 		PickableEdgePaintTransformer<PointerEdge> vet = new PickableEdgePaintTransformer<PointerEdge>(
-				vv.getPickedEdgeState(), Color.GRAY, Color.YELLOW);
-		vv.getRenderContext().setEdgeDrawPaintTransformer(vet);
-		vv.getRenderContext().setArrowDrawPaintTransformer(vet);
+				vv1.getPickedEdgeState(), Color.GRAY, Color.YELLOW);
+		vv1.getRenderContext().setEdgeDrawPaintTransformer(vet);
+		vv1.getRenderContext().setArrowDrawPaintTransformer(vet);
 
 		//setting the VertexShapeTransformer.
-		vv.getRenderContext()
+		vv1.getRenderContext()
 				.setVertexShapeTransformer(
 						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
 								g));
 
 		//setting the EdgeShapeTransformer.
-		vv.getRenderContext().setEdgeShapeTransformer(
+		vv1.getRenderContext().setEdgeShapeTransformer(
 				new EdgeShape.Line<SynsetVertex, PointerEdge>());
 
-		vv.getRenderContext().setEdgeDrawPaintTransformer(
+		vv1.getRenderContext().setEdgeDrawPaintTransformer(
 				new PointerEdgeDrawPaintTransformer());
 
 		//setting the Arrow transformer.
 		//vv.getRenderContext().setArrowFillPaintTransformer(new PointerEdgeDrawPaintTransformer());
 		//vv.getRenderContext().setArrowDrawPaintTransformer(new PointerEdgeDrawPaintTransformer());
-		vv.getRenderer()
+		vv1.getRenderer()
 				.getEdgeRenderer()
 				.setEdgeArrowRenderingSupport(
 						new BasicEdgeArrowRenderingSupport());
 
 		//setting the VertexStrokeTransformer.
-		vv.getRenderContext().setVertexStrokeTransformer(
+		vv1.getRenderContext().setVertexStrokeTransformer(
 				new VertexStrokeHighlight<SynsetVertex, PointerEdge>(this));
 
 		//setting the label renderer.
@@ -130,25 +152,25 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv.getRenderContext().setVertexLabelRenderer(vertex_label_renderer);
 		 */
 
-		vv.getRenderContext().setVertexLabelTransformer(
+		vv1.getRenderContext().setVertexLabelTransformer(
 				new SynsetVertexLabelTransformer());
-		vv.getRenderer().getVertexLabelRenderer()
+		vv1.getRenderer().getVertexLabelRenderer()
 				.setPosition(Renderer.VertexLabel.Position.E);
 
-		vv.getRenderContext().setEdgeLabelTransformer(
+		vv1.getRenderContext().setEdgeLabelTransformer(
 				new PointerEdgeLabelTranformer());
 
-		scrollpane = new GraphZoomScrollPane(vv);
+		scrollpane = new GraphZoomScrollPane(vv1);
 		gm = new DefaultModalGraphMouse<SynsetVertex, PointerEdge>();
 		gm.add(new PopupGraphMousePlugin(wngraph, this));
 
-		vv.setGraphMouse(gm);
+		vv1.setGraphMouse(gm);
 
-		vv.setVertexToolTipTransformer(new SynsetVertexTooltip<String>());
+		vv1.setVertexToolTipTransformer(new SynsetVertexTooltip<String>());
 
-		vv.setBackground(Color.WHITE);
-		vv.addMouseListener(this);
-		vv.addKeyListener(this);
+		vv1.setBackground(Color.WHITE);
+		vv1.addMouseListener(this);
+		vv1.addKeyListener(this);
 
 		main_panel.add(scrollpane, BorderLayout.CENTER);
 
@@ -244,8 +266,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (e.getSource() == vv) {
-			vv.requestFocus();
+		if (e.getSource() == vv1) {
+			vv1.requestFocus();
 		}
 	}
 
@@ -275,7 +297,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 			//System.out.println("ACTION_COMMAND_RESTART_LAYOUT");
 
 			layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
-			vv.setGraphLayout(layout);
+			vv1.setGraphLayout(layout);
 		}
 
 		else
@@ -290,11 +312,11 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	 **************************************************************************/
 
 	public VisualizationViewer<SynsetVertex, PointerEdge> getVv() {
-		return vv;
+		return vv1;
 	}
 
 	public void setVv(VisualizationViewer<SynsetVertex, PointerEdge> vv) {
-		this.vv = vv;
+		this.vv1 = vv;
 	}
 
 	public Layout<SynsetVertex, PointerEdge> getLayout() {
@@ -323,6 +345,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	public PopupPointerButton getPointer_selector_button() {
 		return pointer_selector_button;
+	}
+
+	public SatelliteVisualizationViewer<SynsetVertex, PointerEdge> getSatelliteVisualizationViewer() {
+		return vv2;
 	}
 
 }
