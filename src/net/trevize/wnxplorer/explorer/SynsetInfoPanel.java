@@ -1,6 +1,9 @@
 package net.trevize.wnxplorer.explorer;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -70,7 +73,15 @@ public class SynsetInfoPanel implements HyperlinkListener {
 		scrollpane.getHorizontalScrollBar().setBorder(empty);
 		scrollpane.getVerticalScrollBar().setBorder(empty);
 
-		editorp = new JEditorPane();
+		//create a new JEditorPane derived for setting ANTIALIASING ON
+		editorp = new JEditorPane() {
+			public void paintComponent(Graphics g) {
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				super.paintComponent(g);
+			}
+		};
 		editorp.addHyperlinkListener(this);
 		HTMLEditorKit kit = new HTMLEditorKit();
 		StyleSheet ss = new StyleSheet();
