@@ -45,7 +45,6 @@ public class Explorer implements ComponentListener {
 	private RootWindowProperties properties = new RootWindowProperties();
 	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
 
-
 	private SearchPanel search_panel;
 	private SynsetInfoPanel synset_info_panel;
 	private WNGraphInfoPanel wngraph_info_panel;
