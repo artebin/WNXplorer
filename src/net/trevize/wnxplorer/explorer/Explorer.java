@@ -44,6 +44,12 @@ public class Explorer implements ComponentListener {
 	private RootWindow root_window;
 	private ViewMap view_map;
 	private View[] views;
+	private static final int NUMBER_OF_VIEW = 5;
+	private static final int VIEW_SEARCH = 0;
+	private static final int VIEW_SYNSET_INFO = 1;
+	private static final int VIEW_GRAPH = 2;
+	private static final int VIEW_GRAPH_INFO = 3;
+	private static final int VIEW_SATELLITE_VIEW = 4;
 
 	/*
 	//the two following objects are used to change the Infonode theme 
@@ -167,7 +173,7 @@ public class Explorer implements ComponentListener {
 		main_frame.getContentPane().setLayout(new BorderLayout());
 		main_frame.getContentPane().addComponentListener(this);
 
-		/* setting the application component for the GUI **********************/
+		/* setting the application components *********************************/
 
 		search_panel = new SearchPanel(this);
 
@@ -177,51 +183,54 @@ public class Explorer implements ComponentListener {
 
 		initGraphView();
 
-		//instantiate the GUI
+		/* instantiate the GUI ************************************************/
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				views = new View[5];
+				views = new View[NUMBER_OF_VIEW];
 				view_map = new ViewMap();
 
-				views[0] = new View("Search", null, search_panel
+				views[VIEW_SEARCH] = new View("Search", null, search_panel
 						.getSearch_panel());
-				initInfonodeView(views[0]);
-				view_map.addView(0, views[0]);
+				initInfonodeView(views[VIEW_SEARCH]);
+				view_map.addView(VIEW_SEARCH, views[VIEW_SEARCH]);
 
-				views[1] = new View("Synset info", null, synset_info_panel
-						.getScrollpane());
-				initInfonodeView(views[1]);
-				view_map.addView(1, views[1]);
+				views[VIEW_SYNSET_INFO] = new View("Synset info", null,
+						synset_info_panel.getScrollpane());
+				initInfonodeView(views[VIEW_SYNSET_INFO]);
+				view_map.addView(VIEW_SYNSET_INFO, views[VIEW_SYNSET_INFO]);
 
-				views[2] = new View("Graph", null, wngraph_info_panel);
-				initInfonodeView(views[2]);
-				view_map.addView(2, views[2]);
+				views[VIEW_GRAPH_INFO] = new View("Graph Info", null,
+						wngraph_info_panel);
+				initInfonodeView(views[VIEW_GRAPH_INFO]);
+				view_map.addView(VIEW_GRAPH_INFO, views[VIEW_GRAPH_INFO]);
 
-				views[3] = new View("Graph view", null, wngraph_panel
+				views[VIEW_GRAPH] = new View("Graph view", null, wngraph_panel
 						.getPanel());
-				initInfonodeView(views[3]);
-				view_map.addView(3, views[3]);
+				initInfonodeView(views[VIEW_GRAPH]);
+				view_map.addView(VIEW_GRAPH, views[VIEW_GRAPH]);
 
-				views[4] = new View("Satellite view", null, new JScrollPane(
-						wngraph_panel.getSatelliteVisualizationViewer()));
-				initInfonodeView(views[4]);
-				view_map.addView(4, views[4]);
+				views[VIEW_SATELLITE_VIEW] = new View("Satellite view", null,
+						new JScrollPane(wngraph_panel
+								.getSatelliteVisualizationViewer()));
+				initInfonodeView(views[VIEW_SATELLITE_VIEW]);
+				view_map.addView(VIEW_SATELLITE_VIEW,
+						views[VIEW_SATELLITE_VIEW]);
 
 				root_window = DockingUtil.createRootWindow(view_map, true);
 
 				//the TabWindow for Search and SynsetInfo
-				TabWindow tab_windows_1 = new TabWindow(new View[] { views[0],
-						views[1], views[2], views[4] });
+				TabWindow tab_windows_1 = new TabWindow(new View[] {
+						views[VIEW_SEARCH], views[VIEW_SYNSET_INFO] });
 				tab_windows_1.setSelectedTab(0);
 
 				//the TabWindow for GraphInfo and SatelliteView
-				TabWindow tab_windows_2 = new TabWindow(new View[] { views[2],
-						views[4] });
+				TabWindow tab_windows_2 = new TabWindow(new View[] {
+						views[VIEW_GRAPH_INFO], views[VIEW_SATELLITE_VIEW] });
 				tab_windows_2.setSelectedTab(0);
 
 				SplitWindow split_window = new SplitWindow(true, 0.3f,
 						new SplitWindow(false, 0.5f, tab_windows_1,
-								tab_windows_2), views[3]);
+								tab_windows_2), views[VIEW_GRAPH]);
 
 				root_window.setWindow(split_window);
 

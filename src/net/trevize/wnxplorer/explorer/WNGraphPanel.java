@@ -312,20 +312,12 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	 * getters and setters.
 	 **************************************************************************/
 
-	public VisualizationViewer<SynsetVertex, PointerEdge> getVv() {
+	public VisualizationViewer<SynsetVertex, PointerEdge> getVisualizationViewer() {
 		return vv1;
-	}
-
-	public void setVv(VisualizationViewer<SynsetVertex, PointerEdge> vv) {
-		this.vv1 = vv;
 	}
 
 	public Layout<SynsetVertex, PointerEdge> getLayout() {
 		return layout;
-	}
-
-	public void setLayout(Layout<SynsetVertex, PointerEdge> layout) {
-		this.layout = layout;
 	}
 
 	public SynsetVertex getLast_clicked_vertex() {
@@ -338,10 +330,6 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	public DefaultModalGraphMouse<SynsetVertex, PointerEdge> getGm() {
 		return gm;
-	}
-
-	public void setGm(DefaultModalGraphMouse<SynsetVertex, PointerEdge> gm) {
-		this.gm = gm;
 	}
 
 	public PopupPointerButton getPointer_selector_button() {

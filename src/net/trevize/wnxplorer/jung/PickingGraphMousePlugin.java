@@ -72,8 +72,8 @@ public class PickingGraphMousePlugin
 				.getPickSupport();
 
 		if (pickSupport != null) {
-			SynsetVertex v = pickSupport.getVertex(wngraphp.getLayout(), p
-					.getX(), p.getY());
+			SynsetVertex v = pickSupport.getVertex(wngraphp.getLayout(),
+					p.getX(), p.getY());
 
 			if (e.getButton() == MouseEvent.BUTTON1
 					&& v != null
@@ -112,7 +112,8 @@ public class PickingGraphMousePlugin
 				 * update the last_clicked_vertex field and repaint the graph.
 				 */
 				wngraphp.setLast_clicked_vertex(v);
-				wngraphp.getVv().repaint();
+				wngraphp.getVisualizationViewer().repaint();
+				wngraphp.getSatelliteVisualizationViewer().repaint();
 
 			}//end vertex not null and vertex is not the last_clicked_vertex.
 

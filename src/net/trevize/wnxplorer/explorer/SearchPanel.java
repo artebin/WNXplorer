@@ -42,18 +42,14 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	public static final String ACTION_COMMAND_DO_QUERY = "ACTION_COMMAND_DO_QUERY";
 	public static final String ACTION_COMMAND_PREVIOUS_RESULT_PAGE = "ACTION_COMMAND_PREVIOUS_RESULT_PAGE";
 	public static final String ACTION_COMMAND_NEXT_RESULT_PAGE = "ACTION_COMMAND_NEXT_RESULT_PAGE";
-	public static final String ACTION_COMMAND_ADD_SYNSET_TO_GRAPH = "ACTION_COMMAND_ADD_SYNSET_TO_GRAPH";
-
-	public static final String ICON_PATH_GO_PREVIOUS = "./gfx/org/freedesktop/tango/go-previous.png";
-	public static final String ICON_PATH_GO_NEXT = "./gfx/org/freedesktop/tango/go-next.png";
 
 	/*
 	 * this class needs a reference to the Explorer, for updating the graph when the
-	 * user choose a result and put it in the graph.
+	 * user click on a result to put it into the graph.
 	 */
 	private Explorer explorer;
 
-	//the resulting panel.
+	//the panel for the search panel.
 	private JPanel search_panel;
 	private XGridBag xgb;
 
@@ -70,7 +66,6 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	//components for displaying the results.
 	private JScrollPane scrollpane;
 	private ResultsPanel results_panel;
-	private int num_of_results_per_page = 10;
 
 	private CellStyle style_p0 = new CellStyle(1., 0.,
 			GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
@@ -85,7 +80,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	}
 
 	private void init() {
-		//setting the resulting panel.
+		//setting the search panel.
 		search_panel = new JPanel();
 		search_panel.setLayout(new GridBagLayout());
 		xgb = new XGridBag(search_panel);
@@ -112,22 +107,22 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		p2.add(pos_selector_button);
 		p0.add(p2, BorderLayout.EAST);
 
-		p0.add(Box.createVerticalStrut(3), BorderLayout.SOUTH);
 		xgb.add(p0, style_p0, 0, 0);
 
-		//setting the toolbar.
+		//setting the toolbar (that contains the "next page" and "previous page" buttons.
 		JPanel p1 = new JPanel();
 		p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
 
 		button_previous_result_page = new JButton(new ImageIcon(
-				ICON_PATH_GO_PREVIOUS));
+				WNXplorerProperties.getIcon_path_go_previous()));
 		button_previous_result_page.setMargin(new Insets(0, 0, 0, 0));
 		button_previous_result_page
 				.setActionCommand(ACTION_COMMAND_PREVIOUS_RESULT_PAGE);
 		button_previous_result_page.addActionListener(this);
 		p1.add(button_previous_result_page);
 
-		button_next_result_page = new JButton(new ImageIcon(ICON_PATH_GO_NEXT));
+		button_next_result_page = new JButton(new ImageIcon(
+				WNXplorerProperties.getIcon_path_go_next()));
 		button_next_result_page.setMargin(new Insets(0, 0, 0, 0));
 		button_next_result_page
 				.setActionCommand(ACTION_COMMAND_NEXT_RESULT_PAGE);
@@ -143,11 +138,9 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 		xgb.add(p1, style_p0, 1, 0);
 
-		xgb.add(Box.createVerticalStrut(3), style_p0, 2, 0);
-
 		//setting the scrollpane for the results panel.
 		scrollpane = new JScrollPane();
-		scrollpane.setViewportView(new JPanel()); //at starting time no results, so an empty panel is used.
+		scrollpane.setViewportView(new JPanel()); //at starting time no results, hence an empty panel is used.
 
 		xgb.add(scrollpane, style_p1, 2, 0);
 	}
@@ -179,39 +172,26 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		if (action_command.equals(ACTION_COMMAND_NEXT_RESULT_PAGE)) {
 			displayNextResultPage();
 		}
-
-		else
-
-		if (action_command.equals(ACTION_COMMAND_ADD_SYNSET_TO_GRAPH)) {
-			System.out.println("ACTION_COMMAND_ADD_SYNSET_TO_GRAPH");
-		}
 	}
 
 	private void doQuery() {
-		//		System.out.println("ACTION_COMMAND_DO_QUERY: "
-		//					+ search_textfield.getText());
-
-		//instantiate a new Searcher and make the search.
+		//instantiate a new Searcher and process to the search.
 		Searcher searcher = new Searcher(explorer.getDict());
-		searcher.search(pos_selector_button.getSelectedPOS(),
-				search_textfield.getText());
+		searcher.search(pos_selector_button.getSelectedPOS(), getQuery());
 
 		//instantiate the ResultsPanel.
 		results_panel = new ResultsPanel(searcher.getResults());
 		results_panel.getView().addHyperlinkListener(this);
-		results_panel.setNum_of_results_per_page(num_of_results_per_page);
 		results_panel.retrievePage(0);
 
 		//update the results_status.
 		results_status.setText(results_panel.getResultsStatus());
 
-		//save the divider location, update the results_container and restore the divider location.
-		//		int divider_location = explorer.getSplitpane().getDividerLocation();
+		//set the results panel in the GUI
 		scrollpane.setViewportView(results_panel.getView());
-		//		explorer.getSplitpane().setDividerLocation(divider_location);
 
 		/*
-		 * put the scrollbars value of the scrollpane that contained the JeditorPane
+		 * put the scrollbar value of the scrollpane that contained the JeditorPane
 		 * to 0. 
 		 * Because of the JEditorPane, this has to be done in a separate thread.
 		 */
@@ -224,8 +204,6 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	}
 
 	private void displayPreviousResultPage() {
-		System.out.println("ACTION_COMMAND_PREVIOUS_RESULT_PAGE");
-
 		if (results_panel == null || results_panel.isTheFirstPage()) {
 			return;
 		}
@@ -251,8 +229,6 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	}
 
 	private void displayNextResultPage() {
-		System.out.println("ACTION_COMMAND_NEXT_RESULT_PAGE");
-
 		if (results_panel == null || results_panel.isTheLastPage()) {
 			return;
 		}
@@ -284,15 +260,13 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			//System.out.println("link clicked");
-			System.out.println("result selected: " + e.getDescription());
-
 			String synset_id_string = e.getDescription().split(":")[1];
 			ISynsetID synset_id = WNUtils
 					.getISynsetIDFromString(synset_id_string);
 			ISynset synset = explorer.getDict().getSynset(synset_id);
 			explorer.getWngraph().addVertexForSynset(synset);
-			explorer.getWngraphp().getVv().repaint();
+			explorer.getWngraphp().getVisualizationViewer().repaint();
+			explorer.getWngraphp().getSatelliteVisualizationViewer().repaint();
 		}
 	}
 

@@ -38,11 +38,11 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 	public GetWordNetPathDialog(JFrame parent) {
 		this.parent = parent;
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setLocationRelativeTo(parent);
 		setTitle("WordNet installation path");
 		init();
 		setSize(512, 512);
 		addWindowListener(this);
+		setLocationRelativeTo(parent);
 	}
 
 	private void init() {
