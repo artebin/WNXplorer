@@ -18,6 +18,8 @@ import net.infonode.docking.RootWindow;
 import net.infonode.docking.SplitWindow;
 import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
+import net.infonode.docking.drop.DropFilter;
+import net.infonode.docking.drop.DropInfo;
 import net.infonode.docking.properties.RootWindowProperties;
 import net.infonode.docking.theme.DockingWindowsTheme;
 import net.infonode.docking.theme.ShapedGradientDockingTheme;
@@ -105,6 +107,37 @@ public class Explorer implements ComponentListener {
 		}
 	}
 
+	private void initView(View view) {
+		view.getWindowProperties().getDropFilterProperties()
+				.setChildDropFilter(new DropFilter() {
+					@Override
+					public boolean acceptDrop(DropInfo arg0) {
+						return false;
+					}
+				});
+		view.getWindowProperties().getDropFilterProperties()
+				.setInsertTabDropFilter(new DropFilter() {
+					@Override
+					public boolean acceptDrop(DropInfo arg0) {
+						return false;
+					}
+				});
+		view.getWindowProperties().getDropFilterProperties()
+				.setInteriorDropFilter(new DropFilter() {
+					@Override
+					public boolean acceptDrop(DropInfo arg0) {
+						return false;
+					}
+				});
+		view.getWindowProperties().getDropFilterProperties()
+				.setSplitDropFilter(new DropFilter() {
+					@Override
+					public boolean acceptDrop(DropInfo arg0) {
+						return false;
+					}
+				});
+	}
+
 	private void init() {
 		/* setting the main frame. ********************************************/
 
@@ -143,27 +176,31 @@ public class Explorer implements ComponentListener {
 
 				views[0] = new View("Search", null, search_panel
 						.getSearch_panel());
+				initView(views[0]);
 				view_map.addView(0, views[0]);
 
 				views[1] = new View("Synset info", null, synset_info_panel
 						.getScrollpane());
+				initView(views[1]);
 				view_map.addView(1, views[1]);
 
 				views[2] = new View("Graph", null, wngraph_info_panel);
+				initView(views[2]);
 				view_map.addView(2, views[2]);
 
 				views[3] = new View("Graph view", null, wngraph_panel
 						.getPanel());
+				initView(views[3]);
 				view_map.addView(3, views[3]);
 
 				views[4] = new View("Satellite view", null, new JPanel());
+				initView(views[4]);
 				view_map.addView(4, views[4]);
 
 				root_window = DockingUtil.createRootWindow(view_map, true);
 
 				TabWindow tab_windows = new TabWindow(new View[] { views[0],
 						views[1], views[2], views[4] });
-
 				tab_windows.setSelectedTab(0);
 
 				SplitWindow split_window = new SplitWindow(true, 0.3f,
