@@ -1,5 +1,8 @@
 package net.trevize.wnxplorer.jwi;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,8 +44,15 @@ public class ResultsPanel {
 	}
 
 	private void init() {
-		//create the jeditorpane.
-		view = new JEditorPane();
+		//create a new JEditorPane derived for setting ANTIALIASING ON
+		view = new JEditorPane() {
+			public void paintComponent(Graphics g) {
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				super.paintComponent(g);
+			}
+		};
 		view.setEditable(false);
 		kit = new HTMLEditorKit();
 		view.setEditorKit(kit);
@@ -152,8 +162,7 @@ public class ResultsPanel {
 	public String getResultsStatusHTML() {
 		StringBuffer sb = new StringBuffer();
 
-		sb
-				.append("<html><body><div style=\"font-size:12px;text-align:center;\">");
+		sb.append("<html><body><div style=\"font-size:12px;text-align:center;\">");
 
 		if (results.size() != 0) {
 			int first_idx = current_page_number * num_of_results_per_page;
