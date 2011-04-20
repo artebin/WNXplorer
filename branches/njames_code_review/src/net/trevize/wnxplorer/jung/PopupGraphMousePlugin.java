@@ -75,7 +75,8 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 						}
 
 						//repaint the VisualizationViewer.
-						wngraphp.getVv().repaint();
+						wngraphp.getVisualizationViewer().repaint();
+						wngraphp.getSatelliteVisualizationViewer().repaint();
 					}
 				});
 
@@ -84,8 +85,9 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 						Iterator<SynsetVertex> vertex_iter = wngraph.getG()
 								.getNeighbors(v).iterator();
 						while (vertex_iter.hasNext()) {
-							wngraphp.getVv().getPickedVertexState().pick(
-									vertex_iter.next(), true);
+							wngraphp.getVisualizationViewer()
+									.getPickedVertexState()
+									.pick(vertex_iter.next(), true);
 						}
 					}
 				});
@@ -94,8 +96,8 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 			}
 
 			else {
-				final PointerEdge edge = pickSupport.getEdge(wngraphp
-						.getLayout(), p.getX(), p.getY());
+				final PointerEdge edge = pickSupport.getEdge(
+						wngraphp.getLayout(), p.getX(), p.getY());
 				if (edge != null) {
 					JPopupMenu popup = new JPopupMenu();
 					popup.add(new AbstractAction(edge.toString()) {
