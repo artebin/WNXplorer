@@ -20,11 +20,9 @@ import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
 import net.infonode.docking.drop.DropFilter;
 import net.infonode.docking.drop.DropInfo;
-import net.infonode.docking.properties.RootWindowProperties;
-import net.infonode.docking.theme.DockingWindowsTheme;
-import net.infonode.docking.theme.ShapedGradientDockingTheme;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
+import net.trevize.wnxplorer.explorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.jung.PickingGraphMousePlugin;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
@@ -41,24 +39,35 @@ import edu.mit.jwi.item.SynsetID;
 public class Explorer implements ComponentListener {
 
 	private JFrame main_frame;
+
+	//Infonode components
 	private RootWindow root_window;
 	private ViewMap view_map;
 	private View[] views;
+
+	/*
+	//the two following objects are used to change the Infonode theme 
 	private RootWindowProperties properties = new RootWindowProperties();
 	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
+	*/
 
+	//WNXplorer components
 	private SearchPanel search_panel;
 	private SynsetInfoPanel synset_info_panel;
 	private WNGraphInfoPanel wngraph_info_panel;
-
 	private WNGraph wngraph;
 	private WNGraphPanel wngraph_panel;
 
-	//for JWI.
+	//for JWI, we instantiate a IDictionary, only once here
 	private IDictionary dict;
 
 	public Explorer() {
+		/*
+		 * try to load the IDictionary
+		 */
 		initWordNet();
+
+
 		init();
 
 		try {
@@ -78,7 +87,7 @@ public class Explorer implements ComponentListener {
 	private void initWordNet() {
 		String wordnet_path = WNXplorerProperties.getWN_PATH();
 
-		//if no wordnet installation path indicated in the properties file, show the directory selector.
+		//if no WordNet installation path indicated in the properties file, show the directory selector.
 		if (wordnet_path.equals("")) {
 			GetWordNetPathDialog d = new GetWordNetPathDialog(main_frame);
 			d.setVisible(true);
@@ -95,19 +104,19 @@ public class Explorer implements ComponentListener {
 		try {
 			dict.open();
 
-			//try to do a request for testing.
+			//try to do a request for testing the WordNet installation path
 			dict.getSynset(new SynsetID(0, POS.NOUN));
 		} catch (Exception e) {
 			WNXplorerProperties.setWN_PATH("");
 			JOptionPane
 					.showMessageDialog(
 							main_frame,
-							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or accessible (or not the WordNet <b>dict</b> directory).</body></html>");
+							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or not accessible (or it is not the WordNet <b>dict</b> directory).</body></html>");
 			initWordNet();
 		}
 	}
 
-	private void initView(View view) {
+	private void initInfonodeView(View view) {
 		view.getWindowProperties().getDropFilterProperties()
 				.setChildDropFilter(new DropFilter() {
 					@Override
@@ -139,7 +148,7 @@ public class Explorer implements ComponentListener {
 	}
 
 	private void init() {
-		/* setting the main frame. ********************************************/
+		/* setting the main frame *********************************************/
 
 		main_frame = new JFrame("WNXplorer");
 		main_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
@@ -176,26 +185,26 @@ public class Explorer implements ComponentListener {
 
 				views[0] = new View("Search", null, search_panel
 						.getSearch_panel());
-				initView(views[0]);
+				initInfonodeView(views[0]);
 				view_map.addView(0, views[0]);
 
 				views[1] = new View("Synset info", null, synset_info_panel
 						.getScrollpane());
-				initView(views[1]);
+				initInfonodeView(views[1]);
 				view_map.addView(1, views[1]);
 
 				views[2] = new View("Graph", null, wngraph_info_panel);
-				initView(views[2]);
+				initInfonodeView(views[2]);
 				view_map.addView(2, views[2]);
 
 				views[3] = new View("Graph view", null, wngraph_panel
 						.getPanel());
-				initView(views[3]);
+				initInfonodeView(views[3]);
 				view_map.addView(3, views[3]);
 
 				views[4] = new View("Satellite view", null, new JScrollPane(
 						wngraph_panel.getSatelliteVisualizationViewer()));
-				initView(views[4]);
+				initInfonodeView(views[4]);
 				view_map.addView(4, views[4]);
 
 				root_window = DockingUtil.createRootWindow(view_map, true);

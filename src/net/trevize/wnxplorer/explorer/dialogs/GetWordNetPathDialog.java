@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.explorer;
+package net.trevize.wnxplorer.explorer.dialogs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -20,6 +20,7 @@ import net.trevize.gui.FSExplorer.FSE.FSEEvent;
 import net.trevize.gui.FSExplorer.FSE.FSEListener;
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
+import net.trevize.wnxplorer.explorer.WNXplorerProperties;
 
 /**
  * 
@@ -31,16 +32,16 @@ import net.trevize.gui.layout.XGridBag;
 public class GetWordNetPathDialog extends JDialog implements FSEListener,
 		WindowListener {
 
-	private JFrame frame;
+	private JFrame parent;
 	private FSTree fstree;
 
-	public GetWordNetPathDialog(JFrame frame) {
-		this.frame = frame;
+	public GetWordNetPathDialog(JFrame parent) {
+		this.parent = parent;
 		setModalityType(ModalityType.APPLICATION_MODAL);
+		setLocationRelativeTo(parent);
 		setTitle("WordNet installation path");
 		init();
 		setSize(512, 512);
-		setLocationRelativeTo(frame);
 		addWindowListener(this);
 	}
 
@@ -48,6 +49,7 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 		setLayout(new GridBagLayout());
 		XGridBag xgb = new XGridBag(this);
 
+		//setting the header
 		JLabel header = new JLabel();
 		header.setOpaque(true);
 		header.setBackground(Color.WHITE);
@@ -58,6 +60,7 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 				GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
 		xgb.add(header, style0, 0, 0, 1, 2);
 
+		//setting the file chooser FSE
 		String file_filter = "(^[^\\.]$|^[^\\.].*[^~]$)";
 		String dir_filter = "^[^\\.].*$";
 		fstree = new FSTree(File.listRoots()[0], Pattern.compile(file_filter),

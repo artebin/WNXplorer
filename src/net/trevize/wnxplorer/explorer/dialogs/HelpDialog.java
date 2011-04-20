@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.explorer;
+package net.trevize.wnxplorer.explorer.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

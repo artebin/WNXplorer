@@ -15,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import net.trevize.wnxplorer.explorer.dialogs.HelpDialog;
 import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.PointerEdgeDrawPaintTransformer;
 import net.trevize.wnxplorer.jung.PointerEdgeLabelTranformer;
