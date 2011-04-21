@@ -6,10 +6,10 @@ import java.awt.geom.Point2D;
 
 import javax.swing.SwingUtilities;
 
+import net.trevize.wnxplorer.explorer.Explorer;
 import net.trevize.wnxplorer.explorer.SynsetInfoPanel;
 import net.trevize.wnxplorer.explorer.WNGraphPanel;
 import net.trevize.wnxplorer.jwi.WNUtils;
-import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -28,13 +28,11 @@ public class PickingGraphMousePlugin
 
 	private SynsetInfoPanel synset_info_panel;
 	private WNGraphPanel wngraphp;
-	private IDictionary dict;
 
 	public PickingGraphMousePlugin(SynsetInfoPanel synset_info_panel,
-			WNGraphPanel wngraphp, IDictionary dict) {
+			WNGraphPanel wngraphp) {
 		this.synset_info_panel = synset_info_panel;
 		this.wngraphp = wngraphp;
-		this.dict = dict;
 	}
 
 	/***************************************************************************
@@ -81,7 +79,7 @@ public class PickingGraphMousePlugin
 							synset_info_panel.getSynset_id())) {
 
 				//retrieve an ISynset from the SynsetVertex.
-				ISynset synset = dict.getSynset(WNUtils
+				ISynset synset = Explorer.wn_jwi_dictionary.getSynset(WNUtils
 						.getISynsetIDFromString(v.getSynset_id()));
 
 				//set the new content of the synset_info_panel.

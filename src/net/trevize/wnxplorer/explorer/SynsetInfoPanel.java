@@ -136,8 +136,8 @@ public class SynsetInfoPanel implements HyperlinkListener {
 					sb.append(synset_id);
 					sb.append("</a>");
 					sb.append(": <b>"
-							+ WNUtils.getWords(explorer.getDict().getSynset(
-									synset_id)) + "</b>");
+							+ WNUtils.getWords(Explorer.wn_jwi_dictionary
+									.getSynset(synset_id)) + "</b>");
 					sb.append("</li>");
 				}
 				sb.append("</ul>");
@@ -162,7 +162,7 @@ public class SynsetInfoPanel implements HyperlinkListener {
 			String synset_id_string = e.getDescription().split(":")[1];
 			ISynsetID synset_id = WNUtils
 					.getISynsetIDFromString(synset_id_string);
-			ISynset synset = explorer.getDict().getSynset(synset_id);
+			ISynset synset = Explorer.wn_jwi_dictionary.getSynset(synset_id);
 			explorer.getWngraph().addVertexForSynset(synset);
 
 			//refresh the views.

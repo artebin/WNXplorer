@@ -65,7 +65,7 @@ public class Explorer implements ComponentListener {
 	private WNGraphPanel wngraph_panel;
 
 	//for JWI, we instantiate a IDictionary, only once here
-	private IDictionary dict;
+	public static IDictionary wn_jwi_dictionary;
 
 	public Explorer() {
 		/*
@@ -111,12 +111,12 @@ public class Explorer implements ComponentListener {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		dict = new Dictionary(url);
+		wn_jwi_dictionary = new Dictionary(url);
 		try {
-			dict.open();
+			wn_jwi_dictionary.open();
 
 			//try to do a request for testing the WordNet installation path
-			dict.getSynset(new SynsetID(0, POS.NOUN));
+			wn_jwi_dictionary.getSynset(new SynsetID(0, POS.NOUN));
 		} catch (Exception e) {
 			WNXplorerProperties.setWN_PATH("");
 			JOptionPane
@@ -268,7 +268,7 @@ public class Explorer implements ComponentListener {
 
 	public void initGraphView() {
 		//instantiate a new WNGraph.
-		wngraph = new WNGraph(dict);
+		wngraph = new WNGraph();
 
 		//instantiate a new WNGraphPanel.
 		wngraph_panel = new WNGraphPanel(wngraph);
@@ -284,7 +284,7 @@ public class Explorer implements ComponentListener {
 		 */
 
 		PickingGraphMousePlugin picking_plugin = new PickingGraphMousePlugin(
-				synset_info_panel, wngraph_panel, dict);
+				synset_info_panel, wngraph_panel);
 		wngraph_panel.addPickingPlugin(picking_plugin);
 	}
 
@@ -347,10 +347,6 @@ public class Explorer implements ComponentListener {
 
 	public WNGraphPanel getWngraphp() {
 		return wngraph_panel;
-	}
-
-	public IDictionary getDict() {
-		return dict;
 	}
 
 	public JFrame getMain_frame() {

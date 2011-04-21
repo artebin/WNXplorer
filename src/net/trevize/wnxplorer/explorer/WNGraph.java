@@ -7,7 +7,6 @@ import java.util.List;
 import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
 import net.trevize.wnxplorer.jwi.WNUtils;
-import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.Pointer;
@@ -22,8 +21,6 @@ import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 
 public class WNGraph {
 
-	private IDictionary dict;
-
 	//for jung.
 	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> full_graph;
 	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> viewed_graph;
@@ -37,8 +34,7 @@ public class WNGraph {
 	 */
 	private HashMap<String, SynsetVertex> vertex_idx;
 
-	public WNGraph(IDictionary dict) {
-		this.dict = dict;
+	public WNGraph() {
 		full_graph = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
 		viewed_graph = new DirectedSparseMultigraph<SynsetVertex, PointerEdge>();
 		vertex_idx = new HashMap<String, SynsetVertex>();
@@ -98,7 +94,8 @@ public class WNGraph {
 
 			for (ISynsetID synset_id : pointered_synsets) {
 
-				ISynset pointered_synset = dict.getSynset(synset_id);
+				ISynset pointered_synset = Explorer.wn_jwi_dictionary
+						.getSynset(synset_id);
 
 				//is this synset ever present in the graph ?
 				SynsetVertex v = vertex_idx.get(pointered_synset.getID()
@@ -208,8 +205,8 @@ public class WNGraph {
 			if (!pointers_list.get(pointer_edge.getPointer_type())) {
 				viewed_graph.removeEdge(pointer_edge);
 			} else {
-				viewed_graph.addEdge(pointer_edge, full_graph
-						.getIncidentVertices(pointer_edge));
+				viewed_graph.addEdge(pointer_edge,
+						full_graph.getIncidentVertices(pointer_edge));
 			}
 		}
 

@@ -91,23 +91,56 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		//setting the panel BorderLayout.CENTER
 		layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
 
-		// create one model that both views will share
+		//create one model that both views will share
 		VisualizationModel<SynsetVertex, PointerEdge> vm = new DefaultVisualizationModel<SynsetVertex, PointerEdge>(
 				layout);
 
+		//create the two views
 		vv1 = new VisualizationViewer<SynsetVertex, PointerEdge>(layout);
 		vv2 = new SatelliteVisualizationViewer<SynsetVertex, PointerEdge>(vv1);
 
-		vv2.getRenderContext().setEdgeDrawPaintTransformer(
-				new PickableEdgePaintTransformer<PointerEdge>(vv2
-						.getPickedEdgeState(), Color.black, Color.cyan));
-		vv2.getRenderContext().setVertexFillPaintTransformer(
-				new PickableVertexPaintTransformer<SynsetVertex>(vv2
-						.getPickedVertexState(), Color.red, Color.yellow));
+		//initialize the views
+		initGraphView();
+		initSatelliteView();
 
-		ScalingControl vv2Scaler = new CrossoverScalingControl();
-		vv2.scaleToLayout(vv2Scaler);
+		//initialize the popup panel of graph nodes
+		gm = new DefaultModalGraphMouse<SynsetVertex, PointerEdge>();
+		gm.add(new PopupGraphMousePlugin(wngraph, this));
+		vv1.setGraphMouse(gm);
 
+		//add the graph view in a jscrollpane and this jscrollpane in the view panel
+		scrollpane = new GraphZoomScrollPane(vv1);
+		main_panel.add(scrollpane, BorderLayout.CENTER);
+
+		//initialize the status bar
+		StatusBar status_bar = new StatusBar();
+		status_bar.setBorder(new EmptyBorder(4, 4, 4, 4));
+
+		picking_mode_checkbox = new JCheckBox("picking mode");
+		picking_mode_checkbox.setActionCommand(ACTION_COMMAND_MODE);
+		picking_mode_checkbox.addActionListener(this);
+		status_bar.addComponent("mode", picking_mode_checkbox);
+
+		restart_layout_button = new JButton("Restart layout");
+		restart_layout_button.setActionCommand(ACTION_COMMAND_RESTART_LAYOUT);
+		restart_layout_button.addActionListener(this);
+		status_bar.addComponent("auto layout", restart_layout_button);
+
+		pointer_selector_button = new PopupPointerButton(wngraph, this);
+		status_bar.addComponent("PopupPointerButton", pointer_selector_button);
+
+		help_button = new JButton(new ImageIcon(
+				"./gfx/org/freedesktop/tango/help-browser.png"));
+		help_button.setActionCommand(ACTION_COMMAND_HELP);
+		help_button.addActionListener(this);
+		help_dialog = new HelpDialog(main_panel);
+		status_bar.addComponent("help button", help_button);
+
+		//add the status bar to the main panel
+		main_panel.add(status_bar, BorderLayout.SOUTH);
+	}
+
+	private void initGraphView() {
 		//setting the PickedVertexPaintTransformer.
 		PickableVertexPaintTransformer<SynsetVertex> vpt = new PickableVertexPaintTransformer<SynsetVertex>(
 				vv1.getPickedVertexState(), Color.WHITE, Color.YELLOW);
@@ -161,51 +194,39 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv1.getRenderContext().setEdgeLabelTransformer(
 				new PointerEdgeLabelTranformer());
 
-		scrollpane = new GraphZoomScrollPane(vv1);
-		gm = new DefaultModalGraphMouse<SynsetVertex, PointerEdge>();
-		gm.add(new PopupGraphMousePlugin(wngraph, this));
-
-		vv1.setGraphMouse(gm);
-
 		vv1.setVertexToolTipTransformer(new SynsetVertexTooltip<String>());
 
 		vv1.setBackground(Color.WHITE);
 		vv1.addMouseListener(this);
 		vv1.addKeyListener(this);
+	}
 
-		main_panel.add(scrollpane, BorderLayout.CENTER);
+	private void initSatelliteView() {
+		vv2.getRenderContext()
+				.setVertexShapeTransformer(
+						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
+								g));
 
-		//setting the panel BorderLayout.SOUTH (i.e. the status bar).
-		StatusBar status_bar = new StatusBar();
-		status_bar.setBorder(new EmptyBorder(4, 4, 4, 4));
+		PickableVertexPaintTransformer<SynsetVertex> vpt = new PickableVertexPaintTransformer<SynsetVertex>(
+				vv1.getPickedVertexState(), Color.WHITE, Color.YELLOW);
+		vv2.getRenderContext().setVertexFillPaintTransformer(vpt);
 
-		picking_mode_checkbox = new JCheckBox("picking mode");
-		picking_mode_checkbox.setActionCommand(ACTION_COMMAND_MODE);
-		picking_mode_checkbox.addActionListener(this);
-		status_bar.addComponent("mode", picking_mode_checkbox);
+		vv2.getRenderContext().setEdgeShapeTransformer(
+				new EdgeShape.Line<SynsetVertex, PointerEdge>());
 
-		restart_layout_button = new JButton("Restart layout");
-		restart_layout_button.setActionCommand(ACTION_COMMAND_RESTART_LAYOUT);
-		restart_layout_button.addActionListener(this);
-		status_bar.addComponent("auto layout", restart_layout_button);
-
-		pointer_selector_button = new PopupPointerButton(wngraph, this);
-		status_bar.addComponent("PopupPointerButton", pointer_selector_button);
-
-		help_button = new JButton(new ImageIcon(
-				"./gfx/org/freedesktop/tango/help-browser.png"));
-		help_button.setActionCommand(ACTION_COMMAND_HELP);
-		help_button.addActionListener(this);
-		help_dialog = new HelpDialog(main_panel);
-		status_bar.addComponent("help button", help_button);
-
-		main_panel.add(status_bar, BorderLayout.SOUTH);
+		ScalingControl vv2Scaler = new CrossoverScalingControl();
+		vv2.scaleToLayout(vv2Scaler);
 	}
 
 	public JPanel getPanel() {
 		return main_panel;
 	}
 
+	/**
+	 * This method is called by the Explorer class when the others components of
+	 * are ready (SynsetInfoPanel for instance)
+	 * @param picking_plugin
+	 */
 	public void addPickingPlugin(
 			edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin picking_plugin) {
 		gm.add(picking_plugin);
