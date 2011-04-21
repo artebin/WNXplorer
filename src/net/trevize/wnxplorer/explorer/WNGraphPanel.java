@@ -281,8 +281,6 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		String action_command = e.getActionCommand();
 
 		if (action_command.equals(ACTION_COMMAND_MODE)) {
-			//System.out.println("ACTION_COMMAND_MODE");
-
 			if (gm != null) { //if a GraphZoomScrollPane has ever been instantiated.
 				if (picking_mode_checkbox.isSelected()) {
 					gm.setMode(Mode.PICKING);
@@ -295,8 +293,6 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		else
 
 		if (action_command.equals(ACTION_COMMAND_RESTART_LAYOUT)) {
-			//System.out.println("ACTION_COMMAND_RESTART_LAYOUT");
-
 			layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
 			vv1.setGraphLayout(layout);
 		}

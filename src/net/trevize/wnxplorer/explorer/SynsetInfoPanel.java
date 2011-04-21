@@ -164,8 +164,9 @@ public class SynsetInfoPanel implements HyperlinkListener {
 					.getISynsetIDFromString(synset_id_string);
 			ISynset synset = explorer.getDict().getSynset(synset_id);
 			explorer.getWngraph().addVertexForSynset(synset);
-			explorer.getWngraphp().getVisualizationViewer().repaint();
-			explorer.getWngraphp().getSatelliteVisualizationViewer().repaint();
+
+			//refresh the views.
+			explorer.refreshViews();
 		}
 	}
 

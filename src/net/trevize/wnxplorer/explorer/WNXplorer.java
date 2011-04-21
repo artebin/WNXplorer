@@ -11,7 +11,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Main.java - Mar 24, 2010
  */
 
-public class Main {
+public class WNXplorer {
 
 	public static void main(String[] args) {
 		// setting the system look and feel
