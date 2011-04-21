@@ -217,6 +217,9 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		vv2.getRenderContext().setEdgeShapeTransformer(
 				new EdgeShape.Line<SynsetVertex, PointerEdge>());
+		
+		vv2.getRenderContext().setVertexStrokeTransformer(
+				new VertexStrokeHighlight<SynsetVertex, PointerEdge>(this));
 
 		ScalingControl vv2Scaler = new CrossoverScalingControl();
 		vv2.scaleToLayout(vv2Scaler);
