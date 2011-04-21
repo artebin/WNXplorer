@@ -71,6 +71,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	//classical swing components for the StatusBar.
 	private JPanel main_panel;
+	private JPanel satellite_view_panel;
 	private JCheckBox picking_mode_checkbox;
 	private JButton restart_layout_button;
 	private PopupPointerButton pointer_selector_button;
@@ -216,10 +217,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		ScalingControl vv2Scaler = new CrossoverScalingControl();
 		vv2.scaleToLayout(vv2Scaler);
-	}
 
-	public JPanel getPanel() {
-		return main_panel;
+		satellite_view_panel = new GraphZoomScrollPane(vv2);
 	}
 
 	/**
@@ -230,6 +229,11 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	public void addPickingPlugin(
 			edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin picking_plugin) {
 		gm.add(picking_plugin);
+	}
+
+	public void refreshViews() {
+		main_panel.repaint();
+		satellite_view_panel.repaint();
 	}
 
 	/***************************************************************************
@@ -329,6 +333,14 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	 * getters and setters.
 	 **************************************************************************/
 
+	public JPanel getMainPanel() {
+		return main_panel;
+	}
+
+	public JPanel getSatellite_view_panel() {
+		return satellite_view_panel;
+	}
+
 	public VisualizationViewer<SynsetVertex, PointerEdge> getVisualizationViewer() {
 		return vv1;
 	}
@@ -351,10 +363,6 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 	public PopupPointerButton getPointer_selector_button() {
 		return pointer_selector_button;
-	}
-
-	public SatelliteVisualizationViewer<SynsetVertex, PointerEdge> getSatelliteVisualizationViewer() {
-		return vv2;
 	}
 
 }

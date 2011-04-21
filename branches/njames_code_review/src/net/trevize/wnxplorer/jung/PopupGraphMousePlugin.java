@@ -75,8 +75,7 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 						}
 
 						//repaint the VisualizationViewer.
-						wngraphp.getVisualizationViewer().repaint();
-						wngraphp.getSatelliteVisualizationViewer().repaint();
+						wngraphp.refreshViews();
 					}
 				});
 
