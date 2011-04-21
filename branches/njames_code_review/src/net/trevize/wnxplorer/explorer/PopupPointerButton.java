@@ -45,7 +45,7 @@ public class PopupPointerButton extends JToggleButton implements
 	private static final String ACTION_COMMAND_SELECT_NONE_POINTERS_TYPES = "ACTION_COMMAND_SELECT_NONE_POINTERS_TYPES";
 
 	private AbstractAction show_popup_action = new AbstractAction("",
-			new ImageIcon("./gfx/semantic_web_32.png")) {
+			new ImageIcon(WNXplorerProperties.getIcon_path_pointer_selector())) {
 		public void actionPerformed(ActionEvent e) {
 			JToggleButton b = (JToggleButton) e.getSource();
 			if (!b.isSelected() && popup != null) {

@@ -23,6 +23,8 @@ public class WNXplorerProperties {
 	public static final String PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL = "PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL";
 	public static final String PROPERTY_ICON_PATH_GO_PREVIOUS = "PROPERTY_ICON_PATH_GO_PREVIOUS";
 	public static final String PROPERTY_ICON_PATH_GO_NEXT = "PROPERTY_ICON_PATH_GO_NEXT";
+	public static final String PROPERTY_ICON_PATH_HELP = "PROPERTY_ICON_PATH_HELP";
+	public static final String PROPERTY_ICON_PATH_POINTER_SELECTOR = "PROPERTY_ICON_PATH_POINTER_SELECTOR";
 	public static final String PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH = "PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH";
 	public static final String PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH = "PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH";
 
@@ -31,6 +33,8 @@ public class WNXplorerProperties {
 	private static int num_of_results_per_page_into_search_panel;
 	private static String icon_path_go_previous;
 	private static String icon_path_go_next;
+	private static String icon_path_help;
+	private static String icon_path_pointer_selector;
 	private static String results_panel_stylesheet_filepath;
 	private static String synset_info_panel_stylesheet_filepath;
 
@@ -52,6 +56,9 @@ public class WNXplorerProperties {
 		icon_path_go_previous = properties
 				.getProperty(PROPERTY_ICON_PATH_GO_PREVIOUS);
 		icon_path_go_next = properties.getProperty(PROPERTY_ICON_PATH_GO_NEXT);
+		icon_path_help = properties.getProperty(PROPERTY_ICON_PATH_HELP);
+		icon_path_pointer_selector = properties
+				.getProperty(PROPERTY_ICON_PATH_POINTER_SELECTOR);
 		results_panel_stylesheet_filepath = properties
 				.getProperty(PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH);
 		synset_info_panel_stylesheet_filepath = properties
@@ -118,6 +125,20 @@ public class WNXplorerProperties {
 			loadProperties();
 		}
 		return synset_info_panel_stylesheet_filepath;
+	}
+
+	public static String getIcon_path_help() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return icon_path_help;
+	}
+
+	public static String getIcon_path_pointer_selector() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return icon_path_pointer_selector;
 	}
 
 }
