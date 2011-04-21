@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import net.trevize.wnxplorer.explorer.dialogs.HelpDialog;
@@ -26,9 +27,10 @@ import net.trevize.wnxplorer.jung.SynsetVertexLabelTransformer;
 import net.trevize.wnxplorer.jung.SynsetVertexShapeSizeAspectTransformer;
 import net.trevize.wnxplorer.jung.SynsetVertexTooltip;
 import net.trevize.wnxplorer.jung.VertexStrokeHighlight;
+import net.trevize.wnxplorer.jwi.WNUtils;
+import edu.mit.jwi.item.ISynset;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.VisualizationModel;
@@ -57,10 +59,9 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	public static final String ACTION_COMMAND_RESTART_LAYOUT = "ACTION_COMMAND_RESTART_LAYOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
 
-	private WNGraph wngraph;
+	private Explorer explorer;
 
 	//for jung.
-	private DirectedSparseMultigraph<SynsetVertex, PointerEdge> g;
 	private VisualizationViewer<SynsetVertex, PointerEdge> vv1;
 	private SatelliteVisualizationViewer<SynsetVertex, PointerEdge> vv2;
 	private Layout<SynsetVertex, PointerEdge> layout;
@@ -79,9 +80,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	private JButton help_button;
 	private HelpDialog help_dialog;
 
-	public WNGraphPanel(WNGraph wngraph) {
-		this.wngraph = wngraph;
-		this.g = wngraph.getG();
+	public WNGraphPanel(Explorer explorer) {
+		this.explorer = explorer;
 
 		init();
 	}
@@ -91,7 +91,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		main_panel.setLayout(new BorderLayout());
 
 		//setting the panel BorderLayout.CENTER
-		layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
+		layout = new FRLayout2<SynsetVertex, PointerEdge>(explorer.getWngraph()
+				.getG());
 
 		//create one model that both views will share
 		VisualizationModel<SynsetVertex, PointerEdge> vm = new DefaultVisualizationModel<SynsetVertex, PointerEdge>(
@@ -107,7 +108,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		//initialize the popup panel of graph nodes
 		gm = new DefaultModalGraphMouse<SynsetVertex, PointerEdge>();
-		gm.add(new PopupGraphMousePlugin(wngraph, this));
+		gm.add(new PopupGraphMousePlugin(explorer.getWngraph(), this));
 		vv1.setGraphMouse(gm);
 
 		//add the graph view in a jscrollpane and this jscrollpane in the view panel
@@ -128,7 +129,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		restart_layout_button.addActionListener(this);
 		status_bar.addComponent("auto layout", restart_layout_button);
 
-		pointer_selector_button = new PopupPointerButton(wngraph, this);
+		pointer_selector_button = new PopupPointerButton(explorer.getWngraph(),
+				this);
 		status_bar.addComponent("PopupPointerButton", pointer_selector_button);
 
 		help_button = new JButton(new ImageIcon(
@@ -158,7 +160,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv1.getRenderContext()
 				.setVertexShapeTransformer(
 						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
-								g));
+								explorer.getWngraph().getG()));
 
 		//setting the EdgeShapeTransformer.
 		vv1.getRenderContext().setEdgeShapeTransformer(
@@ -207,7 +209,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		vv2.getRenderContext()
 				.setVertexShapeTransformer(
 						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
-								g));
+								explorer.getWngraph().getG()));
 
 		PickableVertexPaintTransformer<SynsetVertex> vpt = new PickableVertexPaintTransformer<SynsetVertex>(
 				vv1.getPickedVertexState(), Color.WHITE, Color.YELLOW);
@@ -237,22 +239,60 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		satellite_view_panel.repaint();
 	}
 
+	public void selectNode(SynsetVertex v) {
+		//retrieve an ISynset from the SynsetVertex
+		ISynset synset = Explorer.wn_jwi_dictionary.getSynset(WNUtils
+				.getISynsetIDFromString(v.getSynset_id()));
+
+		//set the new content of the SynsetInfoPanel.
+		explorer.getSynset_info_panel().updateContent(synset);
+
+		/*
+		 * set the synset_id in the synset_info_panel.
+		 * (this field is used for not displaying several times the same
+		 * synset_info_panel because of several clicks over the same node.
+		 */
+		explorer.getSynset_info_panel().setSynset_id(v.getSynset_id());
+
+		/*
+		 * put the scrollbars value of the scrollpane that contained the JeditorPane
+		 * to 0. 
+		 * Because of the JEditorPane, this has to be done in a separate thread.
+		 */
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				explorer.getSynset_info_panel().getScrollpane()
+						.getVerticalScrollBar().setValue(0);
+				explorer.getSynset_info_panel().getScrollpane()
+						.getHorizontalScrollBar().setValue(0);
+			}
+		});
+
+		/*
+		 * update the last_clicked_vertex field and repaint the graph
+		 */
+		setLast_clicked_vertex(v);
+
+		//refresh the views
+		refreshViews();
+	}
+
 	public void developNode(SynsetVertex v) {
 		//we lock the vertices before develop the pointed node
-		Iterator<SynsetVertex> vertex_iter = wngraph.getG().getVertices()
-				.iterator();
+		Iterator<SynsetVertex> vertex_iter = explorer.getWngraph().getG()
+				.getVertices().iterator();
 		while (vertex_iter.hasNext()) {
 			layout.lock(vertex_iter.next(), true);
 		}
 
 		//augment the graph
-		wngraph.augmentGraphWithNodeNeighborsRing(v);
+		explorer.getWngraph().augmentGraphWithNodeNeighborsRing(v);
 
 		//re-initialize the layout
 		layout.initialize();
 
 		//unlock the vertices
-		vertex_iter = wngraph.getG().getVertices().iterator();
+		vertex_iter = explorer.getWngraph().getG().getVertices().iterator();
 		while (vertex_iter.hasNext()) {
 			layout.lock(vertex_iter.next(), false);
 		}
@@ -343,7 +383,8 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		else
 
 		if (action_command.equals(ACTION_COMMAND_RESTART_LAYOUT)) {
-			layout = new FRLayout2<SynsetVertex, PointerEdge>(g);
+			layout = new FRLayout2<SynsetVertex, PointerEdge>(explorer
+					.getWngraph().getG());
 			vv1.setGraphLayout(layout);
 		}
 

@@ -45,11 +45,15 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 
 		GraphElementAccessor<SynsetVertex, PointerEdge> pickSupport = vv
 				.getPickSupport();
+
 		if (pickSupport != null) {
 			final SynsetVertex v = pickSupport.getVertex(wngraphp.getLayout(),
 					p.getX(), p.getY());
 
 			if (v != null) {
+				//select the node
+
+
 				JPopupMenu popup = new JPopupMenu();
 
 				popup.add(new AbstractAction("Develop") {
@@ -73,6 +77,11 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 				popup.show(vv, e.getX(), e.getY());
 			}
 
+			/*
+			 * the following is for contextual popup menu of edges
+			 */
+
+			/*
 			else {
 				final PointerEdge edge = pickSupport.getEdge(
 						wngraphp.getLayout(), p.getX(), p.getY());
@@ -84,9 +93,10 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 						}
 					});
 					popup.show(vv, e.getX(), e.getY());
-
 				}
 			}
+			*/
+
 		}
 	}
 

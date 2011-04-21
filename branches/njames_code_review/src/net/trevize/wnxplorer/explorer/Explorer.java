@@ -273,7 +273,7 @@ public class Explorer implements ComponentListener {
 		wngraph = new WNGraph();
 
 		//instantiate a new WNGraphPanel.
-		wngraph_panel = new WNGraphPanel(wngraph);
+		wngraph_panel = new WNGraphPanel(this);
 
 		/*
 		 * set a new PickingGraphMousePlugin for allowing the "node picked mode".
