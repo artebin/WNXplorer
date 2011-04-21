@@ -7,8 +7,6 @@ import java.awt.geom.Point2D;
 import javax.swing.SwingUtilities;
 
 import net.trevize.wnxplorer.explorer.Explorer;
-import net.trevize.wnxplorer.explorer.SynsetInfoPanel;
-import net.trevize.wnxplorer.explorer.WNGraphPanel;
 import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.ISynset;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
@@ -26,13 +24,10 @@ public class PickingGraphMousePlugin
 		edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin<SynsetVertex, PointerEdge>
 		implements MouseListener {
 
-	private SynsetInfoPanel synset_info_panel;
-	private WNGraphPanel wngraphp;
+	private Explorer explorer;
 
-	public PickingGraphMousePlugin(SynsetInfoPanel synset_info_panel,
-			WNGraphPanel wngraphp) {
-		this.synset_info_panel = synset_info_panel;
-		this.wngraphp = wngraphp;
+	public PickingGraphMousePlugin(Explorer explorer) {
+		this.explorer = explorer;
 	}
 
 	/***************************************************************************
@@ -70,27 +65,27 @@ public class PickingGraphMousePlugin
 				.getPickSupport();
 
 		if (pickSupport != null) {
-			SynsetVertex v = pickSupport.getVertex(wngraphp.getLayout(),
-					p.getX(), p.getY());
+			SynsetVertex v = pickSupport.getVertex(explorer.getWngraph_panel()
+					.getLayout(), p.getX(), p.getY());
 
 			if (e.getButton() == MouseEvent.BUTTON1
 					&& v != null
 					&& !v.getSynset_id().equals(
-							synset_info_panel.getSynset_id())) {
+							explorer.getSynset_info_panel().getSynset_id())) {
 
 				//retrieve an ISynset from the SynsetVertex.
 				ISynset synset = Explorer.wn_jwi_dictionary.getSynset(WNUtils
 						.getISynsetIDFromString(v.getSynset_id()));
 
 				//set the new content of the synset_info_panel.
-				synset_info_panel.updateContent(synset);
+				explorer.getSynset_info_panel().updateContent(synset);
 
 				/*
 				 * set the synset_id in the synset_info_panel.
 				 * (this field is used for not displaying several times the same
 				 * synset_info_panel because of several clicks over the same node.
 				 */
-				synset_info_panel.setSynset_id(v.getSynset_id());
+				explorer.getSynset_info_panel().setSynset_id(v.getSynset_id());
 
 				/*
 				 * put the scrollbars value of the scrollpane that contained the JeditorPane
@@ -99,9 +94,9 @@ public class PickingGraphMousePlugin
 				 */
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						synset_info_panel.getScrollpane()
+						explorer.getSynset_info_panel().getScrollpane()
 								.getVerticalScrollBar().setValue(0);
-						synset_info_panel.getScrollpane()
+						explorer.getSynset_info_panel().getScrollpane()
 								.getHorizontalScrollBar().setValue(0);
 					}
 				});
@@ -109,10 +104,8 @@ public class PickingGraphMousePlugin
 				/*
 				 * update the last_clicked_vertex field and repaint the graph.
 				 */
-				wngraphp.setLast_clicked_vertex(v);
-				wngraphp.getVisualizationViewer().repaint();
-				wngraphp.getSatelliteVisualizationViewer().repaint();
-
+				explorer.getWngraph_panel().setLast_clicked_vertex(v);
+				explorer.refreshViews();
 			}//end vertex not null and vertex is not the last_clicked_vertex.
 
 		}//end pickSupport is not null.

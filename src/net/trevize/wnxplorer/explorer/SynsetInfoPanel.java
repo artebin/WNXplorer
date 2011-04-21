@@ -35,8 +35,6 @@ import edu.mit.jwi.item.Pointer;
 
 public class SynsetInfoPanel implements HyperlinkListener {
 
-	private static final String STYLESHEET_FILEPATH = "./gfx/style.css";
-
 	/*
 	 * this class needs a reference to the Explorer, in order to be updated following the synset that is selected
 	 * in the graph.
@@ -88,7 +86,9 @@ public class SynsetInfoPanel implements HyperlinkListener {
 
 		//loading the stylesheet.
 		try {
-			FileReader fr = new FileReader(STYLESHEET_FILEPATH);
+			FileReader fr = new FileReader(
+					WNXplorerProperties
+							.getSynset_info_panel_stylesheet_filepath());
 			BufferedReader br = new BufferedReader(fr);
 			sb = new StringBuffer();
 			String line;

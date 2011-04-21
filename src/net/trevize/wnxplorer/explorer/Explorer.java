@@ -11,7 +11,6 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import net.infonode.docking.RootWindow;
@@ -211,13 +210,12 @@ public class Explorer implements ComponentListener {
 				view_map.addView(VIEW_GRAPH_INFO, views[VIEW_GRAPH_INFO]);
 
 				views[VIEW_GRAPH] = new View("Graph view", null, wngraph_panel
-						.getPanel());
+						.getMainPanel());
 				initInfonodeView(views[VIEW_GRAPH]);
 				view_map.addView(VIEW_GRAPH, views[VIEW_GRAPH]);
 
 				views[VIEW_SATELLITE_VIEW] = new View("Satellite view", null,
-						new JScrollPane(wngraph_panel
-								.getSatelliteVisualizationViewer()));
+						wngraph_panel.getSatellite_view_panel());
 				initInfonodeView(views[VIEW_SATELLITE_VIEW]);
 				view_map.addView(VIEW_SATELLITE_VIEW,
 						views[VIEW_SATELLITE_VIEW]);
@@ -284,7 +282,7 @@ public class Explorer implements ComponentListener {
 		 */
 
 		PickingGraphMousePlugin picking_plugin = new PickingGraphMousePlugin(
-				synset_info_panel, wngraph_panel);
+				this);
 		wngraph_panel.addPickingPlugin(picking_plugin);
 	}
 
@@ -297,9 +295,9 @@ public class Explorer implements ComponentListener {
 	 */
 	public void clearGraphView() {
 		initGraphView();
-		getView(VIEW_GRAPH).setComponent(wngraph_panel.getPanel());
+		getView(VIEW_GRAPH).setComponent(wngraph_panel.getMainPanel());
 		getView(VIEW_SATELLITE_VIEW).setComponent(
-				wngraph_panel.getSatelliteVisualizationViewer());
+				wngraph_panel.getSatellite_view_panel());
 		refreshViews();
 	}
 
@@ -307,8 +305,7 @@ public class Explorer implements ComponentListener {
 	 * This method is called when the data model has been updated.
 	 */
 	public void refreshViews() {
-		wngraph_panel.getPanel().repaint();
-		wngraph_panel.getSatelliteVisualizationViewer().repaint();
+		wngraph_panel.refreshViews();
 	}
 
 	public void hideAllPopups() {
@@ -345,12 +342,16 @@ public class Explorer implements ComponentListener {
 		return wngraph;
 	}
 
-	public WNGraphPanel getWngraphp() {
-		return wngraph_panel;
-	}
-
 	public JFrame getMain_frame() {
 		return main_frame;
+	}
+
+	public SynsetInfoPanel getSynset_info_panel() {
+		return synset_info_panel;
+	}
+
+	public WNGraphPanel getWngraph_panel() {
+		return wngraph_panel;
 	}
 
 }
