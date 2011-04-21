@@ -2,13 +2,17 @@ package net.trevize.wnxplorer.explorer;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -311,6 +315,27 @@ public class Explorer implements ComponentListener {
 	public void hideAllPopups() {
 		search_panel.getPos_selector_button().hidePopup();
 		wngraph_panel.getPointer_selector_button().hidePopup();
+	}
+
+	/**
+	 * copy the visible part of the graph to a file as a jpeg image
+	 * @param file
+	 */
+	public void writeJPEGImage(File file) {
+		int width = wngraph_panel.getVisualizationViewer().getWidth();
+		int height = wngraph_panel.getVisualizationViewer().getHeight();
+
+		BufferedImage bi = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_RGB);
+		Graphics2D graphics = bi.createGraphics();
+		wngraph_panel.getVisualizationViewer().paint(graphics);
+		graphics.dispose();
+
+		try {
+			ImageIO.write(bi, "jpeg", file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/***************************************************************************

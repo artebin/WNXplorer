@@ -54,28 +54,7 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 
 				popup.add(new AbstractAction("Develop") {
 					public void actionPerformed(ActionEvent e) {
-						//we lock the vertices before develop the pointed node.
-						Iterator<SynsetVertex> vertex_iter = wngraph.getG()
-								.getVertices().iterator();
-						while (vertex_iter.hasNext()) {
-							wngraphp.getLayout().lock(vertex_iter.next(), true);
-						}
-
-						//develop the pointed node.
-						wngraph.develop(v);
-
-						//re-initialize the layout.
-						wngraphp.getLayout().initialize();
-
-						//unlock the vertices.
-						vertex_iter = wngraph.getG().getVertices().iterator();
-						while (vertex_iter.hasNext()) {
-							wngraphp.getLayout()
-									.lock(vertex_iter.next(), false);
-						}
-
-						//repaint the VisualizationViewer.
-						wngraphp.refreshViews();
+						wngraphp.developNode(v);
 					}
 				});
 

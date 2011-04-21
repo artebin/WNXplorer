@@ -36,6 +36,21 @@ public class PickingGraphMousePlugin
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			//get the VisualizationViewer.
+			VisualizationViewer<SynsetVertex, PointerEdge> vv = (VisualizationViewer<SynsetVertex, PointerEdge>) e
+					.getSource();
+			Point2D p = e.getPoint();
+
+			GraphElementAccessor<SynsetVertex, PointerEdge> pickSupport = vv
+					.getPickSupport();
+
+			if (pickSupport != null) {
+				SynsetVertex v = pickSupport.getVertex(explorer
+						.getWngraph_panel().getLayout(), p.getX(), p.getY());
+				explorer.getWngraph_panel().developNode(v);
+			}
+		}
 	}
 
 	@Override
@@ -102,14 +117,14 @@ public class PickingGraphMousePlugin
 				});
 
 				/*
-				 * update the last_clicked_vertex field and repaint the graph.
+				 * update the last_clicked_vertex field and repaint the graph
 				 */
 				explorer.getWngraph_panel().setLast_clicked_vertex(v);
+				
+				//refresh the views
 				explorer.refreshViews();
 			}//end vertex not null and vertex is not the last_clicked_vertex.
-
 		}//end pickSupport is not null.
-
 	}
 
 	@Override
