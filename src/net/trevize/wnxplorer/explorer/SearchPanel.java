@@ -23,6 +23,7 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
+import net.trevize.wnxplorer.jung.SynsetVertex;
 import net.trevize.wnxplorer.jwi.ResultsPanel;
 import net.trevize.wnxplorer.jwi.Searcher;
 import net.trevize.wnxplorer.jwi.WNUtils;
@@ -264,7 +265,10 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			ISynsetID synset_id = WNUtils
 					.getISynsetIDFromString(synset_id_string);
 			ISynset synset = Explorer.wn_jwi_dictionary.getSynset(synset_id);
-			explorer.getWngraph().addVertexForSynset(synset);
+			SynsetVertex v = explorer.getWngraph().addVertexForSynset(synset);
+
+			//center the graph view of the added node
+			explorer.getWngraph_panel().centerViewsOnVertex(v);
 
 			//refresh the views.
 			explorer.refreshViews();

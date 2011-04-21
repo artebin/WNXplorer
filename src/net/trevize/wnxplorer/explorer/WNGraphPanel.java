@@ -31,9 +31,7 @@ import net.trevize.wnxplorer.jwi.WNUtils;
 import edu.mit.jwi.item.ISynset;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
-import edu.uci.ics.jung.visualization.VisualizationModel;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
@@ -94,10 +92,6 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		layout = new FRLayout2<SynsetVertex, PointerEdge>(explorer.getWngraph()
 				.getG());
 
-		//create one model that both views will share
-		VisualizationModel<SynsetVertex, PointerEdge> vm = new DefaultVisualizationModel<SynsetVertex, PointerEdge>(
-				layout);
-
 		//create the two views
 		vv1 = new VisualizationViewer<SynsetVertex, PointerEdge>(layout);
 		vv2 = new SatelliteVisualizationViewer<SynsetVertex, PointerEdge>(vv1);
@@ -106,7 +100,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		initGraphView();
 		initSatelliteView();
 
-		//initialize the popup panel of graph nodes
+		//initialize the popup panel for graph nodes
 		gm = new DefaultModalGraphMouse<SynsetVertex, PointerEdge>();
 		gm.add(new PopupGraphMousePlugin(explorer.getWngraph(), this));
 		vv1.setGraphMouse(gm);
@@ -134,7 +128,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		status_bar.addComponent("PopupPointerButton", pointer_selector_button);
 
 		help_button = new JButton(new ImageIcon(
-				"./gfx/org/freedesktop/tango/help-browser.png"));
+				WNXplorerProperties.getIcon_path_help()));
 		help_button.setActionCommand(ACTION_COMMAND_HELP);
 		help_button.addActionListener(this);
 		help_dialog = new HelpDialog(main_panel);
@@ -217,7 +211,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		vv2.getRenderContext().setEdgeShapeTransformer(
 				new EdgeShape.Line<SynsetVertex, PointerEdge>());
-		
+
 		vv2.getRenderContext().setVertexStrokeTransformer(
 				new VertexStrokeHighlight<SynsetVertex, PointerEdge>(this));
 
@@ -240,6 +234,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	public void refreshViews() {
 		main_panel.repaint();
 		satellite_view_panel.repaint();
+	}
+
+	public void centerViewsOnVertex(SynsetVertex v) {
+		refreshViews();
 	}
 
 	public void selectNode(SynsetVertex v) {
