@@ -86,7 +86,7 @@ public class WNGraph {
 		return found;
 	}
 
-	public void develop(SynsetVertex picked_vertex) {
+	public void augmentGraphWithNodeNeighborsRing(SynsetVertex picked_vertex) {
 		for (Pointer pointer : WNUtils.getPointers()) {
 
 			List<ISynsetID> pointered_synsets = picked_vertex.getIsynset()

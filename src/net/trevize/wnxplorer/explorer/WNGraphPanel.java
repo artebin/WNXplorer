@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -234,6 +235,30 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	public void refreshViews() {
 		main_panel.repaint();
 		satellite_view_panel.repaint();
+	}
+
+	public void developNode(SynsetVertex v) {
+		//we lock the vertices before develop the pointed node
+		Iterator<SynsetVertex> vertex_iter = wngraph.getG().getVertices()
+				.iterator();
+		while (vertex_iter.hasNext()) {
+			layout.lock(vertex_iter.next(), true);
+		}
+
+		//augment the graph
+		wngraph.augmentGraphWithNodeNeighborsRing(v);
+
+		//re-initialize the layout
+		layout.initialize();
+
+		//unlock the vertices
+		vertex_iter = wngraph.getG().getVertices().iterator();
+		while (vertex_iter.hasNext()) {
+			layout.lock(vertex_iter.next(), false);
+		}
+
+		//refresh the views
+		refreshViews();
 	}
 
 	/***************************************************************************
