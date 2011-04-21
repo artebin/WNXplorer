@@ -89,7 +89,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		JPanel p0 = new JPanel();
 		p0.setLayout(new BorderLayout());
 
-		JLabel l0 = new JLabel("Query:");
+		JLabel l0 = new JLabel("Query: ");
 		p0.add(l0, BorderLayout.WEST);
 
 		search_textfield = new JTextField();
@@ -265,8 +265,9 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 					.getISynsetIDFromString(synset_id_string);
 			ISynset synset = explorer.getDict().getSynset(synset_id);
 			explorer.getWngraph().addVertexForSynset(synset);
-			explorer.getWngraphp().getVisualizationViewer().repaint();
-			explorer.getWngraphp().getSatelliteVisualizationViewer().repaint();
+
+			//refresh the views.
+			explorer.refreshViews();
 		}
 	}
 
@@ -296,10 +297,6 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	public JPanel getSearch_panel() {
 		return search_panel;
-	}
-
-	public void setSearch_panel(JPanel searchPanel) {
-		search_panel = searchPanel;
 	}
 
 	public PopupPOSButton getPos_selector_button() {

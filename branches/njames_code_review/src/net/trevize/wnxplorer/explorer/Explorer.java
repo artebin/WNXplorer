@@ -45,11 +45,11 @@ public class Explorer implements ComponentListener {
 	private ViewMap view_map;
 	private View[] views;
 	private static final int NUMBER_OF_VIEW = 5;
-	private static final int VIEW_SEARCH = 0;
-	private static final int VIEW_SYNSET_INFO = 1;
-	private static final int VIEW_GRAPH = 2;
-	private static final int VIEW_GRAPH_INFO = 3;
-	private static final int VIEW_SATELLITE_VIEW = 4;
+	public static final int VIEW_SEARCH = 0;
+	public static final int VIEW_SYNSET_INFO = 1;
+	public static final int VIEW_GRAPH = 2;
+	public static final int VIEW_GRAPH_INFO = 3;
+	public static final int VIEW_SATELLITE_VIEW = 4;
 
 	/*
 	//the two following objects are used to change the Infonode theme 
@@ -73,9 +73,14 @@ public class Explorer implements ComponentListener {
 		 */
 		initWordNet();
 
-
+		/*
+		 * main initialization: application components and GUI components.
+		 */
 		init();
 
+		/*
+		 * display the app.
+		 */
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
@@ -184,6 +189,7 @@ public class Explorer implements ComponentListener {
 		initGraphView();
 
 		/* instantiate the GUI ************************************************/
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				views = new View[NUMBER_OF_VIEW];
@@ -282,14 +288,27 @@ public class Explorer implements ComponentListener {
 		wngraph_panel.addPickingPlugin(picking_plugin);
 	}
 
-	public void clearGraphView() {
-		//setting the splitpane right component.
-		initGraphView();
+	public View getView(int view_id) {
+		return views[view_id];
+	}
 
-		//save the divider location, install the new graph view and restore the divider location.
-		//		int divider_location = splitpane.getDividerLocation();
-		//		splitpane.add(wngraph_panel.getPanel(), JSplitPane.RIGHT);
-		//		splitpane.setDividerLocation(divider_location);
+	/**
+	 * This method is called by the GlobalKeyListener.
+	 */
+	public void clearGraphView() {
+		initGraphView();
+		getView(VIEW_GRAPH).setComponent(wngraph_panel.getPanel());
+		getView(VIEW_SATELLITE_VIEW).setComponent(
+				wngraph_panel.getSatelliteVisualizationViewer());
+		refreshViews();
+	}
+
+	/**
+	 * This method is called when the data model has been updated.
+	 */
+	public void refreshViews() {
+		wngraph_panel.getPanel().repaint();
+		wngraph_panel.getSatelliteVisualizationViewer().repaint();
 	}
 
 	public void hideAllPopups() {

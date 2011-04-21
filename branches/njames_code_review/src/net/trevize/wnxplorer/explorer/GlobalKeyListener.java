@@ -64,7 +64,6 @@ public class GlobalKeyListener implements AWTEventListener {
 
 		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_C) {
-			//System.out.println("clear");
 			explorer.clearGraphView();
 		}
 
