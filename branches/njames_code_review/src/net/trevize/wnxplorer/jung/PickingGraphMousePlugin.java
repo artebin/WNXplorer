@@ -92,7 +92,12 @@ public class PickingGraphMousePlugin
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+		explorer.getWngraph_panel()
+				.getLayout()
+				.setSize(
+						explorer.getWngraph_panel().getVisualizationViewer()
+								.getSize());
+		explorer.getWngraph_panel().refreshViews();
 	}
 
 }
