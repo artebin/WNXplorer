@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
@@ -32,6 +33,7 @@ import edu.mit.jwi.item.ISynset;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
+import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
@@ -237,6 +239,18 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	}
 
 	public void centerViewsOnVertex(SynsetVertex v) {
+		//the following location have sense in the space of the layout
+		Point2D v_location = layout.transform(v);
+		Point2D vv1_center_location = vv1.getRenderContext()
+				.getMultiLayerTransformer()
+				.inverseTransform(Layer.LAYOUT, vv1.getCenter());
+
+		vv1.getRenderContext()
+				.getMultiLayerTransformer()
+				.getTransformer(Layer.LAYOUT)
+				.translate(-(v_location.getX() - vv1_center_location.getX()),
+						-(v_location.getY() - vv1_center_location.getY()));
+
 		refreshViews();
 	}
 
