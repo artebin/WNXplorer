@@ -92,6 +92,7 @@ public class PickingGraphMousePlugin
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
 	}
 
 }

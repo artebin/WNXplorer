@@ -426,6 +426,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		return vv1;
 	}
 
+	public SatelliteVisualizationViewer<SynsetVertex, PointerEdge> getSatelliteVisualizationViewer() {
+		return vv2;
+	}
+
 	public Layout<SynsetVertex, PointerEdge> getLayout() {
 		return layout;
 	}
