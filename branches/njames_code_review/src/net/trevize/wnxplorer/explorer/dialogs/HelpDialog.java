@@ -1,6 +1,9 @@
 package net.trevize.wnxplorer.explorer.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -94,7 +97,15 @@ public class HelpDialog extends JDialog implements WindowListener,
 		scrollpane.getHorizontalScrollBar().setBorder(empty);
 		scrollpane.getVerticalScrollBar().setBorder(empty);
 
-		editorp = new JEditorPane();
+		//create a new JEditorPane derived for setting ANTIALIASING ON
+		editorp = new JEditorPane() {
+			public void paintComponent(Graphics g) {
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				super.paintComponent(g);
+			}
+		};
 		editorp.addHyperlinkListener(this);
 		HTMLEditorKit kit = new HTMLEditorKit();
 		StyleSheet ss = new StyleSheet();
