@@ -98,4 +98,5 @@ public class SatelliteVisualizationViewerMouseControler implements
 							vv.getCenter());
 		}
 	}
+	
 }

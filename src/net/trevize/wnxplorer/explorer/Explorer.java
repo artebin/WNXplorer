@@ -228,16 +228,17 @@ public class Explorer implements ComponentListener {
 
 				//the TabWindow for Search and SynsetInfo
 				TabWindow tab_windows_1 = new TabWindow(new View[] {
-						views[VIEW_SEARCH], views[VIEW_SYNSET_INFO] });
+						views[VIEW_SEARCH], views[VIEW_SYNSET_INFO],
+						views[VIEW_GRAPH_INFO] });
 				tab_windows_1.setSelectedTab(0);
 
 				//the TabWindow for GraphInfo and SatelliteView
-				TabWindow tab_windows_2 = new TabWindow(new View[] {
-						views[VIEW_GRAPH_INFO], views[VIEW_SATELLITE_VIEW] });
+				TabWindow tab_windows_2 = new TabWindow(
+						new View[] { views[VIEW_SATELLITE_VIEW] });
 				tab_windows_2.setSelectedTab(0);
 
 				SplitWindow split_window = new SplitWindow(true, 0.3f,
-						new SplitWindow(false, 0.5f, tab_windows_1,
+						new SplitWindow(false, 0.7f, tab_windows_1,
 								tab_windows_2), views[VIEW_GRAPH]);
 
 				root_window.setWindow(split_window);

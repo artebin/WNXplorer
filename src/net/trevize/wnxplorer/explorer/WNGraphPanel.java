@@ -417,6 +417,7 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 			layout = new FRLayout2<SynsetVertex, PointerEdge>(explorer
 					.getWngraph().getG());
 			vv1.setGraphLayout(layout);
+			refreshViews();
 		}
 
 		else
