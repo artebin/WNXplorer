@@ -25,8 +25,11 @@ public class WNXplorerProperties {
 	public static final String PROPERTY_ICON_PATH_GO_NEXT = "PROPERTY_ICON_PATH_GO_NEXT";
 	public static final String PROPERTY_ICON_PATH_HELP = "PROPERTY_ICON_PATH_HELP";
 	public static final String PROPERTY_ICON_PATH_POINTER_SELECTOR = "PROPERTY_ICON_PATH_POINTER_SELECTOR";
+	public static final String PROPERTY_ICON_CLOSE = "PROPERTY_ICON_CLOSE";
 	public static final String PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH = "PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH";
 	public static final String PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH = "PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH";
+	public static final String PROPERTY_HELP_DIALOG_STYLESHEET_FILEPATH = "PROPERTY_HELP_DIALOG_STYLESHEET_FILEPATH";
+	public static final String PROPERTY_HELP_HTML_FILEPATH = "PROPERTY_HELP_HTML_FILEPATH";
 
 	private static String wordnet_path;
 	private static String wnxplorer_icon_path;
@@ -35,8 +38,11 @@ public class WNXplorerProperties {
 	private static String icon_path_go_next;
 	private static String icon_path_help;
 	private static String icon_path_pointer_selector;
+	private static String icon_path_close;
 	private static String results_panel_stylesheet_filepath;
 	private static String synset_info_panel_stylesheet_filepath;
+	private static String help_dialog_stylesheet_filepath;
+	private static String help_html_filepath;
 
 	public static void loadProperties() {
 		properties = new Properties();
@@ -63,6 +69,11 @@ public class WNXplorerProperties {
 				.getProperty(PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH);
 		synset_info_panel_stylesheet_filepath = properties
 				.getProperty(PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH);
+		help_dialog_stylesheet_filepath = properties
+				.getProperty(PROPERTY_HELP_DIALOG_STYLESHEET_FILEPATH);
+		help_html_filepath = properties
+				.getProperty(PROPERTY_HELP_HTML_FILEPATH);
+		icon_path_close = properties.getProperty(PROPERTY_ICON_CLOSE);
 	}
 
 	public static String getWN_PATH() {
@@ -139,6 +150,27 @@ public class WNXplorerProperties {
 			loadProperties();
 		}
 		return icon_path_pointer_selector;
+	}
+
+	public static String getHelp_dialog_stylesheet_filepath() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return help_dialog_stylesheet_filepath;
+	}
+
+	public static String getHelp_html_filepath() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return help_html_filepath;
+	}
+
+	public static String getIcon_path_close() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return icon_path_close;
 	}
 
 }

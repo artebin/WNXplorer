@@ -9,6 +9,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,6 +41,8 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("WordNet installation path");
 		init();
+		setIconImage(new ImageIcon(WNXplorerProperties.getWnxplorer_icon_path())
+				.getImage());
 		setSize(512, 512);
 		addWindowListener(this);
 		setLocationRelativeTo(parent);
