@@ -213,6 +213,11 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		satellite_view_panel.setLayout(new BorderLayout());
 
 		//initialize the SatelliteVisualizationViewer
+		SatelliteVisualizationViewerMousePan svv_mouse_pan = new SatelliteVisualizationViewerMousePan(
+				vv2);
+		vv2.addMouseListener(svv_mouse_pan);
+		vv2.addMouseMotionListener(svv_mouse_pan);
+
 		vv2.getRenderContext()
 				.setVertexShapeTransformer(
 						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
