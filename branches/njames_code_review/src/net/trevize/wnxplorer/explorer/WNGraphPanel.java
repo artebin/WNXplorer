@@ -293,11 +293,17 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 				.getMultiLayerTransformer()
 				.inverseTransform(Layer.LAYOUT, vv1.getCenter());
 
+		double scale = vv1.getRenderContext().getMultiLayerTransformer()
+				.getTransformer(Layer.VIEW).getScale();
+
 		vv1.getRenderContext()
 				.getMultiLayerTransformer()
 				.getTransformer(Layer.LAYOUT)
-				.translate(-(v_location.getX() - vv1_center_location.getX()),
-						-(v_location.getY() - vv1_center_location.getY()));
+				.translate(
+						-(v_location.getX() - vv1_center_location.getX()) * 1
+								/ scale,
+						-(v_location.getY() - vv1_center_location.getY()) * 1
+								/ scale);
 
 		refreshViews();
 	}
