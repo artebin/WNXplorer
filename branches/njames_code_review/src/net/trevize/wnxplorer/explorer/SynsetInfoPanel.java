@@ -66,10 +66,10 @@ public class SynsetInfoPanel implements HyperlinkListener {
 		synset_info_panel.add(scrollpane, BorderLayout.CENTER);
 
 		//remove the ugly border of the scrollpane viewport.
-		Border empty = new EmptyBorder(0, 0, 0, 0);
-		scrollpane.setViewportBorder(empty);
-		scrollpane.getHorizontalScrollBar().setBorder(empty);
-		scrollpane.getVerticalScrollBar().setBorder(empty);
+		//		Border empty = new EmptyBorder(0, 0, 0, 0);
+		//		scrollpane.setViewportBorder(empty);
+		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
+		//		scrollpane.getVerticalScrollBar().setBorder(empty);
 
 		//create a new JEditorPane derived for setting ANTIALIASING ON
 		editorp = new JEditorPane() {
