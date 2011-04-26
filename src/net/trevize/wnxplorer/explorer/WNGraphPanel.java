@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -58,6 +59,12 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	public static final String ACTION_COMMAND_MODE = "ACTION_COMMAND_MODE";
 	public static final String ACTION_COMMAND_RESTART_LAYOUT = "ACTION_COMMAND_RESTART_LAYOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
+	public static final String ACTION_COMMAND_SATVIEW_GO_N = "ACTION_COMMAND_SATVIEW_GO_N";
+	public static final String ACTION_COMMAND_SATVIEW_GO_E = "ACTION_COMMAND_SATVIEW_GO_E";
+	public static final String ACTION_COMMAND_SATVIEW_GO_S = "ACTION_COMMAND_SATVIEW_GO_S";
+	public static final String ACTION_COMMAND_SATVIEW_GO_W = "ACTION_COMMAND_SATVIEW_GO_W";
+	public static final String ACTION_COMMAND_SATVIEW_ZOOM_IN = "ACTION_COMMAND_SATVIEW_ZOOM_IN";
+	public static final String ACTION_COMMAND_SATVIEW_ZOOM_OUT = "ACTION_COMMAND_SATVIEW_ZOOM_OUT";
 
 	private Explorer explorer;
 
@@ -202,6 +209,10 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	}
 
 	private void initSatelliteView() {
+		satellite_view_panel = new JPanel();
+		satellite_view_panel.setLayout(new BorderLayout());
+
+		//initialize the SatelliteVisualizationViewer
 		vv2.getRenderContext()
 				.setVertexShapeTransformer(
 						new SynsetVertexShapeSizeAspectTransformer<SynsetVertex, PointerEdge>(
@@ -220,7 +231,44 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 		ScalingControl vv2Scaler = new CrossoverScalingControl();
 		vv2.scaleToLayout(vv2Scaler);
 
-		satellite_view_panel = new GraphZoomScrollPane(vv2);
+		satellite_view_panel.add(vv2, BorderLayout.CENTER);
+
+		//initialize the satellite view toolbar
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
+
+		JButton b_satview_go_n = new JButton("N");
+		b_satview_go_n.setActionCommand(ACTION_COMMAND_SATVIEW_GO_N);
+		b_satview_go_n.addActionListener(this);
+
+		JButton b_satview_go_e = new JButton("E");
+		b_satview_go_e.setActionCommand(ACTION_COMMAND_SATVIEW_GO_E);
+		b_satview_go_e.addActionListener(this);
+
+		JButton b_satview_go_s = new JButton("S");
+		b_satview_go_s.setActionCommand(ACTION_COMMAND_SATVIEW_GO_S);
+		b_satview_go_s.addActionListener(this);
+
+		JButton b_satview_go_w = new JButton("W");
+		b_satview_go_w.setActionCommand(ACTION_COMMAND_SATVIEW_GO_W);
+		b_satview_go_w.addActionListener(this);
+
+		JButton b_zi = new JButton("+");
+		b_zi.setActionCommand(ACTION_COMMAND_SATVIEW_ZOOM_IN);
+		b_zi.addActionListener(this);
+
+		JButton b_zo = new JButton("-");
+		b_zo.setActionCommand(ACTION_COMMAND_SATVIEW_ZOOM_OUT);
+		b_zo.addActionListener(this);
+
+		p.add(b_satview_go_n);
+		p.add(b_satview_go_e);
+		p.add(b_satview_go_s);
+		p.add(b_satview_go_w);
+		p.add(b_zi);
+		p.add(b_zo);
+
+		satellite_view_panel.add(p, BorderLayout.SOUTH);
 	}
 
 	/**
@@ -407,6 +455,50 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 
 		if (action_command.equals(ACTION_COMMAND_HELP)) {
 			help_dialog.setVisible(true);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_SATVIEW_GO_N)) {
+			vv2.getRenderContext().getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT).translate(0, 10);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_SATVIEW_GO_E)) {
+			vv2.getRenderContext().getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT).translate(-10, 0);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_SATVIEW_GO_S)) {
+			vv2.getRenderContext().getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT).translate(0, -10);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_SATVIEW_GO_W)) {
+			vv2.getRenderContext().getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT).translate(10, 0);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_SATVIEW_ZOOM_IN)) {
+			vv2.getRenderContext().getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT)
+					.scale(1.5, 1.5, vv2.getCenter());
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_SATVIEW_ZOOM_OUT)) {
+			vv2.getRenderContext().getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT)
+					.scale(.5, .5, vv2.getCenter());
 		}
 	}
 
