@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
@@ -17,13 +19,14 @@ import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;
  * SatelliteVisualizationViewerMousePan.java - Apr 26, 2011
  */
 
-public class SatelliteVisualizationViewerMousePan implements MouseListener,
-		MouseMotionListener {
+public class SatelliteVisualizationViewerMouseControler implements
+		MouseListener, MouseMotionListener, MouseWheelListener {
 
 	private SatelliteVisualizationViewer<SynsetVertex, PointerEdge> vv;
 	private Point drag_point;
+	private double zoom_factor = 0.1;
 
-	public SatelliteVisualizationViewerMousePan(
+	public SatelliteVisualizationViewerMouseControler(
 			SatelliteVisualizationViewer<SynsetVertex, PointerEdge> vv) {
 		this.vv = vv;
 	}
@@ -75,4 +78,15 @@ public class SatelliteVisualizationViewerMousePan implements MouseListener,
 		}
 	}
 
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getModifiersEx() == MouseEvent.CTRL_DOWN_MASK) {
+			vv.getRenderContext()
+					.getMultiLayerTransformer()
+					.getTransformer(Layer.LAYOUT)
+					.scale(1 + (e.getWheelRotation() * zoom_factor),
+							1 + (e.getWheelRotation() * zoom_factor),
+							vv.getCenter());
+		}
+	}
 }
