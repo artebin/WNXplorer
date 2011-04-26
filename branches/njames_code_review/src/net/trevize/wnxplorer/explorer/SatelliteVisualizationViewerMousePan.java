@@ -4,12 +4,18 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 
 import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
 import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;
+
+/**
+ * 
+ * 
+ * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
+ * SatelliteVisualizationViewerMousePan.java - Apr 26, 2011
+ */
 
 public class SatelliteVisualizationViewerMousePan implements MouseListener,
 		MouseMotionListener {
@@ -25,13 +31,9 @@ public class SatelliteVisualizationViewerMousePan implements MouseListener,
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (drag_point != null) {
-			Point2D p0 = vv.getRenderContext().getMultiLayerTransformer()
-					.transform(Layer.LAYOUT, drag_point);
-			Point2D p1 = vv.getRenderContext().getMultiLayerTransformer()
-					.transform(Layer.LAYOUT, e.getPoint());
+			double delta_x = e.getPoint().getX() - drag_point.getX();
+			double delta_y = e.getPoint().getY() - drag_point.getY();
 
-			double delta_x = p1.getX() - p0.getX();
-			double delta_y = p1.getY() - p0.getY();
 			double scale = vv.getRenderContext().getMultiLayerTransformer()
 					.getTransformer(Layer.VIEW).getScale();
 
