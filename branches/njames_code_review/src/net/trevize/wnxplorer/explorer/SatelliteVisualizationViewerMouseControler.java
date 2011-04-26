@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.Point2D;
 
 import net.trevize.wnxplorer.jung.PointerEdge;
 import net.trevize.wnxplorer.jung.SynsetVertex;
@@ -34,8 +35,16 @@ public class SatelliteVisualizationViewerMouseControler implements
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (drag_point != null) {
-			double delta_x = e.getPoint().getX() - drag_point.getX();
-			double delta_y = e.getPoint().getY() - drag_point.getY();
+			Point2D l_drag_point = vv.getRenderContext()
+					.getMultiLayerTransformer()
+					.inverseTransform(Layer.LAYOUT, drag_point);
+
+			Point2D l_e_point = vv.getRenderContext()
+					.getMultiLayerTransformer()
+					.inverseTransform(Layer.LAYOUT, e.getPoint());
+
+			double delta_x = l_e_point.getX() - l_drag_point.getX();
+			double delta_y = l_e_point.getY() - l_drag_point.getY();
 
 			double scale = vv.getRenderContext().getMultiLayerTransformer()
 					.getTransformer(Layer.VIEW).getScale();
