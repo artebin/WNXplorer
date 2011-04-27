@@ -141,6 +141,12 @@ public class WNGraphPanel implements MouseListener, KeyListener, ActionListener 
 	}
 
 	private void initGraphView() {
+		//initialize the SatelliteVisualizationViewer
+		VisualizationViewerMouseControler vv_mouse_pan = new VisualizationViewerMouseControler(
+				vv1);
+		vv1.addMouseListener(vv_mouse_pan);
+		vv1.addMouseMotionListener(vv_mouse_pan);
+
 		//setting the PickedVertexPaintTransformer.
 		PickableVertexPaintTransformer<SynsetVertex> vpt = new PickableVertexPaintTransformer<SynsetVertex>(
 				vv1.getPickedVertexState(), Color.WHITE, Color.YELLOW);
