@@ -40,39 +40,30 @@ public class GlobalKeyListener implements AWTEventListener {
 	public void keyPressed(KeyEvent e) {
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_S) {
-			//System.out.println("tab0");
-			explorer.getTabbedpane().setSelectedIndex(0);
 		}
 
 		else
 
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_I) {
-			//System.out.println("tab1");
-			explorer.getTabbedpane().setSelectedIndex(1);
 		}
 
 		else
 
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_G) {
-			//System.out.println("tab2");
-			explorer.getTabbedpane().setSelectedIndex(2);
 		}
 
 		else
 
 		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_C) {
-			//System.out.println("clear");
 			explorer.clearGraphView();
 		}
 
 		else
 
 		if (e.getKeyCode() == KeyEvent.VK_F11) {
-			//System.out.println("fullscreen");
-
 			//determine if full-screen mode is supported directly. 
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();

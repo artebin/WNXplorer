@@ -1,6 +1,9 @@
 package net.trevize.wnxplorer.explorer;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,8 +34,6 @@ import edu.mit.jwi.item.Pointer;
  */
 
 public class SynsetInfoPanel implements HyperlinkListener {
-
-	private static final String STYLESHEET_FILEPATH = "./gfx/style.css";
 
 	/*
 	 * this class needs a reference to the Explorer, in order to be updated following the synset that is selected
@@ -65,19 +66,29 @@ public class SynsetInfoPanel implements HyperlinkListener {
 		synset_info_panel.add(scrollpane, BorderLayout.CENTER);
 
 		//remove the ugly border of the scrollpane viewport.
-		Border empty = new EmptyBorder(0, 0, 0, 0);
-		scrollpane.setViewportBorder(empty);
-		scrollpane.getHorizontalScrollBar().setBorder(empty);
-		scrollpane.getVerticalScrollBar().setBorder(empty);
+		//		Border empty = new EmptyBorder(0, 0, 0, 0);
+		//		scrollpane.setViewportBorder(empty);
+		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
+		//		scrollpane.getVerticalScrollBar().setBorder(empty);
 
-		editorp = new JEditorPane();
+		//create a new JEditorPane derived for setting ANTIALIASING ON
+		editorp = new JEditorPane() {
+			public void paintComponent(Graphics g) {
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				super.paintComponent(g);
+			}
+		};
 		editorp.addHyperlinkListener(this);
 		HTMLEditorKit kit = new HTMLEditorKit();
 		StyleSheet ss = new StyleSheet();
 
 		//loading the stylesheet.
 		try {
-			FileReader fr = new FileReader(STYLESHEET_FILEPATH);
+			FileReader fr = new FileReader(
+					WNXplorerProperties
+							.getSynset_info_panel_stylesheet_filepath());
 			BufferedReader br = new BufferedReader(fr);
 			sb = new StringBuffer();
 			String line;
@@ -125,8 +136,8 @@ public class SynsetInfoPanel implements HyperlinkListener {
 					sb.append(synset_id);
 					sb.append("</a>");
 					sb.append(": <b>"
-							+ WNUtils.getWords(explorer.getDict().getSynset(
-									synset_id)) + "</b>");
+							+ WNUtils.getWords(Explorer.wn_jwi_dictionary
+									.getSynset(synset_id)) + "</b>");
 					sb.append("</li>");
 				}
 				sb.append("</ul>");
@@ -151,9 +162,11 @@ public class SynsetInfoPanel implements HyperlinkListener {
 			String synset_id_string = e.getDescription().split(":")[1];
 			ISynsetID synset_id = WNUtils
 					.getISynsetIDFromString(synset_id_string);
-			ISynset synset = explorer.getDict().getSynset(synset_id);
+			ISynset synset = Explorer.wn_jwi_dictionary.getSynset(synset_id);
 			explorer.getWngraph().addVertexForSynset(synset);
-			explorer.getWngraphp().getVv().repaint();
+
+			//refresh the views.
+			explorer.refreshViews();
 		}
 	}
 
