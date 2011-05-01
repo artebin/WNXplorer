@@ -27,6 +27,6 @@ libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
 ./lib/commons-io-1.4.jar:\
 ./lib/FSExplorer-0.19-2010.06.29.jar:\
 ./lib/idw-gpl.jar:\
-./WNXplorer-0.9-2011.04.26.jar"
+./WNXplorer-1.0-2011.05.01.jar"
 
 java -cp ${libraries} net.trevize.wnxplorer.explorer.WNXplorer
