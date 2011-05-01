@@ -1,7 +1,7 @@
 #!/bin/sh
 
-#indicate here your path to Galatee
-cd /home/nicolas/apps/WNXplorer/WNXplorer-0.8-2010.11.02
+#indicate here your path to WNXplorer
+cd /home/nicolas/apps/WNXplorer/WNXplorer-0.9-2011.04.26
 
 libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
 ./lib/lucene-core-3.0.1.jar:\
@@ -26,6 +26,7 @@ libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
 ./lib/org-netbeans-swing-outline.jar:\
 ./lib/commons-io-1.4.jar:\
 ./lib/FSExplorer-0.19-2010.06.29.jar:\
-./WNXplorer-0.8-2010.11.02.jar"
+./lib/idw-gpl.jar:\
+./WNXplorer-0.9-2011.04.26.jar"
 
-java -cp ${libraries} net.trevize.wnxplorer.explorer.Main
+java -cp ${libraries} net.trevize.wnxplorer.explorer.WNXplorer

@@ -1,6 +1,9 @@
-package net.trevize.wnxplorer.explorer;
+package net.trevize.wnxplorer.explorer.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -22,12 +25,13 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
+
+import net.trevize.wnxplorer.explorer.WNXplorerProperties;
 
 /**
  * 
@@ -39,26 +43,27 @@ import javax.swing.text.html.StyleSheet;
 public class HelpDialog extends JDialog implements WindowListener,
 		HyperlinkListener {
 
-	private static final String STYLESHEET_FILEPATH = "./gfx/style.css";
-
 	private JPanel main_panel;
 	private JScrollPane scrollpane;
 	private JEditorPane editorp;
-	private String help_text_content;
+	private String help_html_content;
 	private JButton close_button;
 
-	public HelpDialog(JComponent main_component) {
+	public HelpDialog(JComponent parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("Help WNXplorer");
+		setTitle("WNXplorer help");
 		init();
-		setSize(512, 512);
-		setLocationRelativeTo(main_component);
+		setIconImage(new ImageIcon(WNXplorerProperties.getWnxplorer_icon_path())
+				.getImage());
+		setSize(768, 512);
+		setLocationRelativeTo(parent);
 	}
 
 	private void init() {
 		//reading the help HTML file.
 		try {
-			FileReader fr = new FileReader(new File("./gfx/Help.html"));
+			FileReader fr = new FileReader(new File(
+					WNXplorerProperties.getHelp_html_filepath()));
 			BufferedReader br = new BufferedReader(fr);
 
 			StringBuffer sb = new StringBuffer();
@@ -68,7 +73,7 @@ public class HelpDialog extends JDialog implements WindowListener,
 				line = br.readLine();
 			}
 
-			help_text_content = sb.toString();
+			help_html_content = sb.toString();
 
 			br.close();
 			fr.close();
@@ -89,12 +94,20 @@ public class HelpDialog extends JDialog implements WindowListener,
 		main_panel.add(scrollpane, BorderLayout.CENTER);
 
 		//remove the ugly border of the scrollpane viewport.
-		Border empty = new EmptyBorder(0, 0, 0, 0);
-		scrollpane.setViewportBorder(empty);
-		scrollpane.getHorizontalScrollBar().setBorder(empty);
-		scrollpane.getVerticalScrollBar().setBorder(empty);
+		//		Border empty = new EmptyBorder(0, 0, 0, 0);
+		//		scrollpane.setViewportBorder(empty);
+		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
+		//		scrollpane.getVerticalScrollBar().setBorder(empty);
 
-		editorp = new JEditorPane();
+		//create a new JEditorPane derived for setting ANTIALIASING ON
+		editorp = new JEditorPane() {
+			public void paintComponent(Graphics g) {
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
+				super.paintComponent(g);
+			}
+		};
 		editorp.addHyperlinkListener(this);
 		HTMLEditorKit kit = new HTMLEditorKit();
 		StyleSheet ss = new StyleSheet();
@@ -102,7 +115,8 @@ public class HelpDialog extends JDialog implements WindowListener,
 		//loading the stylesheet.
 		StringBuffer sb = null;
 		try {
-			FileReader fr = new FileReader(STYLESHEET_FILEPATH);
+			FileReader fr = new FileReader(
+					WNXplorerProperties.getHelp_dialog_stylesheet_filepath());
 			BufferedReader br = new BufferedReader(fr);
 			sb = new StringBuffer();
 			String line;
@@ -123,13 +137,15 @@ public class HelpDialog extends JDialog implements WindowListener,
 		editorp.setEditable(false);
 		scrollpane.setViewportView(editorp);
 
-		editorp.setText(help_text_content);
+		editorp.setText(help_html_content);
 
 		JPanel panel0 = new JPanel();
+		panel0.setBorder(new EmptyBorder(10, 0, 0, 0));
 		panel0.setLayout(new BoxLayout(panel0, BoxLayout.X_AXIS));
 		panel0.add(Box.createGlue());
 		close_button = new JButton("Close");
-		close_button.setIcon(new ImageIcon("./gfx/gtk_close.png"));
+		close_button.setIcon(new ImageIcon(WNXplorerProperties
+				.getIcon_path_close()));
 		close_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

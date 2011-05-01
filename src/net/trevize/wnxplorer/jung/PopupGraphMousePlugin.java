@@ -45,37 +45,20 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 
 		GraphElementAccessor<SynsetVertex, PointerEdge> pickSupport = vv
 				.getPickSupport();
+
 		if (pickSupport != null) {
 			final SynsetVertex v = pickSupport.getVertex(wngraphp.getLayout(),
 					p.getX(), p.getY());
 
 			if (v != null) {
+				//select the node
+
+
 				JPopupMenu popup = new JPopupMenu();
 
 				popup.add(new AbstractAction("Develop") {
 					public void actionPerformed(ActionEvent e) {
-						//we lock the vertices before develop the pointed node.
-						Iterator<SynsetVertex> vertex_iter = wngraph.getG()
-								.getVertices().iterator();
-						while (vertex_iter.hasNext()) {
-							wngraphp.getLayout().lock(vertex_iter.next(), true);
-						}
-
-						//develop the pointed node.
-						wngraph.develop(v);
-
-						//re-initialize the layout.
-						wngraphp.getLayout().initialize();
-
-						//unlock the vertices.
-						vertex_iter = wngraph.getG().getVertices().iterator();
-						while (vertex_iter.hasNext()) {
-							wngraphp.getLayout()
-									.lock(vertex_iter.next(), false);
-						}
-
-						//repaint the VisualizationViewer.
-						wngraphp.getVv().repaint();
+						wngraphp.developNode(v);
 					}
 				});
 
@@ -84,8 +67,9 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 						Iterator<SynsetVertex> vertex_iter = wngraph.getG()
 								.getNeighbors(v).iterator();
 						while (vertex_iter.hasNext()) {
-							wngraphp.getVv().getPickedVertexState().pick(
-									vertex_iter.next(), true);
+							wngraphp.getVisualizationViewer()
+									.getPickedVertexState()
+									.pick(vertex_iter.next(), true);
 						}
 					}
 				});
@@ -93,9 +77,14 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 				popup.show(vv, e.getX(), e.getY());
 			}
 
+			/*
+			 * the following is for contextual popup menu of edges
+			 */
+
+			/*
 			else {
-				final PointerEdge edge = pickSupport.getEdge(wngraphp
-						.getLayout(), p.getX(), p.getY());
+				final PointerEdge edge = pickSupport.getEdge(
+						wngraphp.getLayout(), p.getX(), p.getY());
 				if (edge != null) {
 					JPopupMenu popup = new JPopupMenu();
 					popup.add(new AbstractAction(edge.toString()) {
@@ -104,9 +93,10 @@ public class PopupGraphMousePlugin extends AbstractPopupGraphMousePlugin
 						}
 					});
 					popup.show(vv, e.getX(), e.getY());
-
 				}
 			}
+			*/
+
 		}
 	}
 

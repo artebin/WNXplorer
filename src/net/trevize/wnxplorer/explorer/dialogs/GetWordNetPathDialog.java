@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.explorer;
+package net.trevize.wnxplorer.explorer.dialogs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -9,8 +9,9 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import javax.swing.JComponent;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.MatteBorder;
@@ -20,6 +21,7 @@ import net.trevize.gui.FSExplorer.FSE.FSEEvent;
 import net.trevize.gui.FSExplorer.FSE.FSEListener;
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
+import net.trevize.wnxplorer.explorer.WNXplorerProperties;
 
 /**
  * 
@@ -31,34 +33,37 @@ import net.trevize.gui.layout.XGridBag;
 public class GetWordNetPathDialog extends JDialog implements FSEListener,
 		WindowListener {
 
-	private JComponent main_component;
+	private JFrame parent;
 	private FSTree fstree;
 
-	public GetWordNetPathDialog(JComponent main_component) {
-		this.main_component = main_component;
+	public GetWordNetPathDialog(JFrame parent) {
+		this.parent = parent;
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("WordNet installation path");
 		init();
+		setIconImage(new ImageIcon(WNXplorerProperties.getWnxplorer_icon_path())
+				.getImage());
 		setSize(512, 512);
-		setLocationRelativeTo(main_component);
 		addWindowListener(this);
+		setLocationRelativeTo(parent);
 	}
 
 	private void init() {
 		setLayout(new GridBagLayout());
 		XGridBag xgb = new XGridBag(this);
 
+		//setting the header
 		JLabel header = new JLabel();
 		header.setOpaque(true);
 		header.setBackground(Color.WHITE);
 		header.setBorder(new MatteBorder(0, 15, 0, 0, Color.BLUE));
-		header
-				.setText("<html><body style=\"margin: 10px 10px 10px 10px;\"><h1>WordNet installation path</h1><p>WNXplorer needs to know where is installed WordNet, indicate here the path to the <b><code>dict</code></b> directory of WordNet.</p>"
-						+ "<p>This path will be recorded in the WNXplorer.properties file, the next times you launch WNXplorer, I will not ask you again for it.<br/>(If you want to modify it, update the file WNXplorer.properties)</p>");
+		header.setText("<html><body style=\"margin: 10px 10px 10px 10px;\"><h1>WordNet installation path</h1><p>WNXplorer needs to know where is installed WordNet, indicate here the path to the <b><code>dict</code></b> directory of WordNet.</p>"
+				+ "<p>This path will be recorded in the WNXplorer.properties file, the next times you launch WNXplorer, I will not ask you again for it.<br/>(If you want to modify it, update the file WNXplorer.properties)</p>");
 		CellStyle style0 = new CellStyle(1., 0., GridBagConstraints.NORTHWEST,
 				GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
 		xgb.add(header, style0, 0, 0, 1, 2);
 
+		//setting the file chooser FSE
 		String file_filter = "(^[^\\.]$|^[^\\.].*[^~]$)";
 		String dir_filter = "^[^\\.].*$";
 		fstree = new FSTree(File.listRoots()[0], Pattern.compile(file_filter),
@@ -81,8 +86,7 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 	public void open(FSEEvent e) {
 		if (e.getSelectedFile() == null) {
 			JOptionPane
-					.showMessageDialog(
-							this,
+					.showMessageDialog(this,
 							"<html><body>Indicate the WordNet <b>dict</b> directory please.</body></html>");
 			return;
 		}
