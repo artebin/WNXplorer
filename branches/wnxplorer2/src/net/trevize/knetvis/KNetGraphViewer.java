@@ -2,6 +2,7 @@ package net.trevize.knetvis;
 
 import javax.swing.JPanel;
 
+import net.trevize.tinker.StatusBar;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;

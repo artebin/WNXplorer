@@ -27,6 +27,7 @@ import net.trevize.knetvis.renderer.KNetVertexLabelTransformer;
 import net.trevize.knetvis.renderer.KNetVertexShapeSizeAspectTransformer;
 import net.trevize.knetvis.renderer.KNetVertexStrokeHighlight;
 import net.trevize.knetvis.renderer.KNetVertexTooltip;
+import net.trevize.tinker.StatusBar;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
