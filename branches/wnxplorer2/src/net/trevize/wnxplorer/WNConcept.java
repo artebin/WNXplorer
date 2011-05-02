@@ -1,0 +1,132 @@
+package net.trevize.wnxplorer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.trevize.knetvis.KNetConcept;
+import net.trevize.knetvis.KNetSemanticRelation;
+import edu.mit.jwi.item.IPointer;
+import edu.mit.jwi.item.ISynset;
+import edu.mit.jwi.item.ISynsetID;
+import edu.mit.jwi.item.POS;
+import edu.mit.jwi.item.Pointer;
+
+public class WNConcept extends KNetConcept {
+
+	public static WNConceptFactory factory;
+
+	private ISynset synset;
+	private String synset_words;
+	private POS pos;
+
+	private String key;
+	private String short_label;
+	private String label;
+	private String tooltip_text;
+	private String short_description;
+	private String description;
+	private String full_description;
+
+	public WNConcept(ISynset synset) {
+		this.synset = synset;
+		synset_words = WNUtils.getWords(synset);
+		pos = synset.getPOS();
+
+		key = synset.getID().toString();
+		short_label = synset.getWords().get(0).getLemma();
+		label = synset_words;
+		tooltip_text = synset_words;
+		short_description = "short_description";
+		description = "description";
+		full_description = "full_description";
+	}
+
+	public POS getPOS() {
+		return pos;
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	@Override
+	public String getShortLabel() {
+		return short_label;
+	}
+
+	@Override
+	public String getLabel() {
+		return label;
+	}
+
+	@Override
+	public String getTooltipText() {
+		return tooltip_text;
+	}
+
+	@Override
+	public String getShortDescription() {
+		return short_description;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public String getFullDescription() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("<html><body class=\"style1\">");
+
+		sb.append("<h1>");
+		sb.append(synset.getID().toString());
+		sb.append("</h1>");
+
+		sb.append("<b>" + WNUtils.getWords(synset) + "</b>");
+		sb.append("<br/>");
+		sb.append(synset.getGloss());
+
+		for (Pointer p : WNUtils.getPointers()) {
+			List<ISynsetID> related = synset.getRelatedSynsets((IPointer) p);
+
+			if (related.size() != 0) {
+				sb.append("<h2>");
+				sb.append(p.toString());
+				sb.append("</h2>");
+				sb.append("<ul>");
+				for (ISynsetID synset_id : related) {
+					sb.append("<li>");
+					sb.append("<a href=\"synset_id:" + synset_id + "\">");
+					sb.append(synset_id);
+					sb.append("</a>");
+					sb.append(": <b>"
+							+ WNUtils.getWords(Explorer.wn_jwi_dictionary
+									.getSynset(synset_id)) + "</b>");
+					sb.append("</li>");
+				}
+				sb.append("</ul>");
+			}
+		}
+
+		sb.append("</body></html>");
+
+		return sb.toString();
+	}
+
+	@Override
+	public List<KNetConcept> getRelatedConcepts(
+			KNetSemanticRelation semantic_relation) {
+		Pointer pointer = ((WNSemanticRelation) semantic_relation).getPointer();
+		List<ISynsetID> related_synsets = synset.getRelatedSynsets(pointer);
+
+		ArrayList<KNetConcept> related_concepts = new ArrayList<KNetConcept>();
+		for (ISynsetID synset_id : related_synsets) {
+			related_concepts.add(factory.getKNetConcept(synset_id.toString()));
+		}
+
+		return related_concepts;
+	}
+
+}

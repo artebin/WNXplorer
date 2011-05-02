@@ -6,7 +6,6 @@
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/edu.mit.jwi_2.1.5_jdk.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/FSExplorer-0.19-2010.06.29.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/org-netbeans-swing-outline.jar"/>
-	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/Tinker-0.11-2010.10.27.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/jung2-2_0_1/collections-generic-4.01.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/jung2-2_0_1/colt-1.2.0.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/jung2-2_0_1/concurrent-1.3.4.jar"/>
@@ -25,5 +24,6 @@
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/jung2-2_0_1/vecmath-1.3.1.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/jung2-2_0_1/wstx-asl-3.2.6.jar"/>
 	<classpathentry kind="lib" path="/home/nicolas/dev/WNXplorer/workspace/WNXplorer/lib/idw-gpl.jar"/>
+	<classpathentry kind="lib" path="lib/Tinker-0.18-2011.04.30.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
