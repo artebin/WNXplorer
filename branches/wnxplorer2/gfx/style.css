@@ -1,0 +1,37 @@
+body {
+  border: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.style1 h1 {
+	color: #ffffff;
+	font-size: 14px;
+	background-color: #701224;
+	line-height: 1.4em;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  border: 0px 0px 0px 0px;
+}
+
+.style1 h2 {
+	color: #ffffff;
+	font-size: 14px;
+	background-color: #701224;
+	line-height: 1.4em;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  border: 0px 0px 0px 0px;
+}
+
+.style1 ul {
+  margin: 0px 0px 0px 16px;
+}
+
+.style1 li {
+  padding-bottom: 8px;
+}
+
+.help {
+  vertical-align: top;
+}
