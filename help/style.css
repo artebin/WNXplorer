@@ -8,7 +8,7 @@ background-color: #cccccc;
 }
 
 .head_separator {
-border-bottom: 3px solid #88b6e3;
+border-bottom: 2px solid #88b6e3;
 }
 
 img {
@@ -17,5 +17,10 @@ margin: 5px 0px 5px 0px;
 }
 
 li {
+margin-top: 5px;
 margin-bottom: 5px;
+}
+
+.center {
+text-align: center;
 }
