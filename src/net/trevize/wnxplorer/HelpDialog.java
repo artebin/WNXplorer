@@ -1,17 +1,10 @@
 package net.trevize.wnxplorer;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,14 +15,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
+
+import org.xhtmlrenderer.simple.FSScrollPane;
+import org.xhtmlrenderer.simple.XHTMLPanel;
 
 /**
  * 
@@ -42,9 +34,8 @@ public class HelpDialog extends JDialog implements WindowListener,
 		HyperlinkListener {
 
 	private JPanel main_panel;
-	private JScrollPane scrollpane;
-	private JEditorPane editorp;
-	private String help_html_content;
+	private XHTMLPanel xhtml_panel;
+	private FSScrollPane scrollpane;
 	private JButton close_button;
 
 	public HelpDialog(JComponent parent) {
@@ -58,29 +49,6 @@ public class HelpDialog extends JDialog implements WindowListener,
 	}
 
 	private void init() {
-		//reading the help HTML file.
-		try {
-			FileReader fr = new FileReader(new File(
-					WNXplorerProperties.getHelp_html_filepath()));
-			BufferedReader br = new BufferedReader(fr);
-
-			StringBuffer sb = new StringBuffer();
-			String line = br.readLine();
-			while (line != null) {
-				sb.append(line);
-				line = br.readLine();
-			}
-
-			help_html_content = sb.toString();
-
-			br.close();
-			fr.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		//setting swing components.
 		main_panel = new JPanel();
 		setLayout(new BorderLayout());
@@ -88,7 +56,7 @@ public class HelpDialog extends JDialog implements WindowListener,
 		main_panel.setLayout(new BorderLayout());
 		main_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-		scrollpane = new JScrollPane();
+		scrollpane = new FSScrollPane();
 		main_panel.add(scrollpane, BorderLayout.CENTER);
 
 		//remove the ugly border of the scrollpane viewport.
@@ -97,45 +65,11 @@ public class HelpDialog extends JDialog implements WindowListener,
 		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
 		//		scrollpane.getVerticalScrollBar().setBorder(empty);
 
-		//create a new JEditorPane derived for setting ANTIALIASING ON
-		editorp = new JEditorPane() {
-			public void paintComponent(Graphics g) {
-				Graphics2D g2d = (Graphics2D) g;
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				super.paintComponent(g);
-			}
-		};
-		editorp.addHyperlinkListener(this);
-		HTMLEditorKit kit = new HTMLEditorKit();
-		StyleSheet ss = new StyleSheet();
+		XHTMLPanel xhtml_panel = new XHTMLPanel();
+		xhtml_panel
+				.setDocument("file:////home/nicolas/dev/WNXplorer/workspace/WNXplorer/gfx/Help.html");
 
-		//loading the stylesheet.
-		StringBuffer sb = null;
-		try {
-			FileReader fr = new FileReader(
-					WNXplorerProperties.getHelp_dialog_stylesheet_filepath());
-			BufferedReader br = new BufferedReader(fr);
-			sb = new StringBuffer();
-			String line;
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-			br.close();
-			fr.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		ss.addRule(sb.toString());
-		kit.getStyleSheet().addStyleSheet(ss);
-		editorp.setEditorKit(kit);
-		editorp.setEditable(false);
-		scrollpane.setViewportView(editorp);
-
-		editorp.setText(help_html_content);
+		scrollpane.setViewportView(xhtml_panel);
 
 		JPanel panel0 = new JPanel();
 		panel0.setBorder(new EmptyBorder(10, 0, 0, 0));

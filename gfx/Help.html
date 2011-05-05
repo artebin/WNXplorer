@@ -1,46 +1,98 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="./style.css" />
+</head>
 
 <body class="help">
-<center>
 
-<h1>WNXplorer</h1>
-<p>
-WNXplorer is a WordNet visualization application written in Java, and based on the Jung2 library.
-</p>
-<p>
-copyright &copy; 2010 Nicolas James
-</p>
-<p>
-<a href="http://njames.trevize.net/wiki/projects:wnxplorer">http://njames.trevize.net/wiki/projects:wnxplorer</a>
-</p>
-</center>
-<br/>
+	<h1>WNXplorer</h1>
 
-<hr/>
+	<p>WNXplorer &mdash; an interactive and graph-based navigation
+		software for the WordNet database</p>
+	<p>Copyright &copy; 2011 Nicolas James</p>
 
-<h1>Usage</h1>
-<p>
-The first time you launch WNXplorer, the application ask to you where is located your installation of WordNet.<br/>
-If you want to modify this location after that, you can directly modify the <b><code>WNXplorer.properties</code></b> file and update the value of the key <b><code>PROPERTY_WORDNET_PATH</code></b>.
-</p>
-<p>
-Make a search in the <i>Search</i> tab, and click using the left mouse button on a result (a synset) for adding it to the graph view.<br/>
-You can develop a node (adding to the graph all his parent nodes) by using the right mouse button on a node and click the option "Develop".<br/>
-</p>
-<p>
-The interaction with the graph is using a pan mode by default. Using the <b><code>p</code></b> key you enter/leave the picking mode that allow to pick a node and moving it.<br/>
-When you click on a node using the left mouse button, you make appear all the information about the synset for this node in the <i>Synset Info</i> tab. 
-</p>
+	<p>
+		<a href="http://njames.trevize.net/wiki/projects:wnxplorer">http://njames.trevize.net/wiki/projects:wnxplorer</a>
+	</p>
 
-<h1>Keyboard shortcuts</h1>
-<ul>
-<li><b>CTRL-c</b>: clear the graph view.</li>
-<li><b>ALT-s</b>: display the search view.</li>
-<li><b>ALT-i</b>: display the synset properties view.</li>
-<li><b>ALT-g</b>: display the graph properties view.</li>
-<li><b>p</b> (when the graph view has the focus)</b>: entering/leaving the picking mode.</li>
-<li><b>F11</b>: entering/leaving the fullscreen mode.</li>
-</ul>
+	<div class="head_separator"></div>
+
+	<h1>First start</h1>
+
+	<p>
+		The first time you launch WNXplorer, the application ask to you to
+		indicate the location of the <b>dict</b> folder of a WordNet
+		distribution. If you want to modify this location after the first
+		launch of the application, you can directly modify the <b>WNXplorer.properties</b>
+		file and update the value of the key <b>PROPERTY_WORDNET_PATH</b>.
+	</p>
+
+	<h1>Search</h1>
+	<ul>
+		<li>Make a search in the <b>Search</b> view. A left-click on a
+			result (i.e. a SynSet) adds a node for this result on the graph view.</li>
+	</ul>
+
+	<h1>The graph view</h1>
+	<ul>
+
+		<li>There are two modes for interacting with the graph view. The
+			modes are exclusive:
+			<ul>
+				<li>Pan mode: to translate de view</li>
+				<li>Picking mode: to pick and move nodes. Use the <b>p</b> key
+					you enter/leave the picking mode</li>
+			</ul> You can always pan the view by using the middle mouse button and a
+			click &amp; drag.</li>
+
+		<li>Zoom operations: use the wheel mouse.</li>
+
+		<li>Nodes in the graph have 2 states:
+			<ul>
+				<li><b>selected</b>: only one node at a time can be in the <i>selected</i>
+					state. You can set the selected node by a left-click over a node
+					when the graph view is in the pan mode. The selected node is
+					described in the <i>Description View</i>. A selected node appears
+					with a bold shape like in the following screenshot: <img
+					src="./help_illustration_1.png" /></li>
+					
+				<li><b>picked</b>: a picked node can be move. To pick a node
+					you can make a left-click over a node when the graph view is set in
+					the Picking mode. You can move several nodes at the same time by
+					setting the picked state on several nodes, to doing this: use the
+					SHIFT+left click to pick each node. A picked node is filled in
+					Yellow like in the following screenshot:<br /> <img
+					src="./help_illustration_2.png" />
+				</li>
+				
+			</ul> Note that the two states are not exclusive, a node can be selected
+			an picked.</li>
+
+		<li>each node has a contextual menu that appears with a right
+			click over it.</li>
+
+		<li>to develop a node (i.e. add to the graph all its parent nodes
+			directly accessible): (1) left double-click over a node, or (2) use
+			the right mouse button on a node to make appear the contextual menu
+			and click the option "Develop".</li>
+
+		<li>Clear the graph: CTRL-C</li>
+
+	</ul>
+
+	<h1>Keyboard shortcuts</h1>
+	<ul>
+		<li><b>CTRL-c</b>: clear the graph view.</li>
+		<li><b>ALT-s</b>: display the search view.</li>
+		<li><b>ALT-i</b>: display the synset properties view.</li>
+		<li><b>ALT-g</b>: display the graph properties view.</li>
+		<li><b>p</b> (when the graph view has the focus):
+			entering/leaving the picking mode.</li>
+		<li><b>F11</b>: entering/leaving the fullscreen mode.</li>
+	</ul>
+
 </body>
 
 </html>
