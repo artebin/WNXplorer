@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -66,8 +67,10 @@ public class HelpDialog extends JDialog implements WindowListener,
 		//		scrollpane.getVerticalScrollBar().setBorder(empty);
 
 		XHTMLPanel xhtml_panel = new XHTMLPanel();
-		xhtml_panel
-				.setDocument("file:////home/nicolas/dev/WNXplorer/workspace/WNXplorer/gfx/Help.html");
+		xhtml_panel.setDocument(new File(WNXplorerProperties
+				.getHelp_html_filepath()).toURI().toString());
+		xhtml_panel.getSharedContext().getTextRenderer()
+				.setSmoothingThreshold(1.f);
 
 		scrollpane.setViewportView(xhtml_panel);
 
