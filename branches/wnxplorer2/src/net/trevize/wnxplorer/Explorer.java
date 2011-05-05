@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 import net.infonode.docking.RootWindow;
 import net.infonode.docking.SplitWindow;
@@ -265,6 +266,10 @@ public class Explorer implements ComponentListener, ActionListener {
 				// theme and in our property object will be used by the root window
 				root_window.getRootWindowProperties().addSuperObject(properties);
 				*/
+
+				//removing the ugly border on the InfoNode default theme
+				root_window.getRootWindowProperties().getWindowAreaProperties()
+						.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 				root_window.getRootWindowProperties()
 						.getFloatingWindowProperties().setUseFrame(true);
