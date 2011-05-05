@@ -224,6 +224,8 @@ public class Explorer implements ComponentListener, ActionListener {
 				views[VIEW_GRAPH] = new View("Graph view", null,
 						knetgraph_viewer.getGraphViewPanel());
 				initInfonodeView(views[VIEW_GRAPH]);
+				views[VIEW_GRAPH].getWindowProperties().setCloseEnabled(false);
+				views[VIEW_GRAPH].getWindowProperties().setUndockEnabled(false);
 				view_map.addView(VIEW_GRAPH, views[VIEW_GRAPH]);
 
 				views[VIEW_SATELLITE_VIEW] = new View("Satellite view", null,
