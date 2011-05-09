@@ -17,12 +17,14 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;
+import org.xhtmlrenderer.swing.SelectionHighlighter;
 
 /**
  * 
@@ -71,8 +73,12 @@ public class HelpDialog extends JDialog implements WindowListener,
 				.getHelp_html_filepath()).toURI().toString());
 		xhtml_panel.getSharedContext().getTextRenderer()
 				.setSmoothingThreshold(1.f);
+		SelectionHighlighter sh = new SelectionHighlighter();
+		sh.install(xhtml_panel);
 
 		scrollpane.setViewportView(xhtml_panel);
+		scrollpane
+				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		JPanel panel0 = new JPanel();
 		panel0.setBorder(new EmptyBorder(10, 0, 0, 0));
