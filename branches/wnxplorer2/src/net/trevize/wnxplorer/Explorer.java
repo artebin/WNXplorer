@@ -18,6 +18,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -282,6 +285,8 @@ public class Explorer implements ComponentListener, ActionListener {
 						BorderLayout.CENTER);
 			}
 		});
+
+		initApplicationMenuBar();
 	}
 
 	public void initGraphView() {
@@ -311,6 +316,36 @@ public class Explorer implements ComponentListener, ActionListener {
 		help_button.addActionListener(this);
 		knetgraph_viewer.getStatusBar()
 				.addComponent("help button", help_button);
+	}
+
+	private void initApplicationMenuBar() {
+		JMenuBar menu_bar = new JMenuBar();
+		main_frame.setJMenuBar(menu_bar);
+
+		JMenu menu1 = new JMenu("File");
+		menu_bar.add(menu1);
+		JMenuItem item7 = new JMenuItem("Export graph as JPEG");
+		menu1.add(item7);
+		JMenuItem item8 = new JMenuItem("Export graph as GraphML");
+		menu1.add(item8);
+		JMenuItem item6 = new JMenuItem("Exit");
+		menu1.add(item6);
+
+		JMenu menu2 = new JMenu("Views");
+		menu_bar.add(menu2);
+		JMenuItem item2 = new JMenuItem("Search View");
+		menu2.add(item2);
+		JMenuItem item3 = new JMenuItem("Concept Description View");
+		menu2.add(item3);
+		JMenuItem item5 = new JMenuItem("Graph Information View");
+		menu2.add(item5);
+		JMenuItem item4 = new JMenuItem("Satellite View");
+		menu2.add(item4);
+
+		JMenu menu3 = new JMenu("Help");
+		menu_bar.add(menu3);
+		JMenuItem item1 = new JMenuItem("About / Help");
+		menu3.add(item1);
 	}
 
 	public View getView(int view_id) {
