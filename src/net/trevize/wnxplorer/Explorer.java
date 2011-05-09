@@ -325,6 +325,8 @@ public class Explorer implements ComponentListener, ActionListener {
 		getView(VIEW_GRAPH).setComponent(knetgraph_viewer.getGraphViewPanel());
 		getView(VIEW_SATELLITE_VIEW).setComponent(
 				knetgraph_viewer.getSatelliteViewPanel());
+		getView(VIEW_GRAPH_INFO).setComponent(
+				knetgraph_viewer.getGraphInfoPanel());
 		refreshViews();
 	}
 
