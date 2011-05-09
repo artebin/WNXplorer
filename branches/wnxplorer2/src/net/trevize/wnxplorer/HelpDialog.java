@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,6 +25,9 @@ import javax.swing.event.HyperlinkListener;
 
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;
+import org.xhtmlrenderer.swing.BasicPanel;
+import org.xhtmlrenderer.swing.FSMouseListener;
+import org.xhtmlrenderer.swing.LinkListener;
 import org.xhtmlrenderer.swing.SelectionHighlighter;
 
 /**
@@ -73,9 +77,33 @@ public class HelpDialog extends JDialog implements WindowListener,
 				.getHelp_html_filepath()).toURI().toString());
 		xhtml_panel.getSharedContext().getTextRenderer()
 				.setSmoothingThreshold(1.f);
+
+		//remove the default LinkListener
+		List<FSMouseListener> mouse_tracking_listeners = xhtml_panel
+				.getMouseTrackingListeners();
+		for (FSMouseListener listener : mouse_tracking_listeners) {
+			if (listener instanceof LinkListener) {
+				xhtml_panel.removeMouseTrackingListener(listener);
+			}
+		}
+
+		//install our LinkListener
+		xhtml_panel.addMouseTrackingListener(new LinkListener() {
+			@Override
+			public void linkClicked(BasicPanel panel, String uri) {
+				try {
+					java.awt.Desktop.getDesktop().browse(new URI(uri));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (URISyntaxException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
 		SelectionHighlighter sh = new SelectionHighlighter();
 		sh.install(xhtml_panel);
-
+		
 		scrollpane.setViewportView(xhtml_panel);
 		scrollpane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
