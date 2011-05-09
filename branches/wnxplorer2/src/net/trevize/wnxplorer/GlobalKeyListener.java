@@ -5,6 +5,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.Calendar;
 
 /**
  * 
@@ -59,6 +61,14 @@ public class GlobalKeyListener implements AWTEventListener {
 		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_C) {
 			explorer.clearGraphView();
+		}
+
+		else
+
+		if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0
+				&& e.getKeyCode() == KeyEvent.VK_S) {
+			explorer.writeJPEGImage(new File("./"
+					+ Calendar.getInstance().getTimeInMillis() + ".jpg"));
 		}
 
 		else
