@@ -8,10 +8,10 @@ background-color: #cccccc;
 }
 
 .head_separator {
-border-bottom: 2px solid #88b6e3;
+border-bottom: 2px solid black;
 }
 
-img {
+.imgborder {
 border: 1px solid #000000;
 margin: 5px 0px 5px 0px;
 }
