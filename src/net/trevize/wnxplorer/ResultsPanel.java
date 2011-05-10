@@ -85,7 +85,7 @@ public class ResultsPanel {
 
 		try {
 			FileReader fr = new FileReader(
-					WNXplorerProperties.getResults_panel_stylesheet_filepath());
+					WNXplorerProperties.getCss_path_main());
 			BufferedReader br = new BufferedReader(fr);
 			sb = new StringBuffer();
 			String line;

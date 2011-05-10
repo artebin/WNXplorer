@@ -40,7 +40,7 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("WordNet installation path");
 		init();
-		setIconImage(new ImageIcon(WNXplorerProperties.getWnxplorer_icon_path())
+		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
 		setSize(512, 512);
 		addWindowListener(this);
@@ -89,7 +89,7 @@ public class GetWordNetPathDialog extends JDialog implements FSEListener,
 							"<html><body>Indicate the WordNet <b>dict</b> directory please.</body></html>");
 			return;
 		}
-		WNXplorerProperties.setWN_PATH(e.getSelectedFile().getPath());
+		WNXplorerProperties.setWordnet_dict_path(e.getSelectedFile().getPath());
 		setVisible(false);
 	}
 

@@ -114,13 +114,13 @@ public class Explorer implements ComponentListener, ActionListener {
 	}
 
 	private void initWordNet() {
-		String wordnet_path = WNXplorerProperties.getWN_PATH();
+		String wordnet_path = WNXplorerProperties.getWordnet_dict_path();
 
 		//if no WordNet installation path indicated in the properties file, show the directory selector.
 		if (wordnet_path.equals("")) {
 			GetWordNetPathDialog d = new GetWordNetPathDialog(main_frame);
 			d.setVisible(true);
-			wordnet_path = WNXplorerProperties.getWN_PATH();
+			wordnet_path = WNXplorerProperties.getWordnet_dict_path();
 		}
 
 		URL url = null;
@@ -136,7 +136,7 @@ public class Explorer implements ComponentListener, ActionListener {
 			//try to do a request for testing the WordNet installation path
 			wn_jwi_dictionary.getSynset(new SynsetID(0, POS.NOUN));
 		} catch (Exception e) {
-			WNXplorerProperties.setWN_PATH("");
+			WNXplorerProperties.setWordnet_dict_path("");
 			JOptionPane
 					.showMessageDialog(
 							main_frame,
@@ -181,7 +181,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 		main_frame = new JFrame("WNXplorer");
 		main_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				WNXplorerProperties.getWnxplorer_icon_path()));
+				WNXplorerProperties.getIcon_path_wnxplorer()));
 		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		main_frame
 				.setSize(
@@ -231,9 +231,11 @@ public class Explorer implements ComponentListener, ActionListener {
 				views[VIEW_GRAPH].getWindowProperties().setCloseEnabled(false);
 				views[VIEW_GRAPH].getWindowProperties().setDockEnabled(false);
 				views[VIEW_GRAPH].getWindowProperties().setDragEnabled(false);
-				views[VIEW_GRAPH].getWindowProperties().setMinimizeEnabled(false);
+				views[VIEW_GRAPH].getWindowProperties().setMinimizeEnabled(
+						false);
 				views[VIEW_GRAPH].getWindowProperties().setUndockEnabled(false);
-				views[VIEW_GRAPH].getWindowProperties().setUndockOnDropEnabled(false);
+				views[VIEW_GRAPH].getWindowProperties().setUndockOnDropEnabled(
+						false);
 				view_map.addView(VIEW_GRAPH, views[VIEW_GRAPH]);
 
 				views[VIEW_SATELLITE_VIEW] = new View("Satellite view", null,
