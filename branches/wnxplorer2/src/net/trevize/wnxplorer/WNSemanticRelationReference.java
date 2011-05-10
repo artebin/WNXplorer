@@ -6,16 +6,17 @@ import java.util.List;
 
 import net.trevize.knetvis.KNetSemanticRelation;
 import net.trevize.knetvis.KNetSemanticRelationReference;
+import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.Pointer;
 
 public class WNSemanticRelationReference extends KNetSemanticRelationReference {
 
 	private List<KNetSemanticRelation> semantic_relation_list;
-	private HashMap<Pointer, WNSemanticRelation> pointer_index;
+	private HashMap<IPointer, WNSemanticRelation> pointer_index;
 
 	public WNSemanticRelationReference() {
 		semantic_relation_list = new ArrayList<KNetSemanticRelation>();
-		pointer_index = new HashMap<Pointer, WNSemanticRelation>();
+		pointer_index = new HashMap<IPointer, WNSemanticRelation>();
 		init();
 	}
 
@@ -33,6 +34,10 @@ public class WNSemanticRelationReference extends KNetSemanticRelationReference {
 			wn_semrel.setOpposite(pointer_index.get(WNUtils
 					.getOpposite(pointer)));
 		}
+	}
+
+	public WNSemanticRelation getWNSemanticRelation(IPointer pointer) {
+		return pointer_index.get(pointer);
 	}
 
 	/***************************************************************************
