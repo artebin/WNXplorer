@@ -1,7 +1,9 @@
 package net.trevize.wnxplorer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetSemanticRelation;
@@ -124,6 +126,25 @@ public class WNConcept extends KNetConcept {
 		ArrayList<KNetConcept> related_concepts = new ArrayList<KNetConcept>();
 		for (ISynsetID synset_id : related_synsets) {
 			related_concepts.add(factory.getKNetConcept(synset_id.toString()));
+		}
+
+		return related_concepts;
+	}
+
+	@Override
+	public Map<KNetSemanticRelation, List<KNetConcept>> getRelatedConcepts() {
+		Map<IPointer, List<ISynsetID>> related_synsets = synset.getRelatedMap();
+		HashMap<KNetSemanticRelation, List<KNetConcept>> related_concepts = new HashMap<KNetSemanticRelation, List<KNetConcept>>();
+		WNSemanticRelationReference wn_semantic_relation_reference = new WNSemanticRelationReference();
+
+		for (IPointer pointer : related_synsets.keySet()) {
+			ArrayList<KNetConcept> concepts = new ArrayList<KNetConcept>();
+			for (ISynsetID synset_id : related_synsets.get(pointer)) {
+				concepts.add(new WNConcept(Explorer.wn_jwi_dictionary
+						.getSynset(synset_id)));
+			}
+			related_concepts.put(wn_semantic_relation_reference
+					.getWNSemanticRelation(pointer), concepts);
 		}
 
 		return related_concepts;

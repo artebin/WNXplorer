@@ -1,6 +1,7 @@
 package net.trevize.knetvis;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class KNetConcept {
 
@@ -17,6 +18,8 @@ public abstract class KNetConcept {
 	public abstract String getDescription();
 
 	public abstract String getFullDescription();
+
+	public abstract Map<KNetSemanticRelation, List<KNetConcept>> getRelatedConcepts();
 
 	public abstract List<KNetConcept> getRelatedConcepts(
 			KNetSemanticRelation semantic_relation);
