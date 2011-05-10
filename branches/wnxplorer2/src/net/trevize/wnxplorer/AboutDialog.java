@@ -59,15 +59,9 @@ public class AboutDialog extends JDialog implements WindowListener,
 		scrollpane = new FSScrollPane();
 		main_panel.add(scrollpane, BorderLayout.CENTER);
 
-		//remove the ugly border of the scrollpane viewport.
-		//		Border empty = new EmptyBorder(0, 0, 0, 0);
-		//		scrollpane.setViewportBorder(empty);
-		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
-		//		scrollpane.getVerticalScrollBar().setBorder(empty);
-
 		xhtml_panel = new XHTMLPanel();
 		xhtml_panel.setDocument(new File(WNXplorerProperties
-				.getHtml_path_help()).toURI().toString());
+				.getHtml_path_about()).toURI().toString());
 		xhtml_panel.getSharedContext().getTextRenderer()
 				.setSmoothingThreshold(1.f);
 
