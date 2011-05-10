@@ -47,7 +47,7 @@ public class HelpDialog extends JDialog implements WindowListener,
 
 	public HelpDialog(JComponent parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("WNXplorer help");
+		setTitle("WNXplorer About / Help");
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getWnxplorer_icon_path())
 				.getImage());
@@ -72,7 +72,7 @@ public class HelpDialog extends JDialog implements WindowListener,
 		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
 		//		scrollpane.getVerticalScrollBar().setBorder(empty);
 
-		XHTMLPanel xhtml_panel = new XHTMLPanel();
+		xhtml_panel = new XHTMLPanel();
 		xhtml_panel.setDocument(new File(WNXplorerProperties
 				.getHelp_html_filepath()).toURI().toString());
 		xhtml_panel.getSharedContext().getTextRenderer()
@@ -103,16 +103,19 @@ public class HelpDialog extends JDialog implements WindowListener,
 
 		SelectionHighlighter sh = new SelectionHighlighter();
 		sh.install(xhtml_panel);
-		
+
 		scrollpane.setViewportView(xhtml_panel);
 		scrollpane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+		//create a panel for the close button at the bottom of the HelpDialog
+		//the Close button is centered using two Box.createGlue()
 		JPanel panel0 = new JPanel();
 		panel0.setBorder(new EmptyBorder(10, 0, 0, 0));
 		panel0.setLayout(new BoxLayout(panel0, BoxLayout.X_AXIS));
 		panel0.add(Box.createGlue());
 		close_button = new JButton("Close");
+		close_button.setMnemonic('C');
 		close_button.setIcon(new ImageIcon(WNXplorerProperties
 				.getIcon_path_close()));
 		close_button.addActionListener(new ActionListener() {
