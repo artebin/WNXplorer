@@ -18,31 +18,29 @@ public class WNXplorerProperties {
 	public static final String PROPERTIES_FILEPATH = "./WNXplorer.properties";
 	public static Properties properties;
 
-	public static final String PROPERTY_WORDNET_PATH = "PROPERTY_WORDNET_PATH";
-	public static final String PROPERTY_WNXPLORER_ICON_PATH = "PROPERTY_WNXPLORER_ICON_PATH";
+	public static final String PROPERTY_WORDNET_DICT_PATH = "PROPERTY_WORDNET_DICT_PATH";
 	public static final String PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL = "PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL";
+	public static final String PROPERTY_ICON_PATH_WNXPLORER = "PROPERTY_ICON_PATH_WNXPLORER";
 	public static final String PROPERTY_ICON_PATH_GO_PREVIOUS = "PROPERTY_ICON_PATH_GO_PREVIOUS";
 	public static final String PROPERTY_ICON_PATH_GO_NEXT = "PROPERTY_ICON_PATH_GO_NEXT";
 	public static final String PROPERTY_ICON_PATH_HELP = "PROPERTY_ICON_PATH_HELP";
-	public static final String PROPERTY_ICON_PATH_POINTER_SELECTOR = "PROPERTY_ICON_PATH_POINTER_SELECTOR";
-	public static final String PROPERTY_ICON_CLOSE = "PROPERTY_ICON_CLOSE";
-	public static final String PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH = "PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH";
-	public static final String PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH = "PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH";
-	public static final String PROPERTY_HELP_DIALOG_STYLESHEET_FILEPATH = "PROPERTY_HELP_DIALOG_STYLESHEET_FILEPATH";
-	public static final String PROPERTY_HELP_HTML_FILEPATH = "PROPERTY_HELP_HTML_FILEPATH";
+	public static final String PROPERTY_ICON_PATH_SEMANTIC_RELATION_SELECTOR = "PROPERTY_ICON_PATH_SEMANTIC_RELATION_SELECTOR";
+	public static final String PROPERTY_ICON_PATH_CLOSE = "PROPERTY_ICON_PATH_CLOSE";
+	public static final String PROPERTY_CSS_PATH_MAIN = "PROPERTY_CSS_PATH_MAIN";
+	public static final String PROPERTY_HTML_PATH_ABOUT = "PROPERTY_HTML_PATH_ABOUT";
+	public static final String PROPERTY_HTML_PATH_HELP = "PROPERTY_HTML_PATH_HELP";
 
-	private static String wordnet_path;
-	private static String wnxplorer_icon_path;
+	private static String wordnet_dict_path;
 	private static int num_of_results_per_page_into_search_panel;
+	private static String icon_path_wnxplorer;
 	private static String icon_path_go_previous;
 	private static String icon_path_go_next;
 	private static String icon_path_help;
-	private static String icon_path_pointer_selector;
+	private static String icon_path_semantic_relation_selector;
 	private static String icon_path_close;
-	private static String results_panel_stylesheet_filepath;
-	private static String synset_info_panel_stylesheet_filepath;
-	private static String help_dialog_stylesheet_filepath;
-	private static String help_html_filepath;
+	private static String css_path_main;
+	private static String html_path_about;
+	private static String html_path_help;
 
 	public static void loadProperties() {
 		properties = new Properties();
@@ -53,9 +51,9 @@ public class WNXplorerProperties {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		wordnet_path = properties.getProperty(PROPERTY_WORDNET_PATH);
-		wnxplorer_icon_path = properties
-				.getProperty(PROPERTY_WNXPLORER_ICON_PATH);
+		wordnet_dict_path = properties.getProperty(PROPERTY_WORDNET_DICT_PATH);
+		icon_path_wnxplorer = properties
+				.getProperty(PROPERTY_ICON_PATH_WNXPLORER);
 		num_of_results_per_page_into_search_panel = Integer
 				.parseInt(properties
 						.getProperty(PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL));
@@ -63,44 +61,32 @@ public class WNXplorerProperties {
 				.getProperty(PROPERTY_ICON_PATH_GO_PREVIOUS);
 		icon_path_go_next = properties.getProperty(PROPERTY_ICON_PATH_GO_NEXT);
 		icon_path_help = properties.getProperty(PROPERTY_ICON_PATH_HELP);
-		icon_path_pointer_selector = properties
-				.getProperty(PROPERTY_ICON_PATH_POINTER_SELECTOR);
-		results_panel_stylesheet_filepath = properties
-				.getProperty(PROPERTY_RESULTS_PANEL_STYLESHEET_FILEPATH);
-		synset_info_panel_stylesheet_filepath = properties
-				.getProperty(PROPERTY_SYNSET_INFO_PANEL_STYLESHEET_FILEPATH);
-		help_dialog_stylesheet_filepath = properties
-				.getProperty(PROPERTY_HELP_DIALOG_STYLESHEET_FILEPATH);
-		help_html_filepath = properties
-				.getProperty(PROPERTY_HELP_HTML_FILEPATH);
-		icon_path_close = properties.getProperty(PROPERTY_ICON_CLOSE);
+		icon_path_semantic_relation_selector = properties
+				.getProperty(PROPERTY_ICON_PATH_SEMANTIC_RELATION_SELECTOR);
+		icon_path_close = properties.getProperty(PROPERTY_ICON_PATH_CLOSE);
+		css_path_main = properties.getProperty(PROPERTY_CSS_PATH_MAIN);
+		html_path_about = properties.getProperty(PROPERTY_HTML_PATH_ABOUT);
+		html_path_help = properties.getProperty(PROPERTY_HTML_PATH_HELP);
 	}
 
-	public static String getWN_PATH() {
+	public static String getWordnet_dict_path() {
 		if (properties == null) {
 			loadProperties();
 		}
-		return wordnet_path;
+		return wordnet_dict_path;
 	}
 
-	public static void setWN_PATH(String wn_path) {
+	public static void setWordnet_dict_path(String wordnet_dict_path) {
 		if (properties == null) {
 			loadProperties();
 		}
-		properties.setProperty(PROPERTY_WORDNET_PATH, wn_path);
+		properties.setProperty(PROPERTY_WORDNET_DICT_PATH, wordnet_dict_path);
 		try {
 			properties.store(new FileWriter(PROPERTIES_FILEPATH), "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		wordnet_path = wn_path;
-	}
-
-	public static String getWnxplorer_icon_path() {
-		if (properties == null) {
-			loadProperties();
-		}
-		return wnxplorer_icon_path;
+		WNXplorerProperties.wordnet_dict_path = wordnet_dict_path;
 	}
 
 	public static int getNum_of_results_per_page_into_search_panel() {
@@ -108,6 +94,13 @@ public class WNXplorerProperties {
 			loadProperties();
 		}
 		return num_of_results_per_page_into_search_panel;
+	}
+
+	public static String getIcon_path_wnxplorer() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return icon_path_wnxplorer;
 	}
 
 	public static String getIcon_path_go_previous() {
@@ -124,20 +117,6 @@ public class WNXplorerProperties {
 		return icon_path_go_next;
 	}
 
-	public static String getResults_panel_stylesheet_filepath() {
-		if (properties == null) {
-			loadProperties();
-		}
-		return results_panel_stylesheet_filepath;
-	}
-
-	public static String getSynset_info_panel_stylesheet_filepath() {
-		if (properties == null) {
-			loadProperties();
-		}
-		return synset_info_panel_stylesheet_filepath;
-	}
-
 	public static String getIcon_path_help() {
 		if (properties == null) {
 			loadProperties();
@@ -145,25 +124,11 @@ public class WNXplorerProperties {
 		return icon_path_help;
 	}
 
-	public static String getIcon_path_pointer_selector() {
+	public static String getIcon_path_semantic_relation_selector() {
 		if (properties == null) {
 			loadProperties();
 		}
-		return icon_path_pointer_selector;
-	}
-
-	public static String getHelp_dialog_stylesheet_filepath() {
-		if (properties == null) {
-			loadProperties();
-		}
-		return help_dialog_stylesheet_filepath;
-	}
-
-	public static String getHelp_html_filepath() {
-		if (properties == null) {
-			loadProperties();
-		}
-		return help_html_filepath;
+		return icon_path_semantic_relation_selector;
 	}
 
 	public static String getIcon_path_close() {
@@ -171,6 +136,27 @@ public class WNXplorerProperties {
 			loadProperties();
 		}
 		return icon_path_close;
+	}
+
+	public static String getCss_path_main() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return css_path_main;
+	}
+
+	public static String getHtml_path_about() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return html_path_about;
+	}
+
+	public static String getHtml_path_help() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return html_path_help;
 	}
 
 }

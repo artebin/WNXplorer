@@ -30,14 +30,7 @@ import org.xhtmlrenderer.swing.FSMouseListener;
 import org.xhtmlrenderer.swing.LinkListener;
 import org.xhtmlrenderer.swing.SelectionHighlighter;
 
-/**
- * 
- * 
- * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
- * HelpDialog.java - Oct 29, 2010
- */
-
-public class HelpDialog extends JDialog implements WindowListener,
+public class AboutDialog extends JDialog implements WindowListener,
 		HyperlinkListener {
 
 	private JPanel main_panel;
@@ -45,9 +38,9 @@ public class HelpDialog extends JDialog implements WindowListener,
 	private FSScrollPane scrollpane;
 	private JButton close_button;
 
-	public HelpDialog(JComponent parent) {
+	public AboutDialog(JComponent parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("WNXplorer About / Help");
+		setTitle("WNXplorer About");
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
@@ -130,8 +123,8 @@ public class HelpDialog extends JDialog implements WindowListener,
 	}
 
 	/***************************************************************************
-	 * implementation of WindowListener.
-	 **************************************************************************/
+	* implementation of WindowListener.
+	**************************************************************************/
 
 	@Override
 	public void windowActivated(WindowEvent e) {
@@ -163,8 +156,8 @@ public class HelpDialog extends JDialog implements WindowListener,
 	}
 
 	/***************************************************************************
-	 * implementation of HyperlinkListener.
-	 **************************************************************************/
+	* implementation of HyperlinkListener.
+	**************************************************************************/
 
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
