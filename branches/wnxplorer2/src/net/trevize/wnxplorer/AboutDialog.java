@@ -40,7 +40,7 @@ public class AboutDialog extends JDialog implements WindowListener,
 
 	public AboutDialog(JComponent parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("WNXplorer About");
+		setTitle("About");
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
