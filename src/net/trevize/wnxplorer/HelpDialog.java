@@ -47,7 +47,7 @@ public class HelpDialog extends JDialog implements WindowListener,
 
 	public HelpDialog(JComponent parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("WNXplorer About / Help");
+		setTitle("Help");
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
