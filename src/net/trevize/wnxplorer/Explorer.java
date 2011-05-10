@@ -15,8 +15,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -39,7 +37,6 @@ import net.trevize.knetvis.KNetGraphImplementation;
 import net.trevize.knetvis.KNetGraphViewer;
 import net.trevize.knetvis.KNetGraphViewerImplementation;
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.knetvis.KNetVisProperties;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.POS;
@@ -54,6 +51,7 @@ import edu.mit.jwi.item.SynsetID;
 
 public class Explorer implements ComponentListener, ActionListener {
 
+	public static final String ACTION_COMMAND_ABOUT = "ACTION_COMMAND_ABOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
 
 	private JFrame main_frame;
@@ -83,6 +81,7 @@ public class Explorer implements ComponentListener, ActionListener {
 	//for JWI, we instantiate a IDictionary, only once here
 	public static IDictionary wn_jwi_dictionary;
 
+	private AboutDialog about_dialog;
 	private HelpDialog help_dialog;
 
 	public Explorer() {
@@ -292,6 +291,10 @@ public class Explorer implements ComponentListener, ActionListener {
 			}
 		});
 
+		//add the help button
+		about_dialog = new AboutDialog(main_frame.getRootPane());
+		help_dialog = new HelpDialog(main_frame.getRootPane());
+
 		initApplicationMenuBar();
 	}
 
@@ -312,16 +315,6 @@ public class Explorer implements ComponentListener, ActionListener {
 				.setVertexShapeTransformer(
 						new WNVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
 								knetgraph.getFilteredGraph()));
-
-		//add the help button
-		help_dialog = new HelpDialog(knetgraph_viewer.getGraphViewPanel());
-
-		JButton help_button = new JButton(new ImageIcon(
-				KNetVisProperties.getIcon_path_help()));
-		help_button.setActionCommand(ACTION_COMMAND_HELP);
-		help_button.addActionListener(this);
-		knetgraph_viewer.getStatusBar()
-				.addComponent("help button", help_button);
 	}
 
 	private void initApplicationMenuBar() {
@@ -349,9 +342,20 @@ public class Explorer implements ComponentListener, ActionListener {
 		menu2.add(item4);
 
 		JMenu menu3 = new JMenu("Help");
+		menu3.setMnemonic('H');
 		menu_bar.add(menu3);
-		JMenuItem item1 = new JMenuItem("About / Help");
+
+		JMenuItem item1 = new JMenuItem("About");
+		item1.setMnemonic('A');
+		item1.setActionCommand(ACTION_COMMAND_ABOUT);
+		item1.addActionListener(this);
 		menu3.add(item1);
+
+		JMenuItem item9 = new JMenuItem("Help");
+		item9.setMnemonic('H');
+		item9.setActionCommand(ACTION_COMMAND_HELP);
+		item9.addActionListener(this);
+		menu3.add(item9);
 	}
 
 	public View getView(int view_id) {
@@ -448,6 +452,12 @@ public class Explorer implements ComponentListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action_command = e.getActionCommand();
+
+		if (action_command.equals(ACTION_COMMAND_ABOUT)) {
+			about_dialog.setVisible(true);
+		}
+
+		else
 
 		if (action_command.equals(ACTION_COMMAND_HELP)) {
 			help_dialog.setVisible(true);
