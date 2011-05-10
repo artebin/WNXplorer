@@ -94,15 +94,16 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		p0.add(search_textfield, BorderLayout.CENTER);
 
 		JPanel p2 = new JPanel();
+		p0.add(p2, BorderLayout.EAST);
 		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
+
+		pos_selector_button = new PopupPOSButton();
+		p2.add(pos_selector_button);
+
 		do_query_button = new JButton("\u21B5");
 		do_query_button.setActionCommand(ACTION_COMMAND_DO_QUERY);
 		do_query_button.addActionListener(this);
 		p2.add(do_query_button);
-
-		pos_selector_button = new PopupPOSButton();
-		p2.add(pos_selector_button);
-		p0.add(p2, BorderLayout.EAST);
 
 		xgb.add(p0, style_p0, 0, 0);
 
