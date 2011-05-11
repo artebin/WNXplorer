@@ -29,6 +29,6 @@
 	<classpathentry kind="lib" path="lib/core-renderer-minimal-NJ_modified_issue150.jar"/>
 	<classpathentry kind="lib" path="lib/iText-2.0.8.jar"/>
 	<classpathentry kind="lib" path="lib/core-renderer.jar"/>
-	<classpathentry kind="lib" path="lib/KNetVis-0.2-2011.05.11.jar"/>
+	<classpathentry kind="lib" path="lib/KNetVis-0.3-2011.05.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
