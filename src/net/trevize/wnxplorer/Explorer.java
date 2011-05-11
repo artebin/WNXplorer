@@ -44,9 +44,7 @@ import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
-import net.trevize.wnxplorer.knetvis.WNConcept;
-import net.trevize.wnxplorer.knetvis.WNConceptFactory;
-import net.trevize.wnxplorer.knetvis.WNSemanticRelationReference;
+import net.trevize.wnxplorer.knetvis.WNResource;
 
 /**
  * 
@@ -56,6 +54,8 @@ import net.trevize.wnxplorer.knetvis.WNSemanticRelationReference;
  */
 
 public class Explorer implements ComponentListener, ActionListener {
+
+	public static WNResource WORDNET_RESOURCE = new WNResource();
 
 	public static final String ACTION_COMMAND_EXPORT_AS_JPG = "ACTION_COMMAND_EXPORT_AS_JPG";
 	public static final String ACTION_COMMAND_ABOUT = "ACTION_COMMAND_ABOUT";
@@ -294,10 +294,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 	public void initGraphView() {
 		//instantiate a new WNGraph.
-		WNConceptFactory concept_factory = new WNConceptFactory();
-		WNConcept.factory = concept_factory;
-		knetgraph = new KNetGraphImplementation(new WNConceptFactory(),
-				new WNSemanticRelationReference());
+		knetgraph = new KNetGraphImplementation(Explorer.WORDNET_RESOURCE);
 
 		//instantiate a new WNGraphPanel.
 		knetgraph_viewer = new KNetGraphViewerImplementation(knetgraph);
