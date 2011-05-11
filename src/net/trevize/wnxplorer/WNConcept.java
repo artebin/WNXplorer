@@ -150,4 +150,9 @@ public class WNConcept extends KNetConcept {
 		return related_concepts;
 	}
 
+	@Override
+	public boolean isLeaf() {
+		return false;
+	}
+
 }
