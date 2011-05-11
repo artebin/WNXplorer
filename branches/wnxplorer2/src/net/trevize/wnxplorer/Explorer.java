@@ -721,10 +721,16 @@ public class Explorer implements ComponentListener, ActionListener {
 	public void clearGraphView() {
 		initGraphView();
 		getView(VIEW_GRAPH).setComponent(knetgraph_viewer.getGraphViewPanel());
+
 		getView(VIEW_SATELLITE_VIEW).setComponent(
 				knetgraph_viewer.getSatelliteViewPanel());
+
+		getView(VIEW_CONCEPT_DESCRIPTION).setComponent(
+				knetgraph_viewer.getConceptDescriptionPanel().getScrollpane());
+
 		getView(VIEW_GRAPH_INFO).setComponent(
-				knetgraph_viewer.getGraphInfoPanel());
+				knetgraph_viewer.getGraphInfoPanel().getScrollpane());
+
 		refreshViews();
 	}
 
