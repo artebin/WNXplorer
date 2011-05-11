@@ -10,7 +10,7 @@ public class WNConceptFactory extends KNetConceptFactory {
 	@Override
 	public KNetConcept getKNetConcept(String key) {
 		ISynsetID synset_id = WNUtils.getISynsetIDFromString(key);
-		ISynset synset = Explorer.wn_jwi_dictionary.getSynset(synset_id);
+		ISynset synset = WNUtils.getWN_JWI_dictionary().getSynset(synset_id);
 		WNConcept concept = new WNConcept(synset);
 		return concept;
 	}
