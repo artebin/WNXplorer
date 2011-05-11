@@ -1,7 +1,8 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.knetvis;
 
 import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetConceptFactory;
+import net.trevize.wnxplorer.WNUtils;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 

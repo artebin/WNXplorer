@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.knetvis;
 
 import java.awt.Color;
 

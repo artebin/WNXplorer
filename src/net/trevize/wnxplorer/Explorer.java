@@ -11,6 +11,7 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
 
 import javax.imageio.ImageIO;
 import javax.swing.JCheckBoxMenuItem;
@@ -23,6 +24,9 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import net.infonode.docking.DockingWindow;
+import net.infonode.docking.DockingWindowListener;
+import net.infonode.docking.OperationAbortedException;
 import net.infonode.docking.RootWindow;
 import net.infonode.docking.SplitWindow;
 import net.infonode.docking.TabWindow;
@@ -37,6 +41,12 @@ import net.trevize.knetvis.KNetGraphImplementation;
 import net.trevize.knetvis.KNetGraphViewer;
 import net.trevize.knetvis.KNetGraphViewerImplementation;
 import net.trevize.knetvis.KNetVertex;
+import net.trevize.wnxplorer.dialogs.AboutDialog;
+import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
+import net.trevize.wnxplorer.dialogs.HelpDialog;
+import net.trevize.wnxplorer.knetvis.WNConcept;
+import net.trevize.wnxplorer.knetvis.WNConceptFactory;
+import net.trevize.wnxplorer.knetvis.WNSemanticRelationReference;
 
 /**
  * 
@@ -47,10 +57,7 @@ import net.trevize.knetvis.KNetVertex;
 
 public class Explorer implements ComponentListener, ActionListener {
 
-	public static final String ACTION_COMMAND_TOGGLE_SEARCH_VIEW = "ACTION_COMMAND_TOGGLE_SEARCH_VIEW";
-	public static final String ACTION_COMMAND_TOGGLE_CONCEPT_DESCRIPTION_VIEW = "ACTION_COMMAND_TOGGLE_CONCEPT_DESCRIPTION_VIEW";
-	public static final String ACTION_COMMAND_TOGGLE_GRAPH_INFO_VIEW = "ACTION_COMMAND_TOGGLE_GRAPH_INFO_VIEW";
-	public static final String ACTION_COMMAND_TOGGLE_SATELLITE_VIEW = "ACTION_COMMAND_TOGGLE_SATELLITE_VIEW";
+	public static final String ACTION_COMMAND_EXPORT_AS_JPG = "ACTION_COMMAND_EXPORT_AS_JPG";
 	public static final String ACTION_COMMAND_ABOUT = "ACTION_COMMAND_ABOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
 
@@ -313,6 +320,9 @@ public class Explorer implements ComponentListener, ActionListener {
 		menu_bar.add(menu1);
 
 		JMenuItem item7 = new JMenuItem("Export graph as JPEG");
+		item7.setMnemonic('J');
+		item7.setActionCommand(ACTION_COMMAND_EXPORT_AS_JPG);
+		item7.addActionListener(this);
 		menu1.add(item7);
 
 		JMenuItem item8 = new JMenuItem("Export graph as GraphML");
@@ -337,6 +347,82 @@ public class Explorer implements ComponentListener, ActionListener {
 				}
 			}
 		});
+		views[VIEW_SEARCH].addListener(new DockingWindowListener() {
+			@Override
+			public void windowUndocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowUndocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowShown(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRestoring(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowRestored(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRemoved(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void windowMinimizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMinimized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowMaximizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMaximized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowHidden(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowDocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowDocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowClosing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowClosed(DockingWindow arg0) {
+				item2.setSelected(false);
+			}
+
+			@Override
+			public void windowAdded(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void viewFocusChanged(View arg0, View arg1) {
+			}
+		});
 		menu2.add(item2);
 
 		final JCheckBoxMenuItem item3 = new JCheckBoxMenuItem(
@@ -351,6 +437,85 @@ public class Explorer implements ComponentListener, ActionListener {
 				}
 			}
 		});
+		views[VIEW_CONCEPT_DESCRIPTION]
+				.addListener(new DockingWindowListener() {
+					@Override
+					public void windowUndocking(DockingWindow arg0)
+							throws OperationAbortedException {
+					}
+
+					@Override
+					public void windowUndocked(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowShown(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowRestoring(DockingWindow arg0)
+							throws OperationAbortedException {
+					}
+
+					@Override
+					public void windowRestored(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowRemoved(DockingWindow arg0,
+							DockingWindow arg1) {
+					}
+
+					@Override
+					public void windowMinimizing(DockingWindow arg0)
+							throws OperationAbortedException {
+					}
+
+					@Override
+					public void windowMinimized(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowMaximizing(DockingWindow arg0)
+							throws OperationAbortedException {
+					}
+
+					@Override
+					public void windowMaximized(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowHidden(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowDocking(DockingWindow arg0)
+							throws OperationAbortedException {
+					}
+
+					@Override
+					public void windowDocked(DockingWindow arg0) {
+					}
+
+					@Override
+					public void windowClosing(DockingWindow arg0)
+							throws OperationAbortedException {
+					}
+
+					@Override
+					public void windowClosed(DockingWindow arg0) {
+						item3.setSelected(false);
+					}
+
+					@Override
+					public void windowAdded(DockingWindow arg0,
+							DockingWindow arg1) {
+					}
+
+					@Override
+					public void viewFocusChanged(View arg0, View arg1) {
+					}
+				});
 		menu2.add(item3);
 
 		final JCheckBoxMenuItem item5 = new JCheckBoxMenuItem(
@@ -365,6 +530,82 @@ public class Explorer implements ComponentListener, ActionListener {
 				}
 			}
 		});
+		views[VIEW_GRAPH_INFO].addListener(new DockingWindowListener() {
+			@Override
+			public void windowUndocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowUndocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowShown(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRestoring(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowRestored(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRemoved(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void windowMinimizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMinimized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowMaximizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMaximized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowHidden(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowDocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowDocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowClosing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowClosed(DockingWindow arg0) {
+				item5.setSelected(false);
+			}
+
+			@Override
+			public void windowAdded(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void viewFocusChanged(View arg0, View arg1) {
+			}
+		});
 		menu2.add(item5);
 
 		final JCheckBoxMenuItem item4 = new JCheckBoxMenuItem("Satellite View");
@@ -376,6 +617,82 @@ public class Explorer implements ComponentListener, ActionListener {
 				} else {
 					views[VIEW_SATELLITE_VIEW].restore();
 				}
+			}
+		});
+		views[VIEW_SATELLITE_VIEW].addListener(new DockingWindowListener() {
+			@Override
+			public void windowUndocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowUndocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowShown(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRestoring(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowRestored(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRemoved(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void windowMinimizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMinimized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowMaximizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMaximized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowHidden(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowDocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowDocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowClosing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowClosed(DockingWindow arg0) {
+				item4.setSelected(false);
+			}
+
+			@Override
+			public void windowAdded(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void viewFocusChanged(View arg0, View arg1) {
 			}
 		});
 		menu2.add(item4);
@@ -491,6 +808,13 @@ public class Explorer implements ComponentListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action_command = e.getActionCommand();
+
+		if (action_command.equals(ACTION_COMMAND_EXPORT_AS_JPG)) {
+			writeJPEGImage(new File("./"
+					+ Calendar.getInstance().getTimeInMillis() + ".jpg"));
+		}
+
+		else
 
 		if (action_command.equals(ACTION_COMMAND_ABOUT)) {
 			about_dialog.setVisible(true);
