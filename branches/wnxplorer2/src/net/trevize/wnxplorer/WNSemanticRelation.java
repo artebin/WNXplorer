@@ -92,4 +92,9 @@ public class WNSemanticRelation extends KNetSemanticRelation {
 		return opposite;
 	}
 
+	@Override
+	public boolean isSymmetric() {
+		return false;
+	}
+
 }
