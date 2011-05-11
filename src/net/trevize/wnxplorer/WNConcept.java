@@ -104,7 +104,7 @@ public class WNConcept extends KNetConcept {
 					sb.append(synset_id);
 					sb.append("</a>");
 					sb.append(": <b>"
-							+ WNUtils.getWords(Explorer.wn_jwi_dictionary
+							+ WNUtils.getWords(WNUtils.getWN_JWI_dictionary()
 									.getSynset(synset_id)) + "</b>");
 					sb.append("</li>");
 				}
@@ -140,7 +140,7 @@ public class WNConcept extends KNetConcept {
 		for (IPointer pointer : related_synsets.keySet()) {
 			ArrayList<KNetConcept> concepts = new ArrayList<KNetConcept>();
 			for (ISynsetID synset_id : related_synsets.get(pointer)) {
-				concepts.add(new WNConcept(Explorer.wn_jwi_dictionary
+				concepts.add(new WNConcept(WNUtils.getWN_JWI_dictionary()
 						.getSynset(synset_id)));
 			}
 			related_concepts.put(wn_semantic_relation_reference

@@ -174,7 +174,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void doQuery() {
 		//instantiate a new Searcher and process to the search.
-		Searcher searcher = new Searcher(Explorer.wn_jwi_dictionary);
+		Searcher searcher = new Searcher(WNUtils.getWN_JWI_dictionary());
 		searcher.search(pos_selector_button.getSelectedPOS(), getQuery());
 
 		//instantiate the ResultsPanel.
@@ -261,7 +261,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			String concept_key = e.getDescription().split(":")[1];
 
 			ISynsetID synset_id = WNUtils.getISynsetIDFromString(concept_key);
-			ISynset synset = Explorer.wn_jwi_dictionary.getSynset(synset_id);
+			ISynset synset = WNUtils.getWN_JWI_dictionary()
+					.getSynset(synset_id);
 			WNConcept concept = new WNConcept(synset);
 			explorer.getKnetgraph().addVertexForConcept(concept);
 			explorer.getKNetGraphViewer().fireGraphStructureChanged();

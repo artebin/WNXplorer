@@ -1,11 +1,14 @@
 package net.trevize.wnxplorer;
 
 import java.awt.Color;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import net.trevize.tinker.X11Colors2;
+import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
@@ -23,6 +26,49 @@ import edu.mit.jwi.item.SynsetID;
  */
 
 public class WNUtils {
+
+	private static String wn_dict_path;
+
+	public static String getWN_dict_path() {
+		return wn_dict_path;
+	}
+
+	public static void setWN_dict_path(String wn_dict_path) {
+		WNUtils.wn_dict_path = wn_dict_path;
+	}
+
+	private static IDictionary wn_jwi_dictionary;
+
+	public static IDictionary getWN_JWI_dictionary() {
+		if (wn_jwi_dictionary == null) {
+			initWN_JWI_dictionary();
+		}
+		return wn_jwi_dictionary;
+	}
+
+	private static void initWN_JWI_dictionary() {
+		if (wn_dict_path == null) {
+			return;
+		}
+
+		URL url = null;
+		try {
+			url = new URL("file", null, wn_dict_path);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		wn_jwi_dictionary = new Dictionary(url);
+
+		//we try to open the dictionary
+		try {
+			wn_jwi_dictionary.open();
+
+			//try to do a request for testing the WordNet installation path
+			wn_jwi_dictionary.getSynset(new SynsetID(0, POS.NOUN));
+		} catch (Exception e) {
+			wn_dict_path = null;
+		}
+	}
 
 	private static ArrayList<Pointer> pointers;
 

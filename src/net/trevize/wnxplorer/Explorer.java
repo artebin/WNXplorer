@@ -11,8 +11,6 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JCheckBoxMenuItem;
@@ -39,10 +37,6 @@ import net.trevize.knetvis.KNetGraphImplementation;
 import net.trevize.knetvis.KNetGraphViewer;
 import net.trevize.knetvis.KNetGraphViewerImplementation;
 import net.trevize.knetvis.KNetVertex;
-import edu.mit.jwi.Dictionary;
-import edu.mit.jwi.IDictionary;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.SynsetID;
 
 /**
  * 
@@ -84,9 +78,6 @@ public class Explorer implements ComponentListener, ActionListener {
 	private KNetGraph knetgraph;
 	private KNetGraphViewer knetgraph_viewer;
 
-	//for JWI, we instantiate a IDictionary, only once here
-	public static IDictionary wn_jwi_dictionary;
-
 	private AboutDialog about_dialog;
 	private HelpDialog help_dialog;
 
@@ -119,28 +110,17 @@ public class Explorer implements ComponentListener, ActionListener {
 	}
 
 	private void initWordNet() {
-		String wordnet_path = WNXplorerProperties.getWordnet_dict_path();
+		String wn_dict_path = WNXplorerProperties.getWordnet_dict_path();
 
 		//if no WordNet installation path indicated in the properties file, show the directory selector.
-		if (wordnet_path.equals("")) {
+		if (wn_dict_path.equals("")) {
 			GetWordNetPathDialog d = new GetWordNetPathDialog(main_frame);
 			d.setVisible(true);
-			wordnet_path = WNXplorerProperties.getWordnet_dict_path();
+			wn_dict_path = WNXplorerProperties.getWordnet_dict_path();
 		}
 
-		URL url = null;
-		try {
-			url = new URL("file", null, wordnet_path);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		wn_jwi_dictionary = new Dictionary(url);
-		try {
-			wn_jwi_dictionary.open();
-
-			//try to do a request for testing the WordNet installation path
-			wn_jwi_dictionary.getSynset(new SynsetID(0, POS.NOUN));
-		} catch (Exception e) {
+		WNUtils.setWN_dict_path(wn_dict_path);
+		if (WNUtils.getWN_JWI_dictionary() == null) {
 			WNXplorerProperties.setWordnet_dict_path("");
 			JOptionPane
 					.showMessageDialog(
