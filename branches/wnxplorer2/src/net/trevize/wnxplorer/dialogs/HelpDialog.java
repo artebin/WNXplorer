@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
+import net.trevize.wnxplorer.WNXplorerProperties;
 
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;

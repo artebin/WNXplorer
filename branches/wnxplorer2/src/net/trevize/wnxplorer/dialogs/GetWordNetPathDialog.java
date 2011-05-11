@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.dialogs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -21,6 +21,7 @@ import net.trevize.gui.FSExplorer.FSE.FSEEvent;
 import net.trevize.gui.FSExplorer.FSE.FSEListener;
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
+import net.trevize.wnxplorer.WNXplorerProperties;
 
 /**
  * 

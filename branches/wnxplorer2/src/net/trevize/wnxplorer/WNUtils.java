@@ -63,7 +63,10 @@ public class WNUtils {
 		try {
 			wn_jwi_dictionary.open();
 
-			//try to do a request for testing the WordNet installation path
+			/*
+			 * Try to do a request for testing the WordNet installation path. It is
+			 * necessary as it is not tested in the Dictionary constructor.
+			 */
 			wn_jwi_dictionary.getSynset(new SynsetID(0, POS.NOUN));
 		} catch (Exception e) {
 			wn_dict_path = null;
@@ -108,6 +111,46 @@ public class WNUtils {
 		pointers.add(Pointer.USAGE);
 		pointers.add(Pointer.USAGE_MEMBER);
 		pointers.add(Pointer.VERB_GROUP);
+	}
+
+	private static HashMap<Pointer, Boolean> symmetric;
+
+	public static boolean isSymmetric(Pointer pointer) {
+		if (symmetric == null) {
+			initSymmetric();
+		}
+		return symmetric.get(pointer);
+	}
+
+	private static void initSymmetric() {
+		symmetric = new HashMap<Pointer, Boolean>();
+		symmetric.put(Pointer.ALSO_SEE, true);
+		symmetric.put(Pointer.ANTONYM, true);
+		symmetric.put(Pointer.ATTRIBUTE, false);
+		symmetric.put(Pointer.CAUSE, false);
+		symmetric.put(Pointer.DERIVATIONALLY_RELATED, false);
+		symmetric.put(Pointer.DERIVED_FROM_ADJ, false);
+		symmetric.put(Pointer.ENTAILMENT, false);
+		symmetric.put(Pointer.HOLONYM_MEMBER, false);
+		symmetric.put(Pointer.HOLONYM_PART, false);
+		symmetric.put(Pointer.HOLONYM_SUBSTANCE, false);
+		symmetric.put(Pointer.HYPERNYM, false);
+		symmetric.put(Pointer.HYPERNYM_INSTANCE, false);
+		symmetric.put(Pointer.HYPONYM, false);
+		symmetric.put(Pointer.HYPONYM_INSTANCE, false);
+		symmetric.put(Pointer.MERONYM_MEMBER, false);
+		symmetric.put(Pointer.MERONYM_PART, false);
+		symmetric.put(Pointer.MERONYM_SUBSTANCE, false);
+		symmetric.put(Pointer.PARTICIPLE, false);
+		symmetric.put(Pointer.PERTAINYM, false);
+		symmetric.put(Pointer.REGION, true);
+		symmetric.put(Pointer.REGION_MEMBER, true);
+		symmetric.put(Pointer.SIMILAR_TO, true);
+		symmetric.put(Pointer.TOPIC, true);
+		symmetric.put(Pointer.TOPIC_MEMBER, true);
+		symmetric.put(Pointer.USAGE, false);
+		symmetric.put(Pointer.USAGE_MEMBER, false);
+		symmetric.put(Pointer.VERB_GROUP, true);
 	}
 
 	private static HashMap<Pointer, Pointer> opposites;
@@ -202,10 +245,10 @@ public class WNUtils {
 		pos_labels.put(POS.VERB, "VERB");
 	}
 
-	public static ISynsetID getISynsetIDFromString(String synset_id_string) {
-		//retrieving an ISynset from the vertex.
-		int offset = Integer.parseInt(synset_id_string.split("-")[1]); //get the offset.
-		char pos = synset_id_string.split("-")[2].charAt(0); //get the Part Of Speech.
+	public static ISynsetID getISynsetIDFromString(String concept_key) {
+		//retrieving an ISynset from the key
+		int offset = Integer.parseInt(concept_key.split("-")[1]); //get the offset.
+		char pos = concept_key.split("-")[2].charAt(0); //get the Part Of Speech.
 		SynsetID synset_id = new SynsetID(offset, POS.getPartOfSpeech(pos));
 		return synset_id;
 	}
@@ -224,8 +267,7 @@ public class WNUtils {
 		return synset_words;
 	}
 
-	public static String getSynsetHTMLDescription(IDictionary dict,
-			ISynset synset) {
+	public static String getSynsetHTMLDescription(ISynset synset) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<html><body>");
 
@@ -247,8 +289,10 @@ public class WNUtils {
 				sb.append("<ul>");
 				for (ISynsetID synset_id : related) {
 					sb.append("<li>");
-					sb.append(synset_id + ": "
-							+ WNUtils.getWords(dict.getSynset(synset_id)));
+					sb.append(synset_id
+							+ ": "
+							+ WNUtils.getWords(wn_jwi_dictionary
+									.getSynset(synset_id)));
 					sb.append("</li>");
 				}
 				sb.append("</ul>");
@@ -259,5 +303,4 @@ public class WNUtils {
 
 		return sb.toString();
 	}
-
 }

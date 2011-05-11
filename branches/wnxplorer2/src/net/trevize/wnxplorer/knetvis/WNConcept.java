@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.knetvis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetSemanticRelation;
+import net.trevize.wnxplorer.WNUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
@@ -21,6 +22,8 @@ public class WNConcept extends KNetConcept {
 	private String synset_words;
 	private POS pos;
 
+	private boolean leaf;
+
 	private String key;
 	private String short_label;
 	private String label;
@@ -33,6 +36,8 @@ public class WNConcept extends KNetConcept {
 		this.synset = synset;
 		synset_words = WNUtils.getWords(synset);
 		pos = synset.getPOS();
+
+		leaf = (synset.getRelatedSynsets().size() == 1);
 
 		key = synset.getID().toString();
 		short_label = synset.getWords().get(0).getLemma();
@@ -54,7 +59,7 @@ public class WNConcept extends KNetConcept {
 
 	@Override
 	public String getShortLabel() {
-		return short_label;
+		return (leaf ? " \u25AA" : "") + short_label;
 	}
 
 	@Override
@@ -152,7 +157,7 @@ public class WNConcept extends KNetConcept {
 
 	@Override
 	public boolean isLeaf() {
-		return false;
+		return leaf;
 	}
 
 }

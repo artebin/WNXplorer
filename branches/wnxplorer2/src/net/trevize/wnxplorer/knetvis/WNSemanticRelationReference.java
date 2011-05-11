@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.knetvis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.trevize.knetvis.KNetSemanticRelation;
 import net.trevize.knetvis.KNetSemanticRelationReference;
+import net.trevize.wnxplorer.WNUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.Pointer;
 
