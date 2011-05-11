@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -52,6 +53,10 @@ import edu.mit.jwi.item.SynsetID;
 
 public class Explorer implements ComponentListener, ActionListener {
 
+	public static final String ACTION_COMMAND_TOGGLE_SEARCH_VIEW = "ACTION_COMMAND_TOGGLE_SEARCH_VIEW";
+	public static final String ACTION_COMMAND_TOGGLE_CONCEPT_DESCRIPTION_VIEW = "ACTION_COMMAND_TOGGLE_CONCEPT_DESCRIPTION_VIEW";
+	public static final String ACTION_COMMAND_TOGGLE_GRAPH_INFO_VIEW = "ACTION_COMMAND_TOGGLE_GRAPH_INFO_VIEW";
+	public static final String ACTION_COMMAND_TOGGLE_SATELLITE_VIEW = "ACTION_COMMAND_TOGGLE_SATELLITE_VIEW";
 	public static final String ACTION_COMMAND_ABOUT = "ACTION_COMMAND_ABOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
 
@@ -63,7 +68,7 @@ public class Explorer implements ComponentListener, ActionListener {
 	private View[] views;
 	private static final int NUMBER_OF_VIEW = 5;
 	public static final int VIEW_SEARCH = 0;
-	public static final int VIEW_SYNSET_INFO = 1;
+	public static final int VIEW_CONCEPT_DESCRIPTION = 1;
 	public static final int VIEW_GRAPH = 2;
 	public static final int VIEW_GRAPH_INFO = 3;
 	public static final int VIEW_SATELLITE_VIEW = 4;
@@ -214,11 +219,12 @@ public class Explorer implements ComponentListener, ActionListener {
 				initInfonodeView(views[VIEW_SEARCH]);
 				view_map.addView(VIEW_SEARCH, views[VIEW_SEARCH]);
 
-				views[VIEW_SYNSET_INFO] = new View("Synset info", null,
+				views[VIEW_CONCEPT_DESCRIPTION] = new View("Synset info", null,
 						knetgraph_viewer.getConceptDescriptionPanel()
 								.getScrollpane());
-				initInfonodeView(views[VIEW_SYNSET_INFO]);
-				view_map.addView(VIEW_SYNSET_INFO, views[VIEW_SYNSET_INFO]);
+				initInfonodeView(views[VIEW_CONCEPT_DESCRIPTION]);
+				view_map.addView(VIEW_CONCEPT_DESCRIPTION,
+						views[VIEW_CONCEPT_DESCRIPTION]);
 
 				views[VIEW_GRAPH_INFO] = new View("Graph Info", null,
 						knetgraph_viewer.getGraphInfoPanel().getScrollpane());
@@ -248,7 +254,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 				//the TabWindow for Search and SynsetInfo
 				TabWindow tab_windows_1 = new TabWindow(new View[] {
-						views[VIEW_SEARCH], views[VIEW_SYNSET_INFO],
+						views[VIEW_SEARCH], views[VIEW_CONCEPT_DESCRIPTION],
 						views[VIEW_GRAPH_INFO] });
 				tab_windows_1.setSelectedTab(0);
 
@@ -340,16 +346,58 @@ public class Explorer implements ComponentListener, ActionListener {
 		JMenu menu2 = new JMenu("Views");
 		menu_bar.add(menu2);
 
-		JMenuItem item2 = new JMenuItem("Search View");
+		final JCheckBoxMenuItem item2 = new JCheckBoxMenuItem("Search View");
+		item2.setSelected(true);
+		item2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!item2.isSelected()) {
+					views[VIEW_SEARCH].close();
+				} else {
+					views[VIEW_SEARCH].restore();
+				}
+			}
+		});
 		menu2.add(item2);
 
-		JMenuItem item3 = new JMenuItem("Concept Description View");
+		final JCheckBoxMenuItem item3 = new JCheckBoxMenuItem(
+				"Concept Description View");
+		item3.setSelected(true);
+		item3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!item3.isSelected()) {
+					views[VIEW_CONCEPT_DESCRIPTION].close();
+				} else {
+					views[VIEW_CONCEPT_DESCRIPTION].restore();
+				}
+			}
+		});
 		menu2.add(item3);
 
-		JMenuItem item5 = new JMenuItem("Graph Information View");
+		final JCheckBoxMenuItem item5 = new JCheckBoxMenuItem(
+				"Graph Information View");
+		item5.setSelected(true);
+		item5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!item5.isSelected()) {
+					views[VIEW_GRAPH_INFO].close();
+				} else {
+					views[VIEW_GRAPH_INFO].restore();
+				}
+			}
+		});
 		menu2.add(item5);
 
-		JMenuItem item4 = new JMenuItem("Satellite View");
+		final JCheckBoxMenuItem item4 = new JCheckBoxMenuItem("Satellite View");
+		item4.setSelected(true);
+		item4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!item4.isSelected()) {
+					views[VIEW_SATELLITE_VIEW].close();
+				} else {
+					views[VIEW_SATELLITE_VIEW].restore();
+				}
+			}
+		});
 		menu2.add(item4);
 
 		JMenu menu3 = new JMenu("Help");
