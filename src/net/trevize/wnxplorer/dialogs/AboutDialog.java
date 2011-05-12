@@ -46,7 +46,7 @@ public class AboutDialog extends JDialog implements WindowListener,
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
-		setSize(768, 512);
+		setSize(400, 442);
 		setLocationRelativeTo(parent);
 	}
 
