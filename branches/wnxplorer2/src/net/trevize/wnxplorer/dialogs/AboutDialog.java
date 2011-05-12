@@ -46,7 +46,8 @@ public class AboutDialog extends JDialog implements WindowListener,
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
-		setSize(400, 442);
+		setSize(442, 442);
+		setResizable(false);
 		setLocationRelativeTo(parent);
 	}
 
@@ -96,6 +97,8 @@ public class AboutDialog extends JDialog implements WindowListener,
 		scrollpane.setViewportView(xhtml_panel);
 		scrollpane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollpane
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		//create a panel for the close button at the bottom of the HelpDialog
 		//the Close button is centered using two Box.createGlue()

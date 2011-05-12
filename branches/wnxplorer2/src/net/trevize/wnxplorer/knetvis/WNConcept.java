@@ -22,6 +22,7 @@ public class WNConcept extends KNetConcept {
 	private POS pos;
 
 	private boolean leaf;
+	private static final char CHAR_LEAF_INDICATOR = '\u25C6';
 
 	private String key;
 	private String short_label;
@@ -58,7 +59,7 @@ public class WNConcept extends KNetConcept {
 
 	@Override
 	public String getShortLabel() {
-		return (leaf ? " \u25AA" : "") + short_label;
+		return (leaf ? CHAR_LEAF_INDICATOR : "") + short_label;
 	}
 
 	@Override
