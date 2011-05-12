@@ -33,6 +33,7 @@ import net.infonode.docking.TabWindow;
 import net.infonode.docking.View;
 import net.infonode.docking.drop.DropFilter;
 import net.infonode.docking.drop.DropInfo;
+import net.infonode.docking.drop.InteriorDropInfo;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
 import net.trevize.knetvis.KNetEdge;
@@ -238,21 +239,43 @@ public class Explorer implements ComponentListener, ActionListener {
 						views[VIEW_SATELLITE_VIEW]);
 
 				root_window = DockingUtil.createRootWindow(view_map, true);
+				root_window.getRootWindowProperties().setRecursiveTabsEnabled(
+						false);
 
-				//the TabWindow for Search and SynsetInfo
-				TabWindow tab_windows_1 = new TabWindow(new View[] {
-						views[VIEW_SEARCH], views[VIEW_CONCEPT_DESCRIPTION],
-						views[VIEW_GRAPH_INFO] });
+				root_window.getRootWindowProperties()
+						.getDockingWindowProperties().getDropFilterProperties()
+						.setInteriorDropFilter(new DropFilter() {
+							public boolean acceptDrop(DropInfo dropInfo) {
+								InteriorDropInfo interiorDropInfo = (InteriorDropInfo) dropInfo;
+								// If the drop window is a split window and the drag window is a
+								// tab window, no drops are allowed
+								if (interiorDropInfo.getDropWindow() instanceof SplitWindow
+										&& interiorDropInfo.getWindow() instanceof TabWindow)
+									return false;
+								return true;
+							}
+						});
+
+				//the TabWindow for Search
+				TabWindow tab_windows_1 = new TabWindow(
+						new View[] { views[VIEW_SEARCH] });
 				tab_windows_1.setSelectedTab(0);
 
-				//the TabWindow for GraphInfo and SatelliteView
+				//the TabWindow for SatelliteView
 				TabWindow tab_windows_2 = new TabWindow(
 						new View[] { views[VIEW_SATELLITE_VIEW] });
 				tab_windows_2.setSelectedTab(0);
 
-				SplitWindow split_window = new SplitWindow(true, 0.3f,
+				//the TabWindow for ConceptDescriptionPanel and GraphInfoPanel
+				TabWindow tab_windows_3 = new TabWindow(
+						new View[] { views[VIEW_CONCEPT_DESCRIPTION],
+								views[VIEW_GRAPH_INFO] });
+				tab_windows_3.setSelectedTab(0);
+
+				SplitWindow split_window = new SplitWindow(true, 0.2f,
 						new SplitWindow(false, 0.7f, tab_windows_1,
-								tab_windows_2), views[VIEW_GRAPH]);
+								tab_windows_2), new SplitWindow(true, 0.75f,
+								views[VIEW_GRAPH], tab_windows_3));
 
 				root_window.setWindow(split_window);
 
