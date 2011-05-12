@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #indicate here your path to WNXplorer
-cd /home/nicolas/apps/WNXplorer/WNXplorer-1.1-2011.05.02
+cd /home/nicolas/apps/WNXplorer/WNXplorer-2.1-2011.05.12
 
 libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
 ./lib/lucene-core-3.0.1.jar:\

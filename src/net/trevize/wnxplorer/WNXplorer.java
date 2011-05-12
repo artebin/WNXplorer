@@ -15,7 +15,7 @@ public class WNXplorer {
 
 	public static void main(String[] args) {
 		//setting the look and feel
-		if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
 			try {
 				UIManager
 						.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -31,7 +31,7 @@ public class WNXplorer {
 		} else {
 			try {
 				UIManager
-						.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+						.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (InstantiationException e) {
