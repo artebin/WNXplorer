@@ -69,7 +69,7 @@ public class WNUtils {
 			 */
 			wn_jwi_dictionary.getSynset(new SynsetID(0, POS.NOUN));
 		} catch (Exception e) {
-			wn_dict_path = null;
+			wn_jwi_dictionary = null;
 		}
 	}
 

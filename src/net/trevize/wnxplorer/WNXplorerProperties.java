@@ -17,6 +17,7 @@ public class WNXplorerProperties {
 
 	public static final String PROPERTIES_FILEPATH = "./WNXplorer.properties";
 	public static Properties properties;
+	private static final String PROPERTIES_COMMENTS = "This is the properties file of WNXplorer, a Java application for navigating into WordNet\n#Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]";
 
 	public static final String PROPERTY_WORDNET_DICT_PATH = "PROPERTY_WORDNET_DICT_PATH";
 	public static final String PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL = "PROPERTY_NUM_OF_RESULTS_PER_PAGE_INTO_SEARCH_PANEL";
@@ -82,7 +83,8 @@ public class WNXplorerProperties {
 		}
 		properties.setProperty(PROPERTY_WORDNET_DICT_PATH, wordnet_dict_path);
 		try {
-			properties.store(new FileWriter(PROPERTIES_FILEPATH), "");
+			properties.store(new FileWriter(PROPERTIES_FILEPATH),
+					PROPERTIES_COMMENTS);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
