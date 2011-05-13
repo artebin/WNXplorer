@@ -358,6 +358,15 @@ public class Explorer implements ComponentListener, ActionListener {
 		item8.setMnemonic('G');
 		item8.setDisplayedMnemonicIndex(16);
 		menu1.add(item8);
+		
+		JMenuItem item10 = new JMenuItem("apply TreeLayout");
+		item10.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				((KNetGraphViewerImplementation)knetgraph_viewer).applyTreeLayout();
+			}
+		});
+		menu1.add(item10);
 
 		menu1.add(new JSeparator());
 
