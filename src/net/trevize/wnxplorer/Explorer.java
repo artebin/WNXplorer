@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 
 import javax.imageio.ImageIO;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -34,6 +34,8 @@ import net.infonode.docking.View;
 import net.infonode.docking.drop.DropFilter;
 import net.infonode.docking.drop.DropInfo;
 import net.infonode.docking.drop.InteriorDropInfo;
+import net.infonode.docking.properties.RootWindowProperties;
+import net.infonode.docking.theme.DockingWindowsTheme;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
 import net.trevize.knetvis.KNetEdge;
@@ -68,18 +70,15 @@ public class Explorer implements ComponentListener, ActionListener {
 	private RootWindow root_window;
 	private ViewMap view_map;
 	private View[] views;
-	private static final int NUMBER_OF_VIEW = 5;
+
+	public static final int NUMBER_OF_VIEW = 5;
 	public static final int VIEW_SEARCH = 0;
-	public static final int VIEW_CONCEPT_DESCRIPTION = 1;
+	public static final int VIEW_SYNSET_DESCRIPTION = 1;
 	public static final int VIEW_GRAPH = 2;
 	public static final int VIEW_GRAPH_INFO = 3;
 	public static final int VIEW_SATELLITE_VIEW = 4;
-
-	/*
-	//the two following objects are used to change the Infonode theme 
-	private RootWindowProperties properties = new RootWindowProperties();
-	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
-	*/
+	public static final String[] VIEWS_TITLE = new String[] { "Search",
+			"Synset description", "Graph info", "Graph view", "Satellite view" };
 
 	//WNXplorer components
 	private SearchPanel search_panel;
@@ -115,6 +114,9 @@ public class Explorer implements ComponentListener, ActionListener {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+
+		//set the Infonode theme
+		//setInfonodeTheme(new ShapedGradientDockingTheme());
 	}
 
 	private void initWordNet() {
@@ -202,24 +204,34 @@ public class Explorer implements ComponentListener, ActionListener {
 				views = new View[NUMBER_OF_VIEW];
 				view_map = new ViewMap();
 
-				views[VIEW_SEARCH] = new View("Search", null, search_panel
-						.getSearch_panel());
+				/* Search view ************************************************/
+
+				views[VIEW_SEARCH] = new View(VIEWS_TITLE[VIEW_SEARCH], null,
+						search_panel.getSearch_panel());
 				initInfonodeView(views[VIEW_SEARCH]);
 				view_map.addView(VIEW_SEARCH, views[VIEW_SEARCH]);
 
-				views[VIEW_CONCEPT_DESCRIPTION] = new View("Synset info", null,
+				/* Synset description view ************************************/
+
+				views[VIEW_SYNSET_DESCRIPTION] = new View(
+						VIEWS_TITLE[VIEW_SYNSET_DESCRIPTION], null,
 						knetgraph_viewer.getConceptDescriptionPanel()
 								.getScrollpane());
-				initInfonodeView(views[VIEW_CONCEPT_DESCRIPTION]);
-				view_map.addView(VIEW_CONCEPT_DESCRIPTION,
-						views[VIEW_CONCEPT_DESCRIPTION]);
+				initInfonodeView(views[VIEW_SYNSET_DESCRIPTION]);
+				view_map.addView(VIEW_SYNSET_DESCRIPTION,
+						views[VIEW_SYNSET_DESCRIPTION]);
 
-				views[VIEW_GRAPH_INFO] = new View("Graph Info", null,
-						knetgraph_viewer.getGraphInfoPanel().getScrollpane());
+				/* Graph info view ********************************************/
+
+				views[VIEW_GRAPH_INFO] = new View(VIEWS_TITLE[VIEW_GRAPH_INFO],
+						null, knetgraph_viewer.getGraphInfoPanel()
+								.getScrollpane());
 				initInfonodeView(views[VIEW_GRAPH_INFO]);
 				view_map.addView(VIEW_GRAPH_INFO, views[VIEW_GRAPH_INFO]);
 
-				views[VIEW_GRAPH] = new View("Graph view", null,
+				/* Graph view *************************************************/
+
+				views[VIEW_GRAPH] = new View(VIEWS_TITLE[VIEW_GRAPH], null,
 						knetgraph_viewer.getGraphViewPanel());
 				initInfonodeView(views[VIEW_GRAPH]);
 				views[VIEW_GRAPH].getWindowProperties().setCloseEnabled(false);
@@ -232,11 +244,16 @@ public class Explorer implements ComponentListener, ActionListener {
 						false);
 				view_map.addView(VIEW_GRAPH, views[VIEW_GRAPH]);
 
-				views[VIEW_SATELLITE_VIEW] = new View("Satellite view", null,
+				/* Satellite view *********************************************/
+
+				views[VIEW_SATELLITE_VIEW] = new View(
+						VIEWS_TITLE[VIEW_SATELLITE_VIEW], null,
 						knetgraph_viewer.getSatelliteViewPanel());
 				initInfonodeView(views[VIEW_SATELLITE_VIEW]);
 				view_map.addView(VIEW_SATELLITE_VIEW,
 						views[VIEW_SATELLITE_VIEW]);
+
+				//now adding the views to the root window
 
 				root_window = DockingUtil.createRootWindow(view_map, true);
 				root_window.getRootWindowProperties().setRecursiveTabsEnabled(
@@ -256,6 +273,8 @@ public class Explorer implements ComponentListener, ActionListener {
 							}
 						});
 
+				//now creates tabwindows and splitwindows for the frame layout
+
 				//the TabWindow for Search
 				TabWindow tab_windows_1 = new TabWindow(
 						new View[] { views[VIEW_SEARCH] });
@@ -268,7 +287,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 				//the TabWindow for ConceptDescriptionPanel and GraphInfoPanel
 				TabWindow tab_windows_3 = new TabWindow(
-						new View[] { views[VIEW_CONCEPT_DESCRIPTION],
+						new View[] { views[VIEW_SYNSET_DESCRIPTION],
 								views[VIEW_GRAPH_INFO] });
 				tab_windows_3.setSelectedTab(0);
 
@@ -278,19 +297,6 @@ public class Explorer implements ComponentListener, ActionListener {
 								views[VIEW_GRAPH], tab_windows_3));
 
 				root_window.setWindow(split_window);
-
-				/*
-				// Set gradient theme. The theme properties object is the super object
-				// of our properties object, which
-				// means our property value settings will override the theme values
-				properties.addSuperObject(currentTheme
-						.getRootWindowProperties());
-
-				// Our properties object is the super object of the root window
-				// properties object, so all property values of the
-				// theme and in our property object will be used by the root window
-				root_window.getRootWindowProperties().addSuperObject(properties);
-				*/
 
 				//removing the ugly border on the InfoNode default theme
 				root_window.getRootWindowProperties().getWindowAreaProperties()
@@ -335,28 +341,37 @@ public class Explorer implements ComponentListener, ActionListener {
 		JMenuBar menu_bar = new JMenuBar();
 		main_frame.setJMenuBar(menu_bar);
 
+		/* File menu **********************************************************/
+
 		JMenu menu1 = new JMenu("File");
 		menu1.setMnemonic('F');
 		menu_bar.add(menu1);
 
-		JMenuItem item7 = new JMenuItem("Export graph as JPEG");
+		JMenuItem item7 = new JMenuItem("Export graph as JPG");
 		item7.setMnemonic('J');
 		item7.setActionCommand(ACTION_COMMAND_EXPORT_AS_JPG);
 		item7.addActionListener(this);
 		menu1.add(item7);
 
 		JMenuItem item8 = new JMenuItem("Export graph as GraphML");
+		item8.setMnemonic('G');
+		item8.setDisplayedMnemonicIndex(16);
 		menu1.add(item8);
 
 		menu1.add(new JSeparator());
 
 		JMenuItem item6 = new JMenuItem("Exit");
+		item6.setMnemonic('x');
 		menu1.add(item6);
 
+		/* Views menu *********************************************************/
+
 		JMenu menu2 = new JMenu("Views");
+		menu2.setMnemonic('V');
 		menu_bar.add(menu2);
 
-		final JCheckBoxMenuItem item2 = new JCheckBoxMenuItem("Search View");
+		final JCheckBox item2 = new JCheckBox("Search View");
+		item2.setBorder(new JMenuItem().getBorder());
 		item2.setSelected(true);
 		item2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -445,101 +460,98 @@ public class Explorer implements ComponentListener, ActionListener {
 		});
 		menu2.add(item2);
 
-		final JCheckBoxMenuItem item3 = new JCheckBoxMenuItem(
-				"Concept Description View");
+		final JCheckBox item3 = new JCheckBox("Concept Description View");
+		item3.setBorder(new JMenuItem().getBorder());
 		item3.setSelected(true);
 		item3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!item3.isSelected()) {
-					views[VIEW_CONCEPT_DESCRIPTION].close();
+					views[VIEW_SYNSET_DESCRIPTION].close();
 				} else {
-					views[VIEW_CONCEPT_DESCRIPTION].restore();
+					views[VIEW_SYNSET_DESCRIPTION].restore();
 				}
 			}
 		});
-		views[VIEW_CONCEPT_DESCRIPTION]
-				.addListener(new DockingWindowListener() {
-					@Override
-					public void windowUndocking(DockingWindow arg0)
-							throws OperationAbortedException {
-					}
+		views[VIEW_SYNSET_DESCRIPTION].addListener(new DockingWindowListener() {
+			@Override
+			public void windowUndocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
 
-					@Override
-					public void windowUndocked(DockingWindow arg0) {
-					}
+			@Override
+			public void windowUndocked(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowShown(DockingWindow arg0) {
-					}
+			@Override
+			public void windowShown(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowRestoring(DockingWindow arg0)
-							throws OperationAbortedException {
-					}
+			@Override
+			public void windowRestoring(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
 
-					@Override
-					public void windowRestored(DockingWindow arg0) {
-					}
+			@Override
+			public void windowRestored(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowRemoved(DockingWindow arg0,
-							DockingWindow arg1) {
-					}
+			@Override
+			public void windowRemoved(DockingWindow arg0, DockingWindow arg1) {
+			}
 
-					@Override
-					public void windowMinimizing(DockingWindow arg0)
-							throws OperationAbortedException {
-					}
+			@Override
+			public void windowMinimizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
 
-					@Override
-					public void windowMinimized(DockingWindow arg0) {
-					}
+			@Override
+			public void windowMinimized(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowMaximizing(DockingWindow arg0)
-							throws OperationAbortedException {
-					}
+			@Override
+			public void windowMaximizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
 
-					@Override
-					public void windowMaximized(DockingWindow arg0) {
-					}
+			@Override
+			public void windowMaximized(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowHidden(DockingWindow arg0) {
-					}
+			@Override
+			public void windowHidden(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowDocking(DockingWindow arg0)
-							throws OperationAbortedException {
-					}
+			@Override
+			public void windowDocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
 
-					@Override
-					public void windowDocked(DockingWindow arg0) {
-					}
+			@Override
+			public void windowDocked(DockingWindow arg0) {
+			}
 
-					@Override
-					public void windowClosing(DockingWindow arg0)
-							throws OperationAbortedException {
-					}
+			@Override
+			public void windowClosing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
 
-					@Override
-					public void windowClosed(DockingWindow arg0) {
-						item3.setSelected(false);
-					}
+			@Override
+			public void windowClosed(DockingWindow arg0) {
+				item3.setSelected(false);
+			}
 
-					@Override
-					public void windowAdded(DockingWindow arg0,
-							DockingWindow arg1) {
-					}
+			@Override
+			public void windowAdded(DockingWindow arg0, DockingWindow arg1) {
+			}
 
-					@Override
-					public void viewFocusChanged(View arg0, View arg1) {
-					}
-				});
+			@Override
+			public void viewFocusChanged(View arg0, View arg1) {
+			}
+		});
 		menu2.add(item3);
 
-		final JCheckBoxMenuItem item5 = new JCheckBoxMenuItem(
-				"Graph Information View");
+		final JCheckBox item5 = new JCheckBox("Graph Information View");
+		item5.setBorder(new JMenuItem().getBorder());
 		item5.setSelected(true);
 		item5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -628,7 +640,8 @@ public class Explorer implements ComponentListener, ActionListener {
 		});
 		menu2.add(item5);
 
-		final JCheckBoxMenuItem item4 = new JCheckBoxMenuItem("Satellite View");
+		final JCheckBox item4 = new JCheckBox("Satellite View");
+		item4.setBorder(new JMenuItem().getBorder());
 		item4.setSelected(true);
 		item4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -717,6 +730,8 @@ public class Explorer implements ComponentListener, ActionListener {
 		});
 		menu2.add(item4);
 
+		/* Help menu **********************************************************/
+
 		JMenu menu3 = new JMenu("Help");
 		menu3.setMnemonic('H');
 		menu_bar.add(menu3);
@@ -734,6 +749,21 @@ public class Explorer implements ComponentListener, ActionListener {
 		menu3.add(item9);
 	}
 
+	public void setInfonodeTheme(DockingWindowsTheme docking_windows_theme) {
+		RootWindowProperties properties = new RootWindowProperties();
+
+		// Set gradient theme. The theme properties object is the super object
+		// of our properties object, which
+		// means our property value settings will override the theme values
+		properties.addSuperObject(docking_windows_theme
+				.getRootWindowProperties());
+
+		// Our properties object is the super object of the root window
+		// properties object, so all property values of the
+		// theme and in our property object will be used by the root window
+		root_window.getRootWindowProperties().addSuperObject(properties);
+	}
+
 	public View getView(int view_id) {
 		return views[view_id];
 	}
@@ -748,7 +778,7 @@ public class Explorer implements ComponentListener, ActionListener {
 		getView(VIEW_SATELLITE_VIEW).setComponent(
 				knetgraph_viewer.getSatelliteViewPanel());
 
-		getView(VIEW_CONCEPT_DESCRIPTION).setComponent(
+		getView(VIEW_SYNSET_DESCRIPTION).setComponent(
 				knetgraph_viewer.getConceptDescriptionPanel().getScrollpane());
 
 		getView(VIEW_GRAPH_INFO).setComponent(
