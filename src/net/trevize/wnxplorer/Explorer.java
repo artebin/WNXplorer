@@ -63,6 +63,7 @@ public class Explorer implements ComponentListener, ActionListener {
 	public static final String ACTION_COMMAND_EXPORT_AS_JPG = "ACTION_COMMAND_EXPORT_AS_JPG";
 	public static final String ACTION_COMMAND_ABOUT = "ACTION_COMMAND_ABOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
+	public static final String ACTION_COMMAND_EXIT = "ACTION_COMMAND_EXIT";
 
 	private JFrame main_frame;
 
@@ -362,6 +363,8 @@ public class Explorer implements ComponentListener, ActionListener {
 
 		JMenuItem item6 = new JMenuItem("Exit");
 		item6.setMnemonic('x');
+		item6.setActionCommand(ACTION_COMMAND_EXIT);
+		item6.addActionListener(this);
 		menu1.add(item6);
 
 		/* Views menu *********************************************************/
@@ -880,6 +883,12 @@ public class Explorer implements ComponentListener, ActionListener {
 
 		if (action_command.equals(ACTION_COMMAND_HELP)) {
 			help_dialog.setVisible(true);
+		}
+
+		else
+
+		if (action_command.equals(ACTION_COMMAND_EXIT)) {
+			System.exit(0);
 		}
 	}
 

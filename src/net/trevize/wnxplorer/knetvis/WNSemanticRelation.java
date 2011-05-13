@@ -3,6 +3,7 @@ package net.trevize.wnxplorer.knetvis;
 import java.awt.Color;
 
 import net.trevize.knetvis.KNetSemanticRelation;
+import net.trevize.wnxplorer.WNUtils;
 import edu.mit.jwi.item.Pointer;
 
 public class WNSemanticRelation extends KNetSemanticRelation {
@@ -94,7 +95,7 @@ public class WNSemanticRelation extends KNetSemanticRelation {
 
 	@Override
 	public boolean isSymmetric() {
-		return false;
+		return WNUtils.isSymmetric(pointer);
 	}
 
 }
