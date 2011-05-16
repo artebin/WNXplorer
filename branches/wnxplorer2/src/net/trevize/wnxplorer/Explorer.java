@@ -79,7 +79,7 @@ public class Explorer implements ComponentListener, ActionListener {
 	public static final int VIEW_GRAPH_INFO = 3;
 	public static final int VIEW_SATELLITE_VIEW = 4;
 	public static final String[] VIEWS_TITLE = new String[] { "Search",
-			"Synset description", "Graph info", "Graph view", "Satellite view" };
+			"Synset description", "Graph view", "Graph info", "Satellite view" };
 
 	//WNXplorer components
 	private SearchPanel search_panel;
