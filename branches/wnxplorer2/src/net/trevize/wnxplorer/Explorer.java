@@ -133,10 +133,14 @@ public class Explorer implements ComponentListener, ActionListener {
 		WNUtils.setWN_dict_path(wn_dict_path);
 		if (WNUtils.getWN_JWI_dictionary() == null) {
 			WNXplorerProperties.setWordnet_dict_path("");
+			JFrame dummy_frame = new JFrame();
+			dummy_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+					WNXplorerProperties.getIcon_path_wnxplorer()));
 			JOptionPane
 					.showMessageDialog(
 							main_frame,
 							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or not accessible (or it is not the WordNet <b>dict</b> directory).</body></html>");
+			dummy_frame.dispose();
 			initWordNet();
 		}
 	}
@@ -358,12 +362,13 @@ public class Explorer implements ComponentListener, ActionListener {
 		item8.setMnemonic('G');
 		item8.setDisplayedMnemonicIndex(16);
 		menu1.add(item8);
-		
+
 		JMenuItem item10 = new JMenuItem("apply TreeLayout");
 		item10.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				((KNetGraphViewerImplementation)knetgraph_viewer).applyTreeLayout();
+				((KNetGraphViewerImplementation) knetgraph_viewer)
+						.applyTreeLayout();
 			}
 		});
 		menu1.add(item10);
