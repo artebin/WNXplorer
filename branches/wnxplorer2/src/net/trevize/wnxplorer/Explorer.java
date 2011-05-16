@@ -38,6 +38,7 @@ import net.infonode.docking.properties.RootWindowProperties;
 import net.infonode.docking.theme.DockingWindowsTheme;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
+import net.infonode.util.Direction;
 import net.trevize.knetvis.KNetEdge;
 import net.trevize.knetvis.KNetGraph;
 import net.trevize.knetvis.KNetGraphImplementation;
@@ -157,34 +158,34 @@ public class Explorer implements ComponentListener, ActionListener {
 	}
 
 	private void initInfonodeView(View view) {
-		view.getWindowProperties().getDropFilterProperties()
-				.setChildDropFilter(new DropFilter() {
-					@Override
-					public boolean acceptDrop(DropInfo arg0) {
-						return false;
-					}
-				});
-		view.getWindowProperties().getDropFilterProperties()
-				.setInsertTabDropFilter(new DropFilter() {
-					@Override
-					public boolean acceptDrop(DropInfo arg0) {
-						return false;
-					}
-				});
-		view.getWindowProperties().getDropFilterProperties()
-				.setInteriorDropFilter(new DropFilter() {
-					@Override
-					public boolean acceptDrop(DropInfo arg0) {
-						return false;
-					}
-				});
-		view.getWindowProperties().getDropFilterProperties()
-				.setSplitDropFilter(new DropFilter() {
-					@Override
-					public boolean acceptDrop(DropInfo arg0) {
-						return false;
-					}
-				});
+		//		view.getWindowProperties().getDropFilterProperties()
+		//				.setChildDropFilter(new DropFilter() {
+		//					@Override
+		//					public boolean acceptDrop(DropInfo arg0) {
+		//						return false;
+		//					}
+		//				});
+		//		view.getWindowProperties().getDropFilterProperties()
+		//				.setInsertTabDropFilter(new DropFilter() {
+		//					@Override
+		//					public boolean acceptDrop(DropInfo arg0) {
+		//						return false;
+		//					}
+		//				});
+		//		view.getWindowProperties().getDropFilterProperties()
+		//				.setInteriorDropFilter(new DropFilter() {
+		//					@Override
+		//					public boolean acceptDrop(DropInfo arg0) {
+		//						return false;
+		//					}
+		//				});
+		//		view.getWindowProperties().getDropFilterProperties()
+		//				.setSplitDropFilter(new DropFilter() {
+		//					@Override
+		//					public boolean acceptDrop(DropInfo arg0) {
+		//						return false;
+		//					}
+		//				});
 	}
 
 	private void init() {
@@ -250,14 +251,6 @@ public class Explorer implements ComponentListener, ActionListener {
 				views[VIEW_GRAPH] = new View(VIEWS_TITLE[VIEW_GRAPH], null,
 						knetgraph_viewer.getGraphViewPanel());
 				initInfonodeView(views[VIEW_GRAPH]);
-				views[VIEW_GRAPH].getWindowProperties().setCloseEnabled(false);
-				views[VIEW_GRAPH].getWindowProperties().setDockEnabled(false);
-				views[VIEW_GRAPH].getWindowProperties().setDragEnabled(false);
-				views[VIEW_GRAPH].getWindowProperties().setMinimizeEnabled(
-						false);
-				views[VIEW_GRAPH].getWindowProperties().setUndockEnabled(false);
-				views[VIEW_GRAPH].getWindowProperties().setUndockOnDropEnabled(
-						false);
 				view_map.addView(VIEW_GRAPH, views[VIEW_GRAPH]);
 
 				/* Satellite view *********************************************/
@@ -274,6 +267,7 @@ public class Explorer implements ComponentListener, ActionListener {
 				root_window = DockingUtil.createRootWindow(view_map, true);
 				root_window.getRootWindowProperties().setRecursiveTabsEnabled(
 						false);
+				root_window.getWindowBar(Direction.RIGHT).setEnabled(true);
 
 				root_window.getRootWindowProperties()
 						.getDockingWindowProperties().getDropFilterProperties()
