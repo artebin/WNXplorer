@@ -398,7 +398,7 @@ public class Explorer implements ComponentListener, ActionListener {
 		menu2.setMnemonic('V');
 		menu_bar.add(menu2);
 
-		final JCheckBox item2 = new JCheckBox("Search View");
+		final JCheckBox item2 = new JCheckBox(VIEWS_TITLE[VIEW_SEARCH]);
 		item2.setBorder(new JMenuItem().getBorder());
 		item2.setSelected(true);
 		item2.addActionListener(new ActionListener() {
@@ -488,7 +488,102 @@ public class Explorer implements ComponentListener, ActionListener {
 		});
 		menu2.add(item2);
 
-		final JCheckBox item3 = new JCheckBox("Concept Description View");
+		/**********************************************************************/
+
+		final JCheckBox item11 = new JCheckBox(VIEWS_TITLE[VIEW_GRAPH]);
+		item11.setBorder(new JMenuItem().getBorder());
+		item11.setSelected(true);
+		item11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!item11.isSelected()) {
+					views[VIEW_GRAPH].close();
+				} else {
+					views[VIEW_GRAPH].restore();
+				}
+			}
+		});
+		views[VIEW_GRAPH].addListener(new DockingWindowListener() {
+			@Override
+			public void windowUndocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowUndocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowShown(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRestoring(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowRestored(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRemoved(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void windowMinimizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMinimized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowMaximizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMaximized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowHidden(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowDocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowDocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowClosing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowClosed(DockingWindow arg0) {
+				item11.setSelected(false);
+			}
+
+			@Override
+			public void windowAdded(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void viewFocusChanged(View arg0, View arg1) {
+			}
+		});
+		menu2.add(item11);
+
+		/**********************************************************************/
+
+		final JCheckBox item3 = new JCheckBox(
+				VIEWS_TITLE[VIEW_SYNSET_DESCRIPTION]);
 		item3.setBorder(new JMenuItem().getBorder());
 		item3.setSelected(true);
 		item3.addActionListener(new ActionListener() {
@@ -578,7 +673,9 @@ public class Explorer implements ComponentListener, ActionListener {
 		});
 		menu2.add(item3);
 
-		final JCheckBox item5 = new JCheckBox("Graph Information View");
+		/**********************************************************************/
+
+		final JCheckBox item5 = new JCheckBox(VIEWS_TITLE[VIEW_GRAPH_INFO]);
 		item5.setBorder(new JMenuItem().getBorder());
 		item5.setSelected(true);
 		item5.addActionListener(new ActionListener() {
@@ -668,7 +765,9 @@ public class Explorer implements ComponentListener, ActionListener {
 		});
 		menu2.add(item5);
 
-		final JCheckBox item4 = new JCheckBox("Satellite View");
+		/**********************************************************************/
+
+		final JCheckBox item4 = new JCheckBox(VIEWS_TITLE[VIEW_SATELLITE_VIEW]);
 		item4.setBorder(new JMenuItem().getBorder());
 		item4.setSelected(true);
 		item4.addActionListener(new ActionListener() {
