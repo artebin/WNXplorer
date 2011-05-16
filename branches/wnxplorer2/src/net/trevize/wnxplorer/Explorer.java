@@ -318,6 +318,8 @@ public class Explorer implements ComponentListener, ActionListener {
 				root_window.getRootWindowProperties().getTabWindowProperties()
 						.getTabProperties().getTitledTabProperties()
 						.setFocusMarkerEnabled(false);
+				
+				tab_windows_3.minimize();
 
 				main_frame.getContentPane().add(root_window,
 						BorderLayout.CENTER);
