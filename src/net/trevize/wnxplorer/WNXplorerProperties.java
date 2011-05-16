@@ -30,6 +30,7 @@ public class WNXplorerProperties {
 	public static final String PROPERTY_CSS_PATH_MAIN = "PROPERTY_CSS_PATH_MAIN";
 	public static final String PROPERTY_HTML_PATH_ABOUT = "PROPERTY_HTML_PATH_ABOUT";
 	public static final String PROPERTY_HTML_PATH_HELP = "PROPERTY_HTML_PATH_HELP";
+	public static final String PROPERTY_DOCKING_WINDOWS_THEME = "PROPERTY_DOCKING_WINDOWS_THEME";
 
 	private static String wordnet_dict_path;
 	private static int num_of_results_per_page_into_search_panel;
@@ -42,6 +43,7 @@ public class WNXplorerProperties {
 	private static String css_path_main;
 	private static String html_path_about;
 	private static String html_path_help;
+	private static String docking_windows_theme;
 
 	public static void loadProperties() {
 		properties = new Properties();
@@ -68,6 +70,8 @@ public class WNXplorerProperties {
 		css_path_main = properties.getProperty(PROPERTY_CSS_PATH_MAIN);
 		html_path_about = properties.getProperty(PROPERTY_HTML_PATH_ABOUT);
 		html_path_help = properties.getProperty(PROPERTY_HTML_PATH_HELP);
+		docking_windows_theme = properties
+				.getProperty(PROPERTY_DOCKING_WINDOWS_THEME);
 	}
 
 	public static String getWordnet_dict_path() {
@@ -159,6 +163,13 @@ public class WNXplorerProperties {
 			loadProperties();
 		}
 		return html_path_help;
+	}
+
+	public static String getDocking_windows_theme() {
+		if (properties == null) {
+			loadProperties();
+		}
+		return docking_windows_theme;
 	}
 
 }
