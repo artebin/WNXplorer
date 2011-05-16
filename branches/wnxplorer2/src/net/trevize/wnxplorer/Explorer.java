@@ -118,6 +118,17 @@ public class Explorer implements ComponentListener, ActionListener {
 
 		//set the Infonode theme
 		//setInfonodeTheme(new ShapedGradientDockingTheme());
+		try {
+			setInfonodeTheme((DockingWindowsTheme) Class.forName(
+					WNXplorerProperties.getDocking_windows_theme())
+					.newInstance());
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initWordNet() {
