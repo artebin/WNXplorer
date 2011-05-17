@@ -265,7 +265,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			ISynset synset = WNUtils.getWN_JWI_dictionary()
 					.getSynset(synset_id);
 			WNConcept concept = new WNConcept(synset);
-			explorer.getKnetgraph().addVertexForConcept(concept);
+			explorer.getKnetGraph().addVertexForConcept(concept);
 			explorer.getKNetGraphViewer().fireGraphStructureChanged();
 
 			//center the graph view of the added node

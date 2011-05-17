@@ -978,7 +978,7 @@ public class Explorer implements ComponentListener, ActionListener {
 		return knetgraph_viewer;
 	}
 
-	public KNetGraph getKnetgraph() {
+	public KNetGraph getKnetGraph() {
 		return knetgraph;
 	}
 
