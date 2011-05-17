@@ -269,7 +269,11 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			explorer.getKNetGraphViewer().fireGraphStructureChanged();
 
 			//center the graph view of the added node
-			explorer.getKNetGraphViewer().centerViewsOnConcept(concept);
+			explorer.getKNetGraphViewer().centerGraphViewOnConcept(concept);
+			if (explorer.getKnetGraph().getFilteredGraph().getVertices().size() == 1) {
+				explorer.getKNetGraphViewer().centerSatelliteViewOnConcept(
+						concept);
+			}
 
 			//refresh the views.
 			explorer.refreshViews();
