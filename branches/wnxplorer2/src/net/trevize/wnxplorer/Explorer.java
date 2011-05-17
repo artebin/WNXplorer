@@ -318,18 +318,20 @@ public class Explorer implements ComponentListener, ActionListener {
 				root_window.getRootWindowProperties().getTabWindowProperties()
 						.getTabProperties().getTitledTabProperties()
 						.setFocusMarkerEnabled(false);
-				
-				tab_windows_3.minimize();
+
+				views[VIEW_SYNSET_DESCRIPTION].minimize();
+				views[VIEW_GRAPH_INFO].minimize();
 
 				main_frame.getContentPane().add(root_window,
 						BorderLayout.CENTER);
 			}
 		});
 
-		//add the help button
+		//initialize the dialogs
 		about_dialog = new AboutDialog(main_frame.getRootPane());
 		help_dialog = new HelpDialog(main_frame.getRootPane());
 
+		//initialize the menu bar
 		initApplicationMenuBar();
 	}
 
