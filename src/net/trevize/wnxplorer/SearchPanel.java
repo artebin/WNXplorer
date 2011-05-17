@@ -270,10 +270,12 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 			//center the graph view of the added node
 			explorer.getKNetGraphViewer().centerGraphViewOnConcept(concept);
-			if (explorer.getKnetGraph().getFilteredGraph().getVertices().size() == 1) {
-				explorer.getKNetGraphViewer().centerSatelliteViewOnConcept(
-						concept);
-			}
+
+			//there is a bug in the KNetGraphViewer.centerSatelliteViewOn... method
+			//			if (explorer.getKnetGraph().getFilteredGraph().getVertices().size() == 1) {
+			//				explorer.getKNetGraphViewer().centerSatelliteViewOnConcept(
+			//						concept);
+			//			}
 
 			//refresh the views.
 			explorer.refreshViews();
