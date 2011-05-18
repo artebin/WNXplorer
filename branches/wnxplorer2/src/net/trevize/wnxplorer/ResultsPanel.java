@@ -24,31 +24,6 @@ import edu.mit.jwi.item.ISynset;
 
 public class ResultsPanel {
 
-	private static String getResultHTMLFragment(int result_id, ISynset synset) {
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("[" + (result_id + 1) + "] ");
-		String synset_id = synset.getID().toString();
-		sb.append("<a href=\"synset_id:" + synset_id + "\">");
-		sb.append(synset_id);
-		sb.append("</a>");
-		sb.append("<p>");
-		sb.append(getSynsetShortTextDescription(synset));
-		sb.append("</p>");
-
-		return sb.toString();
-	}
-
-	public static String getSynsetShortTextDescription(ISynset synset) {
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("<b>" + WNUtils.getWords(synset) + "</b>");
-		sb.append("\n");
-		sb.append(synset.getGloss());
-
-		return sb.toString();
-	}
-
 	private ArrayList<ISynset> results;
 
 	//swing components.
@@ -119,7 +94,16 @@ public class ResultsPanel {
 		for (int result_id = idx_start; result_id < results.size()
 				&& result_id < idx_stop; ++result_id) {
 			sb.append("<li>");
-			sb.append(getResultHTMLFragment(result_id, results.get(result_id)));
+			sb.append("[" + (result_id + 1) + "] ");
+			String synset_id = results.get(result_id).getID().toString();
+			sb.append("<a href=\"synset_id:" + synset_id + "\">");
+			sb.append(synset_id);
+			sb.append("</a>");
+			sb.append("<p>");
+			sb.append("<b>" + WNUtils.getWords(results.get(result_id)) + "</b>");
+			sb.append("\n");
+			sb.append(results.get(result_id).getGloss());
+			sb.append("</p>");
 			sb.append("</li>");
 		}
 
