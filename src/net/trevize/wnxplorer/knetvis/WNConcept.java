@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetSemanticRelation;
-import net.trevize.wnxplorer.Explorer;
 import net.trevize.wnxplorer.WNUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
@@ -130,8 +129,8 @@ public class WNConcept extends KNetConcept {
 
 		ArrayList<KNetConcept> related_concepts = new ArrayList<KNetConcept>();
 		for (ISynsetID synset_id : related_synsets) {
-			related_concepts.add(Explorer.WORDNET_RESOURCE
-					.getKNetConcept(synset_id.toString()));
+			related_concepts.add(WNResource.getResource().getKNetConcept(
+					synset_id.toString()));
 		}
 
 		return related_concepts;
@@ -148,9 +147,8 @@ public class WNConcept extends KNetConcept {
 				concepts.add(new WNConcept(WNUtils.getWN_JWI_dictionary()
 						.getSynset(synset_id)));
 			}
-			related_concepts.put(
-					Explorer.WORDNET_RESOURCE.getWNSemanticRelation(pointer),
-					concepts);
+			related_concepts.put(WNResource.getResource()
+					.getWNSemanticRelation(pointer), concepts);
 		}
 
 		return related_concepts;

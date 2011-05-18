@@ -15,10 +15,16 @@ import edu.mit.jwi.item.Pointer;
 
 public class WNResource implements KNetResource {
 
+	private static final WNResource resource = new WNResource();
+
+	public static final WNResource getResource() {
+		return resource;
+	}
+
 	private List<KNetSemanticRelation> semantic_relation_list;
 	private HashMap<IPointer, WNSemanticRelation> pointer_index;
 
-	public WNResource() {
+	private WNResource() {
 		semantic_relation_list = new ArrayList<KNetSemanticRelation>();
 		pointer_index = new HashMap<IPointer, WNSemanticRelation>();
 		init();

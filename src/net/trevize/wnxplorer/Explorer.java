@@ -59,8 +59,6 @@ import net.trevize.wnxplorer.knetvis.WNResource;
 
 public class Explorer implements ComponentListener, ActionListener {
 
-	public static WNResource WORDNET_RESOURCE = new WNResource();
-
 	public static final String ACTION_COMMAND_EXPORT_AS_JPG = "ACTION_COMMAND_EXPORT_AS_JPG";
 	public static final String ACTION_COMMAND_ABOUT = "ACTION_COMMAND_ABOUT";
 	public static final String ACTION_COMMAND_HELP = "ACTION_COMMAND_HELP";
@@ -337,7 +335,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 	public void initGraphView() {
 		//instantiate a new WNGraph.
-		knetgraph = new KNetGraphImplementation(Explorer.WORDNET_RESOURCE);
+		knetgraph = new KNetGraphImplementation(WNResource.getResource());
 
 		//instantiate a new WNGraphPanel.
 		knetgraph_viewer = new KNetGraphViewerImplementation(knetgraph);
