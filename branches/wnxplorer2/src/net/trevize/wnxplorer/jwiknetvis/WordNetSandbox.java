@@ -1,11 +1,11 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwiknetvis;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.WNXplorerProperties;
 
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
