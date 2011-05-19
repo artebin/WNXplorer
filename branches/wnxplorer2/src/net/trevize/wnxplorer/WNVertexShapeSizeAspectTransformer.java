@@ -3,7 +3,7 @@ package net.trevize.wnxplorer;
 import java.awt.Shape;
 
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.wnxplorer.knetvis.WNConcept;
+import net.trevize.wnxplorer.jwiknetvis.WNConcept;
 
 import org.apache.commons.collections15.Transformer;
 

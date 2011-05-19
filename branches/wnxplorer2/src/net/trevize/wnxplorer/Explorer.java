@@ -50,7 +50,8 @@ import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
-import net.trevize.wnxplorer.knetvis.WNResource;
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.jwiknetvis.WNResource;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -144,8 +145,8 @@ public class Explorer implements ComponentListener, ActionListener {
 			wn_dict_path = WNXplorerProperties.getWordnet_dict_path();
 		}
 
-		WNUtils.setWN_dict_path(wn_dict_path);
-		if (WNUtils.getWN_JWI_dictionary() == null) {
+		JWIUtils.setWN_dict_path(wn_dict_path);
+		if (JWIUtils.getWN_JWI_dictionary() == null) {
 			WNXplorerProperties.setWordnet_dict_path("");
 			JFrame dummy_frame = new JFrame();
 			dummy_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(

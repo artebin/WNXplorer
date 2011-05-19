@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
@@ -15,9 +17,9 @@ import edu.mit.jwi.item.SynsetID;
 public class WordNetSandbox {
 
 	public void hypernym_tree() {
-		WNUtils.setWN_dict_path(WNXplorerProperties.getWordnet_dict_path());
+		JWIUtils.setWN_dict_path(WNXplorerProperties.getWordnet_dict_path());
 
-		ISynset synset_thing = WNUtils.getWN_JWI_dictionary().getSynset(
+		ISynset synset_thing = JWIUtils.getWN_JWI_dictionary().getSynset(
 				new SynsetID(1740, POS.NOUN));
 
 		StringBuffer sb = new StringBuffer();
@@ -39,14 +41,14 @@ public class WordNetSandbox {
 				&& related_synsets.get(Pointer.HYPONYM) != null) {
 
 			for (ISynsetID synset_id : related_synsets.get(Pointer.HYPONYM)) {
-				ISynset synset_child = WNUtils.getWN_JWI_dictionary()
+				ISynset synset_child = JWIUtils.getWN_JWI_dictionary()
 						.getSynset(synset_id);
 
 				for (int i = 0; i < level; ++i) {
 					sb.append(".");
 				}
 
-				sb.append(WNUtils.getWords(synset_child));
+				sb.append(JWIUtils.getWords(synset_child));
 				sb.append("\n");
 				hypernym_tree_rec(synset_child, level + 1, sb);
 			}
