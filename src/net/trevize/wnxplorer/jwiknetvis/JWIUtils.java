@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwiknetvis;
 
 import java.awt.Color;
 import java.net.MalformedURLException;
@@ -25,7 +25,7 @@ import edu.mit.jwi.item.SynsetID;
  * WNUtils.java - Apr 6, 2010
  */
 
-public class WNUtils {
+public class JWIUtils {
 
 	private static String wn_dict_path;
 
@@ -34,7 +34,7 @@ public class WNUtils {
 	}
 
 	public static void setWN_dict_path(String wn_dict_path) {
-		WNUtils.wn_dict_path = wn_dict_path;
+		JWIUtils.wn_dict_path = wn_dict_path;
 	}
 
 	private static IDictionary wn_jwi_dictionary;
@@ -216,7 +216,7 @@ public class WNUtils {
 		int pitch = (int) (nb_x11_color / nb_pointers);
 
 		for (Pointer pointer : getPointers()) {
-			int pointer_index = WNUtils.getPointers().indexOf(pointer);
+			int pointer_index = JWIUtils.getPointers().indexOf(pointer);
 			int color_index = pitch * pointer_index + (pitch / 2);
 			String color_name = X11Colors2.getX11_colors().keySet()
 					.toArray(new String[] {})[color_index];
@@ -275,11 +275,11 @@ public class WNUtils {
 		sb.append(synset.getID().toString());
 		sb.append("</h1>");
 
-		sb.append(WNUtils.getWords(synset));
+		sb.append(JWIUtils.getWords(synset));
 		sb.append("<br/>");
 		sb.append(synset.getGloss());
 
-		for (Pointer p : WNUtils.getPointers()) {
+		for (Pointer p : JWIUtils.getPointers()) {
 			List<ISynsetID> related = synset.getRelatedSynsets((IPointer) p);
 
 			if (related.size() != 0) {
@@ -291,7 +291,7 @@ public class WNUtils {
 					sb.append("<li>");
 					sb.append(synset_id
 							+ ": "
-							+ WNUtils.getWords(wn_jwi_dictionary
+							+ JWIUtils.getWords(wn_jwi_dictionary
 									.getSynset(synset_id)));
 					sb.append("</li>");
 				}

@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.knetvis;
+package net.trevize.wnxplorer.jwiknetvis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetSemanticRelation;
-import net.trevize.wnxplorer.WNUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
@@ -33,7 +32,7 @@ public class WNConcept extends KNetConcept {
 
 	public WNConcept(ISynset synset) {
 		this.synset = synset;
-		synset_words = WNUtils.getWords(synset);
+		synset_words = JWIUtils.getWords(synset);
 		pos = synset.getPOS();
 
 		leaf = (synset.getRelatedSynsets().size() == 1);
@@ -90,11 +89,11 @@ public class WNConcept extends KNetConcept {
 		sb.append(synset.getID().toString());
 		sb.append("</h1>");
 
-		sb.append("<b>" + WNUtils.getWords(synset) + "</b>");
+		sb.append("<b>" + JWIUtils.getWords(synset) + "</b>");
 		sb.append("<br/>");
 		sb.append(synset.getGloss());
 
-		for (Pointer p : WNUtils.getPointers()) {
+		for (Pointer p : JWIUtils.getPointers()) {
 			List<ISynsetID> related = synset.getRelatedSynsets((IPointer) p);
 
 			if (related.size() != 0) {
@@ -108,7 +107,7 @@ public class WNConcept extends KNetConcept {
 					sb.append(synset_id);
 					sb.append("</a>");
 					sb.append(": <b>"
-							+ WNUtils.getWords(WNUtils.getWN_JWI_dictionary()
+							+ JWIUtils.getWords(JWIUtils.getWN_JWI_dictionary()
 									.getSynset(synset_id)) + "</b>");
 					sb.append("</li>");
 				}
@@ -144,7 +143,7 @@ public class WNConcept extends KNetConcept {
 		for (IPointer pointer : related_synsets.keySet()) {
 			ArrayList<KNetConcept> concepts = new ArrayList<KNetConcept>();
 			for (ISynsetID synset_id : related_synsets.get(pointer)) {
-				concepts.add(new WNConcept(WNUtils.getWN_JWI_dictionary()
+				concepts.add(new WNConcept(JWIUtils.getWN_JWI_dictionary()
 						.getSynset(synset_id)));
 			}
 			related_concepts.put(WNResource.getResource()

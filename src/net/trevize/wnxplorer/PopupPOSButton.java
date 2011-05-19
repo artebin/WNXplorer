@@ -23,6 +23,8 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+
 import edu.mit.jwi.item.POS;
 
 /**
@@ -102,8 +104,8 @@ public class PopupPOSButton extends JToggleButton {
 
 		DefaultListModel model = new DefaultListModel();
 		pos_checkboxes = new HashMap<POS, JCheckBox>();
-		for (POS pos : WNUtils.getPOSLabels().keySet()) {
-			String pos_label = WNUtils.getPOSLabels().get(pos);
+		for (POS pos : JWIUtils.getPOSLabels().keySet()) {
+			String pos_label = JWIUtils.getPOSLabels().get(pos);
 			JCheckBox pos_checkbox = new JCheckBox(pos_label);
 			pos_checkbox.setSelected(true); //by default the search is performed in all POS.
 			model.addElement(pos_checkbox);

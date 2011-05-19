@@ -13,6 +13,8 @@ import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+
 import edu.mit.jwi.item.ISynset;
 
 /**
@@ -100,7 +102,7 @@ public class ResultsPanel {
 			sb.append(synset_id);
 			sb.append("</a>");
 			sb.append("<p>");
-			sb.append("<b>" + WNUtils.getWords(results.get(result_id)) + "</b>");
+			sb.append("<b>" + JWIUtils.getWords(results.get(result_id)) + "</b>");
 			sb.append("\n");
 			sb.append(results.get(result_id).getGloss());
 			sb.append("</p>");

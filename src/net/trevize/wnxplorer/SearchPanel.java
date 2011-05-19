@@ -23,7 +23,8 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
-import net.trevize.wnxplorer.knetvis.WNConcept;
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.jwiknetvis.WNConcept;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 
@@ -175,7 +176,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void doQuery() {
 		//instantiate a new Searcher and process to the search.
-		Searcher searcher = new Searcher(WNUtils.getWN_JWI_dictionary());
+		Searcher searcher = new Searcher(JWIUtils.getWN_JWI_dictionary());
 		searcher.search(pos_selector_button.getSelectedPOS(), getQuery());
 
 		//instantiate the ResultsPanel.
@@ -261,8 +262,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 			String concept_key = e.getDescription().split(":")[1];
 
-			ISynsetID synset_id = WNUtils.getISynsetIDFromString(concept_key);
-			ISynset synset = WNUtils.getWN_JWI_dictionary()
+			ISynsetID synset_id = JWIUtils.getISynsetIDFromString(concept_key);
+			ISynset synset = JWIUtils.getWN_JWI_dictionary()
 					.getSynset(synset_id);
 			WNConcept concept = new WNConcept(synset);
 			explorer.getKnetGraph().addVertexForConcept(concept);
