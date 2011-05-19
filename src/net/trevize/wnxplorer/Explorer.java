@@ -1,8 +1,10 @@
 package net.trevize.wnxplorer;
 
 import java.awt.AWTEvent;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,6 +51,8 @@ import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
 import net.trevize.wnxplorer.knetvis.WNResource;
+
+import org.apache.commons.collections15.Transformer;
 
 /**
  * 
@@ -266,6 +270,7 @@ public class Explorer implements ComponentListener, ActionListener {
 				root_window.getRootWindowProperties().setRecursiveTabsEnabled(
 						false);
 				root_window.getWindowBar(Direction.RIGHT).setEnabled(true);
+				root_window.getWindowBar(Direction.RIGHT).setContentPanelSize(256);
 
 				root_window.getRootWindowProperties()
 						.getDockingWindowProperties().getDropFilterProperties()
@@ -334,19 +339,28 @@ public class Explorer implements ComponentListener, ActionListener {
 	}
 
 	public void initGraphView() {
-		//instantiate a new WNGraph.
+		//instantiate a new WNGraph
 		knetgraph = new KNetGraphImplementation(WNResource.getResource());
 
-		//instantiate a new WNGraphPanel.
+		//instantiate a new WNGraphPanel
 		knetgraph_viewer = new KNetGraphViewerImplementation(knetgraph);
 
-		//setting the VertexShapeTransformer.
+		//setting a VertexShapeTransformer
 		knetgraph_viewer
 				.getVisualizationViewer()
 				.getRenderContext()
 				.setVertexShapeTransformer(
 						new WNVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
 								knetgraph.getFilteredGraph()));
+
+		//setting an EdgeStrokeTrsnaformer
+		knetgraph_viewer.getVisualizationViewer().getRenderContext()
+				.setEdgeStrokeTransformer(new Transformer<KNetEdge, Stroke>() {
+					@Override
+					public Stroke transform(KNetEdge edge) {
+						return new BasicStroke(2f);
+					}
+				});
 	}
 
 	private void initApplicationMenuBar() {
