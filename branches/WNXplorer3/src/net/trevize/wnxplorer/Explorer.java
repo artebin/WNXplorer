@@ -51,7 +51,7 @@ import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
 import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
-import net.trevize.wnxplorer.jwiknetvis.WNResource;
+import net.trevize.wnxplorer.jwiknetvis.JWIResource;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -341,7 +341,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 	public void initGraphView() {
 		//instantiate a new WNGraph
-		knetgraph = new KNetGraphImplementation(WNResource.getResource());
+		knetgraph = new KNetGraphImplementation(JWIResource.getResource());
 
 		//instantiate a new WNGraphPanel
 		knetgraph_viewer = new KNetGraphViewerImplementation(knetgraph);

@@ -5,7 +5,7 @@ import java.awt.Color;
 import net.trevize.knetvis.KNetSemanticRelation;
 import edu.mit.jwi.item.Pointer;
 
-public class WNSemanticRelation extends KNetSemanticRelation {
+public class JWISemanticRelation extends KNetSemanticRelation {
 
 	private Pointer pointer;
 
@@ -17,9 +17,9 @@ public class WNSemanticRelation extends KNetSemanticRelation {
 	private String description;
 	private String full_description;
 	private Color color;
-	private WNSemanticRelation opposite;
+	private JWISemanticRelation opposite;
 
-	public WNSemanticRelation(Pointer pointer) {
+	public JWISemanticRelation(Pointer pointer) {
 		this.pointer = pointer;
 
 		key = pointer.getName();
@@ -35,7 +35,7 @@ public class WNSemanticRelation extends KNetSemanticRelation {
 		this.color = color;
 	}
 
-	public void setOpposite(WNSemanticRelation semrel) {
+	public void setOpposite(JWISemanticRelation semrel) {
 		this.opposite = semrel;
 	}
 
