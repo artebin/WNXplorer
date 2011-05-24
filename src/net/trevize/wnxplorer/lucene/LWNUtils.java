@@ -79,7 +79,7 @@ public class LWNUtils {
 		TopDocs topdocs = null;
 		try {
 			Query query = query_parser.parse(key);
-			topdocs = searcher.search(query, 1);
+			topdocs = getSearcher().search(query, 1);
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -89,7 +89,7 @@ public class LWNUtils {
 		if (topdocs != null && topdocs.totalHits > 1) {
 			Document document = null;
 			try {
-				document = searcher.doc(topdocs.scoreDocs[0].doc);
+				document = getSearcher().doc(topdocs.scoreDocs[0].doc);
 			} catch (CorruptIndexException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

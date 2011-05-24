@@ -1,13 +1,11 @@
-package net.trevize.wnxplorer.jwi;
+package net.trevize.wnxplorer.lucene.knetvis;
 
 import java.awt.Shape;
 
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.wnxplorer.jwi.knetvis.WNConcept;
 
 import org.apache.commons.collections15.Transformer;
 
-import edu.mit.jwi.item.POS;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.decorators.AbstractVertexShapeTransformer;
 
@@ -57,25 +55,25 @@ public class POSVertexShapeSizeAspectTransformer<V, E> extends
 
 	public Shape transform(V v) {
 		KNetVertex vertex = (KNetVertex) v;
-		WNConcept concept = (WNConcept) vertex.getConcept();
+		LWNConcept concept = (LWNConcept) vertex.getConcept();
 
-		if (concept.getPOS().equals(POS.NOUN)) {
+		if (concept.getPOS().equals(LWNResource.POS_NOUN)) {
 			return factory.getEllipse(v);
 		}
 
 		else
 
-		if (concept.getPOS().equals(POS.VERB)) {
+		if (concept.getPOS().equals(LWNResource.POS_VERB)) {
 			return factory.getRectangle(v);
 		}
 
 		else
 
-		if (concept.getPOS().equals(POS.ADJECTIVE)) {
+		if (concept.getPOS().equals(LWNResource.POS_ADJECTIVE)) {
 			return factory.getRegularPolygon(v, 5);
 		}
 
-		else if (concept.getPOS().equals(POS.ADVERB)) {
+		else if (concept.getPOS().equals(LWNResource.POS_ADVERB)) {
 			return factory.getRegularPolygon(v, 3);
 		}
 
