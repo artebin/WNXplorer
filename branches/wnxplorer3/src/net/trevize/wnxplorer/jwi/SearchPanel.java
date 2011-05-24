@@ -25,7 +25,7 @@ import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
 import net.trevize.wnxplorer.Explorer;
 import net.trevize.wnxplorer.WNXplorerProperties;
-import net.trevize.wnxplorer.jwi.knetvis.WNConcept;
+import net.trevize.wnxplorer.jwi.knetvis.JWIConcept;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 
@@ -266,7 +266,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			ISynsetID synset_id = JWIUtils.getISynsetIDFromString(concept_key);
 			ISynset synset = JWIUtils.getWN_JWI_dictionary()
 					.getSynset(synset_id);
-			WNConcept concept = new WNConcept(synset);
+			JWIConcept concept = new JWIConcept(synset);
 			explorer.getKnetGraph().addVertexForConcept(concept);
 			explorer.getKNetGraphViewer().fireGraphStructureChanged();
 
