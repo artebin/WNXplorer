@@ -51,6 +51,8 @@ import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
 import net.trevize.wnxplorer.jwi.JWIUtils;
+import net.trevize.wnxplorer.jwi.SearchPanel;
+import net.trevize.wnxplorer.jwi.POSVertexShapeSizeAspectTransformer;
 import net.trevize.wnxplorer.jwi.knetvis.WNResource;
 
 import org.apache.commons.collections15.Transformer;
@@ -351,7 +353,7 @@ public class Explorer implements ComponentListener, ActionListener {
 				.getVisualizationViewer()
 				.getRenderContext()
 				.setVertexShapeTransformer(
-						new WNVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
+						new POSVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
 								knetgraph.getFilteredGraph()));
 
 		//setting an EdgeStrokeTrsnaformer

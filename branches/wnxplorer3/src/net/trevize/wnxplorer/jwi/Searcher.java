@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwi;
 
 import java.util.ArrayList;
 import java.util.List;
