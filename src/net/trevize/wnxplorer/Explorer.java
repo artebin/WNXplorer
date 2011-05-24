@@ -49,8 +49,8 @@ import net.trevize.knetvis.KNetGraphViewerImplementation;
 import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.jwi.GetWordNetPathDialog;
 import net.trevize.wnxplorer.jwi.JWIUtils;
-import net.trevize.wnxplorer.jwi.knetvis.POSVertexShapeSizeAspectTransformer;
-import net.trevize.wnxplorer.jwi.knetvis.WNResource;
+import net.trevize.wnxplorer.jwi.knetvis.JWIPOSVertexShapeSizeAspectTransformer;
+import net.trevize.wnxplorer.jwi.knetvis.JWIResource;
 import net.trevize.wnxplorer.lucene.LWNUtils;
 import net.trevize.wnxplorer.lucene.SearchPanel;
 
@@ -345,7 +345,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 	public void initGraphView() {
 		//instantiate a new WNGraph
-		knetgraph = new KNetGraphImplementation(WNResource.getResource());
+		knetgraph = new KNetGraphImplementation(JWIResource.getResource());
 
 		//instantiate a new WNGraphPanel
 		knetgraph_viewer = new KNetGraphViewerImplementation(knetgraph);
@@ -355,7 +355,7 @@ public class Explorer implements ComponentListener, ActionListener {
 				.getVisualizationViewer()
 				.getRenderContext()
 				.setVertexShapeTransformer(
-						new net.trevize.wnxplorer.lucene.knetvis.POSVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
+						new net.trevize.wnxplorer.lucene.knetvis.LWNPOSVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
 								knetgraph.getFilteredGraph()));
 
 		//setting an EdgeStrokeTrsnaformer

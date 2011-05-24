@@ -19,14 +19,14 @@ import edu.uci.ics.jung.visualization.decorators.AbstractVertexShapeTransformer;
  * @param <E>
  */
 
-public class POSVertexShapeSizeAspectTransformer<V, E> extends
+public class JWIPOSVertexShapeSizeAspectTransformer<V, E> extends
 		AbstractVertexShapeTransformer<V> implements Transformer<V, Shape> {
 
 	protected boolean stretch = false;
 	protected boolean scale = false;
 	protected Graph<V, E> graph;
 
-	public POSVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
+	public JWIPOSVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
 		this.graph = graphIn;
 		setSizeTransformer(new Transformer<V, Integer>() {
 			public Integer transform(V v) {
@@ -56,7 +56,7 @@ public class POSVertexShapeSizeAspectTransformer<V, E> extends
 
 	public Shape transform(V v) {
 		KNetVertex vertex = (KNetVertex) v;
-		WNConcept concept = (WNConcept) vertex.getConcept();
+		JWIConcept concept = (JWIConcept) vertex.getConcept();
 
 		if (concept.getPOS().equals(POS.NOUN)) {
 			return factory.getEllipse(v);
