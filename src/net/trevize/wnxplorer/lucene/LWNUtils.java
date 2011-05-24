@@ -101,4 +101,17 @@ public class LWNUtils {
 		}
 	}
 
+	public static String getDocumentShortTextDescription(Document doc) {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append(doc.getField(SYNSET_DATA_ID).stringValue());
+		sb.append("\n");
+
+		sb.append(getWords(doc));
+		sb.append("\n");
+		sb.append(doc.getField(SYNSET_DATA_GLOSS).stringValue());
+
+		return sb.toString();
+	}
+
 }
