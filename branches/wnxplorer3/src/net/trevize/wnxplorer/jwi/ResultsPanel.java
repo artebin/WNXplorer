@@ -14,7 +14,6 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
 import net.trevize.wnxplorer.WNXplorerProperties;
-
 import edu.mit.jwi.item.ISynset;
 
 /**

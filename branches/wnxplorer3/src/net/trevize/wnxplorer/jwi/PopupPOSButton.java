@@ -23,7 +23,6 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 
-
 import edu.mit.jwi.item.POS;
 
 /**

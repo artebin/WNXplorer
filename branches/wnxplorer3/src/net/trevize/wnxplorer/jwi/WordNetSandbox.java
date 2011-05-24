@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.trevize.wnxplorer.WNXplorerProperties;
-
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
