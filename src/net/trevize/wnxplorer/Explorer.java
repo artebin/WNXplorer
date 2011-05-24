@@ -50,8 +50,8 @@ import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
-import net.trevize.wnxplorer.jwiknetvis.WNResource;
+import net.trevize.wnxplorer.jwi.JWIUtils;
+import net.trevize.wnxplorer.jwi.knetvis.WNResource;
 
 import org.apache.commons.collections15.Transformer;
 

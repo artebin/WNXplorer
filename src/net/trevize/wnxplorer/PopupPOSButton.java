@@ -23,7 +23,7 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.jwi.JWIUtils;
 
 import edu.mit.jwi.item.POS;
 
