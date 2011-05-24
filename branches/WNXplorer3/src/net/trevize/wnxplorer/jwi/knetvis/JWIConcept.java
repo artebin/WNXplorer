@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.jwiknetvis;
+package net.trevize.wnxplorer.jwi.knetvis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetSemanticRelation;
+import net.trevize.wnxplorer.jwi.JWIUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;

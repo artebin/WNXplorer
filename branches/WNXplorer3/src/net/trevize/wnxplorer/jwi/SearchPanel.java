@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwi;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -23,8 +23,9 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
-import net.trevize.wnxplorer.jwiknetvis.JWIConcept;
+import net.trevize.wnxplorer.Explorer;
+import net.trevize.wnxplorer.WNXplorerProperties;
+import net.trevize.wnxplorer.jwi.knetvis.JWIConcept;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 

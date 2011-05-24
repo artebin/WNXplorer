@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwi;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,7 +13,7 @@ import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.WNXplorerProperties;
 
 import edu.mit.jwi.item.ISynset;
 

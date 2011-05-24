@@ -1,9 +1,8 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwi.knetvis;
 
 import java.awt.Shape;
 
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.wnxplorer.jwiknetvis.JWIConcept;
 
 import org.apache.commons.collections15.Transformer;
 

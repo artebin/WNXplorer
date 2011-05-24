@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.jwiknetvis;
+package net.trevize.wnxplorer.jwi.knetvis;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import net.trevize.knetvis.KNetConcept;
 import net.trevize.knetvis.KNetResource;
 import net.trevize.knetvis.KNetSemanticRelation;
 import net.trevize.tinker.X11Colors2;
+import net.trevize.wnxplorer.jwi.JWIUtils;
 import edu.mit.jwi.item.IPointer;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
