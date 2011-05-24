@@ -50,7 +50,7 @@ import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.jwi.GetWordNetPathDialog;
 import net.trevize.wnxplorer.jwi.JWIUtils;
 import net.trevize.wnxplorer.jwi.POSVertexShapeSizeAspectTransformer;
-import net.trevize.wnxplorer.jwi.SearchPanel;
+import net.trevize.wnxplorer.lucene.SearchPanel;
 import net.trevize.wnxplorer.jwi.knetvis.WNResource;
 
 import org.apache.commons.collections15.Transformer;
