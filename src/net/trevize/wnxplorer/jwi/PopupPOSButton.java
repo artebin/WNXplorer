@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwi;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -23,7 +23,6 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 
-import net.trevize.wnxplorer.jwi.JWIUtils;
 
 import edu.mit.jwi.item.POS;
 
