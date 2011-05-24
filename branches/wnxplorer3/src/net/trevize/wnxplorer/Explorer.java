@@ -49,9 +49,10 @@ import net.trevize.knetvis.KNetGraphViewerImplementation;
 import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.jwi.GetWordNetPathDialog;
 import net.trevize.wnxplorer.jwi.JWIUtils;
-import net.trevize.wnxplorer.jwi.POSVertexShapeSizeAspectTransformer;
-import net.trevize.wnxplorer.lucene.SearchPanel;
+import net.trevize.wnxplorer.jwi.knetvis.POSVertexShapeSizeAspectTransformer;
 import net.trevize.wnxplorer.jwi.knetvis.WNResource;
+import net.trevize.wnxplorer.lucene.LWNUtils;
+import net.trevize.wnxplorer.lucene.SearchPanel;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -97,7 +98,8 @@ public class Explorer implements ComponentListener, ActionListener {
 		/*
 		 * try to load the IDictionary
 		 */
-		initWordNet();
+		//initWordNet();
+		initLuceneWordNet();
 
 		/*
 		 * main initialization: application components and GUI components.
@@ -154,6 +156,11 @@ public class Explorer implements ComponentListener, ActionListener {
 							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or not accessible (or it is not the WordNet <b>dict</b> directory).</body></html>");
 			initWordNet();
 		}
+	}
+
+	private void initLuceneWordNet() {
+		LWNUtils.setLucene_index_path(WNXplorerProperties
+				.getLucene_wordnet_index_path());
 	}
 
 	private void initInfonodeView(View view) {
@@ -348,7 +355,7 @@ public class Explorer implements ComponentListener, ActionListener {
 				.getVisualizationViewer()
 				.getRenderContext()
 				.setVertexShapeTransformer(
-						new POSVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
+						new net.trevize.wnxplorer.lucene.knetvis.POSVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
 								knetgraph.getFilteredGraph()));
 
 		//setting an EdgeStrokeTrsnaformer
