@@ -53,7 +53,7 @@ import net.trevize.wnxplorer.dialogs.HelpDialog;
 import net.trevize.wnxplorer.jwi.JWIUtils;
 import net.trevize.wnxplorer.jwi.SearchPanel;
 import net.trevize.wnxplorer.jwi.knetvis.JWIResource;
-import net.trevize.wnxplorer.jwi.knetvis.WNVertexShapeSizeAspectTransformer;
+import net.trevize.wnxplorer.jwi.knetvis.POSVertexShapeSizeAspectTransformer;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -150,14 +150,10 @@ public class Explorer implements ComponentListener, ActionListener {
 		JWIUtils.setWN_dict_path(wn_dict_path);
 		if (JWIUtils.getWN_JWI_dictionary() == null) {
 			WNXplorerProperties.setWordnet_dict_path("");
-			JFrame dummy_frame = new JFrame();
-			dummy_frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-					WNXplorerProperties.getIcon_path_wnxplorer()));
 			JOptionPane
 					.showMessageDialog(
 							main_frame,
 							"<html><body>The indicated <b>dict</b> directory (part of WordNet) is not readable or not accessible (or it is not the WordNet <b>dict</b> directory).</body></html>");
-			dummy_frame.dispose();
 			initWordNet();
 		}
 	}
@@ -273,7 +269,8 @@ public class Explorer implements ComponentListener, ActionListener {
 				root_window.getRootWindowProperties().setRecursiveTabsEnabled(
 						false);
 				root_window.getWindowBar(Direction.RIGHT).setEnabled(true);
-				root_window.getWindowBar(Direction.RIGHT).setContentPanelSize(256);
+				root_window.getWindowBar(Direction.RIGHT).setContentPanelSize(
+						256);
 
 				root_window.getRootWindowProperties()
 						.getDockingWindowProperties().getDropFilterProperties()
@@ -353,7 +350,7 @@ public class Explorer implements ComponentListener, ActionListener {
 				.getVisualizationViewer()
 				.getRenderContext()
 				.setVertexShapeTransformer(
-						new WNVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
+						new POSVertexShapeSizeAspectTransformer<KNetVertex, KNetEdge>(
 								knetgraph.getFilteredGraph()));
 
 		//setting an EdgeStrokeTrsnaformer

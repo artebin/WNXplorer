@@ -19,14 +19,14 @@ import edu.uci.ics.jung.visualization.decorators.AbstractVertexShapeTransformer;
  * @param <E>
  */
 
-public class WNVertexShapeSizeAspectTransformer<V, E> extends
+public class POSVertexShapeSizeAspectTransformer<V, E> extends
 		AbstractVertexShapeTransformer<V> implements Transformer<V, Shape> {
 
 	protected boolean stretch = false;
 	protected boolean scale = false;
 	protected Graph<V, E> graph;
 
-	public WNVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
+	public POSVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
 		this.graph = graphIn;
 		setSizeTransformer(new Transformer<V, Integer>() {
 			public Integer transform(V v) {
