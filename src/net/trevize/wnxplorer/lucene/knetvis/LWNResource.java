@@ -23,10 +23,10 @@ public class LWNResource implements KNetResource {
 	 * Part Of Speech
 	 **************************************************************************/
 
-	public static final String POS_NOUN = "POS_NOUN";
-	public static final String POS_VERB = "POS_VERB";
-	public static final String POS_ADJECTIVE = "POS_ADJECTIVE";
-	public static final String POS_ADVERB = "POS_ADVERB";
+	public static final String POS_NOUN = "NOUN";
+	public static final String POS_VERB = "VERB";
+	public static final String POS_ADJECTIVE = "ADJECTIVE";
+	public static final String POS_ADVERB = "ADVERB";
 
 	private static List<String> pos;
 

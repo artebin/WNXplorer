@@ -41,6 +41,7 @@ public class LWNConcept extends KNetConcept {
 		synset_words = document.getField(LWNUtils.SYNSET_DATA_WORD_LEMMA)
 				.stringValue();
 		synset_pos = document.getField(LWNUtils.SYNSET_DATA_POS).stringValue();
+		System.out.println(synset_pos);
 		leaf = true;
 		key = document.getField(LWNUtils.SYNSET_DATA_ID).stringValue();
 		short_label = LWNUtils.getWords(document);
