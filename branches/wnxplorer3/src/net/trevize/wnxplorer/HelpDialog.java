@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.dialogs;
+package net.trevize.wnxplorer;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import net.trevize.wnxplorer.WNXplorerProperties;
 
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;
@@ -32,7 +31,14 @@ import org.xhtmlrenderer.swing.FSMouseListener;
 import org.xhtmlrenderer.swing.LinkListener;
 import org.xhtmlrenderer.swing.SelectionHighlighter;
 
-public class AboutDialog extends JDialog implements WindowListener,
+/**
+ * 
+ * 
+ * @author Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
+ * HelpDialog.java - Oct 29, 2010
+ */
+
+public class HelpDialog extends JDialog implements WindowListener,
 		HyperlinkListener {
 
 	private JPanel main_panel;
@@ -40,14 +46,13 @@ public class AboutDialog extends JDialog implements WindowListener,
 	private FSScrollPane scrollpane;
 	private JButton close_button;
 
-	public AboutDialog(JComponent parent) {
+	public HelpDialog(JComponent parent) {
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setTitle("About");
+		setTitle("Help");
 		init();
 		setIconImage(new ImageIcon(WNXplorerProperties.getIcon_path_wnxplorer())
 				.getImage());
-		setSize(442, 442);
-		setResizable(false);
+		setSize(768, 512);
 		setLocationRelativeTo(parent);
 	}
 
@@ -62,9 +67,15 @@ public class AboutDialog extends JDialog implements WindowListener,
 		scrollpane = new FSScrollPane();
 		main_panel.add(scrollpane, BorderLayout.CENTER);
 
+		//remove the ugly border of the scrollpane viewport.
+		//		Border empty = new EmptyBorder(0, 0, 0, 0);
+		//		scrollpane.setViewportBorder(empty);
+		//		scrollpane.getHorizontalScrollBar().setBorder(empty);
+		//		scrollpane.getVerticalScrollBar().setBorder(empty);
+
 		xhtml_panel = new XHTMLPanel();
 		xhtml_panel.setDocument(new File(WNXplorerProperties
-				.getHtml_path_about()).toURI().toString());
+				.getHtml_path_help()).toURI().toString());
 		xhtml_panel.getSharedContext().getTextRenderer()
 				.setSmoothingThreshold(1.f);
 
@@ -97,8 +108,6 @@ public class AboutDialog extends JDialog implements WindowListener,
 		scrollpane.setViewportView(xhtml_panel);
 		scrollpane
 				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollpane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		//create a panel for the close button at the bottom of the HelpDialog
 		//the Close button is centered using two Box.createGlue()
@@ -122,8 +131,8 @@ public class AboutDialog extends JDialog implements WindowListener,
 	}
 
 	/***************************************************************************
-	* implementation of WindowListener.
-	**************************************************************************/
+	 * implementation of WindowListener.
+	 **************************************************************************/
 
 	@Override
 	public void windowActivated(WindowEvent e) {
@@ -155,8 +164,8 @@ public class AboutDialog extends JDialog implements WindowListener,
 	}
 
 	/***************************************************************************
-	* implementation of HyperlinkListener.
-	**************************************************************************/
+	 * implementation of HyperlinkListener.
+	 **************************************************************************/
 
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
