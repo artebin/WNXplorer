@@ -179,7 +179,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	private void doQuery() {
 		//instantiate a new Searcher and process to the search.
 		LWNSearcher searcher = new LWNSearcher(new WhitespaceAnalyzer());
-		searcher.search(null, getQuery(), "./LuceneIndex");
+		searcher.search(null, getQuery(),
+				WNXplorerProperties.getLucene_wordnet_index_path());
 
 		//instantiate the ResultsPanel.
 		results_panel = new LWNResultsPanel(searcher.getTopdocs(),

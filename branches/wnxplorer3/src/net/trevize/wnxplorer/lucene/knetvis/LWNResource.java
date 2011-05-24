@@ -331,8 +331,6 @@ public class LWNResource implements KNetResource {
 			semantic_relation.setColor(getSemanticRelationColor().get(
 					getSemanticRelationKeys().get(i)));
 			semantic_relation_list.add(semantic_relation);
-			System.out.println(semantic_relation_index);
-			System.out.println(getSemanticRelationKeys());
 			semantic_relation_index.put(getSemanticRelationKeys().get(i),
 					semantic_relation);
 		}
