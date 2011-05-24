@@ -31,5 +31,7 @@
 	<classpathentry kind="lib" path="lib/core-renderer.jar"/>
 	<classpathentry kind="lib" path="lib/KNetVis-0.3-2011.05.11.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-core-3.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/conja-1.03-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
