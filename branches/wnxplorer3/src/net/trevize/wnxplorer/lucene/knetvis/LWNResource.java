@@ -15,7 +15,7 @@ public class LWNResource implements KNetResource {
 
 	private static final LWNResource resource = new LWNResource();
 
-	public static final LWNResource getResource() {
+	public static LWNResource getResource() {
 		return resource;
 	}
 

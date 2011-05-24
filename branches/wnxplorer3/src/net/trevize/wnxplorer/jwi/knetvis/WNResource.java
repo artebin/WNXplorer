@@ -17,7 +17,7 @@ public class WNResource implements KNetResource {
 
 	private static final WNResource resource = new WNResource();
 
-	public static final WNResource getResource() {
+	public static WNResource getResource() {
 		return resource;
 	}
 
