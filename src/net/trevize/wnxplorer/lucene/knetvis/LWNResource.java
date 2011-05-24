@@ -319,6 +319,7 @@ public class LWNResource implements KNetResource {
 
 	private LWNResource() {
 		semantic_relation_list = new ArrayList<KNetSemanticRelation>();
+		semantic_relation_index = new HashMap<String, LWNSemanticRelation>();
 		init();
 	}
 
@@ -330,6 +331,8 @@ public class LWNResource implements KNetResource {
 			semantic_relation.setColor(getSemanticRelationColor().get(
 					getSemanticRelationKeys().get(i)));
 			semantic_relation_list.add(semantic_relation);
+			System.out.println(semantic_relation_index);
+			System.out.println(getSemanticRelationKeys());
 			semantic_relation_index.put(getSemanticRelationKeys().get(i),
 					semantic_relation);
 		}
