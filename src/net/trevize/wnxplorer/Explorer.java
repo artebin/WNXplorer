@@ -47,12 +47,12 @@ import net.trevize.knetvis.KNetGraphImplementation;
 import net.trevize.knetvis.KNetGraphViewer;
 import net.trevize.knetvis.KNetGraphViewerImplementation;
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.wnxplorer.jwi.GetWordNetPathDialog;
+import net.trevize.wnxplorer.jwi.GetWordNetDictPathDialog;
 import net.trevize.wnxplorer.jwi.JWIUtils;
 import net.trevize.wnxplorer.jwi.knetvis.JWIPOSVertexShapeSizeAspectTransformer;
 import net.trevize.wnxplorer.jwi.knetvis.JWIResource;
 import net.trevize.wnxplorer.lucene.LWNUtils;
-import net.trevize.wnxplorer.lucene.SearchPanel;
+import net.trevize.wnxplorer.lucene.LWNSearchPanel;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -87,7 +87,7 @@ public class Explorer implements ComponentListener, ActionListener {
 			"Synset description", "Graph view", "Graph info", "Satellite view" };
 
 	//WNXplorer components
-	private SearchPanel search_panel;
+	private LWNSearchPanel search_panel;
 	private KNetGraph knetgraph;
 	private KNetGraphViewer knetgraph_viewer;
 
@@ -142,7 +142,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 		//if no WordNet installation path indicated in the properties file, show the directory selector.
 		if (wn_dict_path.equals("")) {
-			GetWordNetPathDialog d = new GetWordNetPathDialog(main_frame);
+			GetWordNetDictPathDialog d = new GetWordNetDictPathDialog(main_frame);
 			d.setVisible(true);
 			wn_dict_path = WNXplorerProperties.getWordnet_dict_path();
 		}
@@ -216,7 +216,7 @@ public class Explorer implements ComponentListener, ActionListener {
 
 		/* setting the application components *********************************/
 
-		search_panel = new SearchPanel(this);
+		search_panel = new LWNSearchPanel(this);
 
 		initGraphView();
 

@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.lucene;
+package net.trevize.wnxplorer.jwi;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -23,12 +23,11 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
-import net.trevize.knetvis.KNetConcept;
 import net.trevize.wnxplorer.Explorer;
 import net.trevize.wnxplorer.WNXplorerProperties;
-import net.trevize.wnxplorer.lucene.knetvis.LWNResource;
-
-import org.apache.lucene.analysis.WhitespaceAnalyzer;
+import net.trevize.wnxplorer.jwi.knetvis.JWIConcept;
+import edu.mit.jwi.item.ISynset;
+import edu.mit.jwi.item.ISynsetID;
 
 /**
  * 
@@ -37,7 +36,7 @@ import org.apache.lucene.analysis.WhitespaceAnalyzer;
  * SearchPanel.java - Mar 30, 2010
  */
 
-public class SearchPanel implements ActionListener, HyperlinkListener,
+public class JWISearchPanel implements ActionListener, HyperlinkListener,
 		KeyListener {
 
 	public static final String ACTION_COMMAND_DO_QUERY = "ACTION_COMMAND_DO_QUERY";
@@ -57,7 +56,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	//components for the query search field.
 	private JTextField search_textfield;
 	private JButton do_query_button;
-	private PopupPOSButton pos_selector_button;
+	private JWIPopupPOSButton pos_selector_button;
 
 	//components of the toolbar.
 	private JButton button_previous_result_page;
@@ -66,7 +65,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	//components for displaying the results.
 	private JScrollPane scrollpane;
-	private LWNResultsPanel results_panel;
+	private JWIResultsPanel results_panel;
 
 	private CellStyle style_p0 = new CellStyle(1., 0.,
 			GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
@@ -75,7 +74,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,
 					0, 0, 0), 0, 0);
 
-	public SearchPanel(Explorer explorer) {
+	public JWISearchPanel(Explorer explorer) {
 		this.explorer = explorer;
 		init();
 	}
@@ -101,7 +100,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		p0.add(p2, BorderLayout.EAST);
 		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
 
-		pos_selector_button = new PopupPOSButton();
+		pos_selector_button = new JWIPopupPOSButton();
 		p2.add(pos_selector_button);
 
 		do_query_button = new JButton("\u21B5");
@@ -178,13 +177,11 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 	private void doQuery() {
 		//instantiate a new Searcher and process to the search.
-		LWNSearcher searcher = new LWNSearcher(new WhitespaceAnalyzer());
-		searcher.search(null, getQuery(),
-				WNXplorerProperties.getLucene_wordnet_index_path());
+		JWISearcher searcher = new JWISearcher(JWIUtils.getWN_JWI_dictionary());
+		searcher.search(pos_selector_button.getSelectedPOS(), getQuery());
 
 		//instantiate the ResultsPanel.
-		results_panel = new LWNResultsPanel(searcher.getTopdocs(),
-				searcher.getSearcher());
+		results_panel = new JWIResultsPanel(searcher.getResults());
 		results_panel.getView().addHyperlinkListener(this);
 		results_panel.retrievePage(0);
 
@@ -266,8 +263,10 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 			String concept_key = e.getDescription().split(":")[1];
 
-			KNetConcept concept = LWNResource.getResource().getKNetConcept(
-					concept_key);
+			ISynsetID synset_id = JWIUtils.getISynsetIDFromString(concept_key);
+			ISynset synset = JWIUtils.getWN_JWI_dictionary()
+					.getSynset(synset_id);
+			JWIConcept concept = new JWIConcept(synset);
 			explorer.getKnetGraph().addVertexForConcept(concept);
 			explorer.getKNetGraphViewer().fireGraphStructureChanged();
 
@@ -313,7 +312,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		return search_panel;
 	}
 
-	public PopupPOSButton getPos_selector_button() {
+	public JWIPopupPOSButton getPos_selector_button() {
 		return pos_selector_button;
 	}
 

@@ -23,7 +23,7 @@ import edu.mit.jwi.item.ISynset;
  * ResultsPanel.java - Apr 6, 2010
  */
 
-public class ResultsPanel {
+public class JWIResultsPanel {
 
 	private ArrayList<ISynset> results;
 
@@ -35,7 +35,7 @@ public class ResultsPanel {
 			.getNum_of_results_per_page_into_search_panel();
 	private int current_page_number;
 
-	public ResultsPanel(ArrayList<ISynset> results) {
+	public JWIResultsPanel(ArrayList<ISynset> results) {
 		this.results = results;
 		current_page_number = 0;
 		init();

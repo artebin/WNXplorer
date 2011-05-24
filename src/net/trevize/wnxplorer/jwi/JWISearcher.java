@@ -17,13 +17,13 @@ import edu.mit.jwi.morph.WordnetStemmer;
  * Searcher.java - Mar 25, 2010
  */
 
-public class Searcher {
+public class JWISearcher {
 
 	private IDictionary dict;
 	private WordnetStemmer stemmer;
 	private ArrayList<ISynset> results;
 
-	public Searcher(IDictionary dict) {
+	public JWISearcher(IDictionary dict) {
 		this.dict = dict;
 		stemmer = new WordnetStemmer(dict);
 	}

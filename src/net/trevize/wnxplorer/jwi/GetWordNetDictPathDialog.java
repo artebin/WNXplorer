@@ -30,13 +30,13 @@ import net.trevize.wnxplorer.WNXplorerProperties;
  * GetWordNetPathDialog.java - Oct 29, 2010
  */
 
-public class GetWordNetPathDialog extends JDialog implements FSEListener,
+public class GetWordNetDictPathDialog extends JDialog implements FSEListener,
 		WindowListener {
 
 	private JFrame parent;
 	private FSTree fstree;
 
-	public GetWordNetPathDialog(JFrame parent) {
+	public GetWordNetDictPathDialog(JFrame parent) {
 		this.parent = parent;
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("WordNet installation path");

@@ -32,7 +32,7 @@ import net.trevize.wnxplorer.lucene.knetvis.LWNResource;
  * PopupPOSButton.java - Oct 27, 2010
  */
 
-public class PopupPOSButton extends JToggleButton {
+public class LWNPopupPOSButton extends JToggleButton {
 
 	private AbstractAction show_popup_action = new AbstractAction("POS") {
 		public void actionPerformed(ActionEvent e) {
@@ -55,10 +55,10 @@ public class PopupPOSButton extends JToggleButton {
 				Point location = new Point(0 - panelSize.width
 						+ getPreferredSize().width, getPreferredSize().height);
 				SwingUtilities.convertPointToScreen(location,
-						PopupPOSButton.this);
+						LWNPopupPOSButton.this);
 
 				popup = PopupFactory.getSharedInstance().getPopup(
-						PopupPOSButton.this, pos_list_panel, location.x,
+						LWNPopupPOSButton.this, pos_list_panel, location.x,
 						location.y);
 
 				popup.show();
@@ -86,7 +86,7 @@ public class PopupPOSButton extends JToggleButton {
 	private JPanel pos_list_panel;
 	private JList pos_jlist;
 
-	public PopupPOSButton() {
+	public LWNPopupPOSButton() {
 		setMargin(new Insets(0, 0, 0, 0));
 
 		/*
