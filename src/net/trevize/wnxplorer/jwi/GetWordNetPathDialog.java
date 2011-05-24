@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.dialogs;
+package net.trevize.wnxplorer.jwi;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
