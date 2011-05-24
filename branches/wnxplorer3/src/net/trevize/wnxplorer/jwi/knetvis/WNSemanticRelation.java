@@ -1,8 +1,9 @@
-package net.trevize.wnxplorer.jwiknetvis;
+package net.trevize.wnxplorer.jwi.knetvis;
 
 import java.awt.Color;
 
 import net.trevize.knetvis.KNetSemanticRelation;
+import net.trevize.wnxplorer.jwi.JWIUtils;
 import edu.mit.jwi.item.Pointer;
 
 public class WNSemanticRelation extends KNetSemanticRelation {

@@ -13,7 +13,7 @@ import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.jwi.JWIUtils;
 
 import edu.mit.jwi.item.ISynset;
 

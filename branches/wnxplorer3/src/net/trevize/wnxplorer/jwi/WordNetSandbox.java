@@ -1,4 +1,4 @@
-package net.trevize.wnxplorer.jwiknetvis;
+package net.trevize.wnxplorer.jwi;
 
 import java.io.FileWriter;
 import java.io.IOException;

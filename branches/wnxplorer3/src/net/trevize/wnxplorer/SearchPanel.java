@@ -23,8 +23,8 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
-import net.trevize.wnxplorer.jwiknetvis.WNConcept;
+import net.trevize.wnxplorer.jwi.JWIUtils;
+import net.trevize.wnxplorer.jwi.knetvis.WNConcept;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 
