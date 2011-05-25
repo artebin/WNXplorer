@@ -3,7 +3,7 @@ package net.trevize.wnxplorer;
 import java.awt.Shape;
 
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.wnxplorer.jwiknetvis.WNConcept;
+import net.trevize.wnxplorer.jwiknetvis.JWIConcept;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -57,7 +57,7 @@ public class WNVertexShapeSizeAspectTransformer<V, E> extends
 
 	public Shape transform(V v) {
 		KNetVertex vertex = (KNetVertex) v;
-		WNConcept concept = (WNConcept) vertex.getConcept();
+		JWIConcept concept = (JWIConcept) vertex.getConcept();
 
 		if (concept.getPOS().equals(POS.NOUN)) {
 			return factory.getEllipse(v);

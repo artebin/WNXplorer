@@ -12,26 +12,26 @@ import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.Pointer;
 
-public class WNResource implements KNetResource {
+public class JWIResource implements KNetResource {
 
-	private static final WNResource resource = new WNResource();
+	private static final JWIResource resource = new JWIResource();
 
-	public static final WNResource getResource() {
+	public static final JWIResource getResource() {
 		return resource;
 	}
 
 	private List<KNetSemanticRelation> semantic_relation_list;
-	private HashMap<IPointer, WNSemanticRelation> pointer_index;
+	private HashMap<IPointer, JWISemanticRelation> pointer_index;
 
-	private WNResource() {
+	private JWIResource() {
 		semantic_relation_list = new ArrayList<KNetSemanticRelation>();
-		pointer_index = new HashMap<IPointer, WNSemanticRelation>();
+		pointer_index = new HashMap<IPointer, JWISemanticRelation>();
 		init();
 	}
 
 	private void init() {
 		for (Pointer pointer : JWIUtils.getPointers()) {
-			WNSemanticRelation wn_semrel = new WNSemanticRelation(pointer);
+			JWISemanticRelation wn_semrel = new JWISemanticRelation(pointer);
 			wn_semrel.setColor(JWIUtils.getPointersColor().get(pointer));
 			semantic_relation_list.add(wn_semrel);
 			pointer_index.put(pointer, wn_semrel);
@@ -39,13 +39,13 @@ public class WNResource implements KNetResource {
 
 		//setting the opposite
 		for (Pointer pointer : JWIUtils.getPointers()) {
-			WNSemanticRelation wn_semrel = pointer_index.get(pointer);
+			JWISemanticRelation wn_semrel = pointer_index.get(pointer);
 			wn_semrel.setOpposite(pointer_index.get(JWIUtils
 					.getOpposite(pointer)));
 		}
 	}
 
-	public WNSemanticRelation getWNSemanticRelation(IPointer pointer) {
+	public JWISemanticRelation getWNSemanticRelation(IPointer pointer) {
 		return pointer_index.get(pointer);
 	}
 
@@ -57,7 +57,7 @@ public class WNResource implements KNetResource {
 	public KNetConcept getKNetConcept(String key) {
 		ISynsetID synset_id = JWIUtils.getISynsetIDFromString(key);
 		ISynset synset = JWIUtils.getWN_JWI_dictionary().getSynset(synset_id);
-		WNConcept concept = new WNConcept(synset);
+		JWIConcept concept = new JWIConcept(synset);
 		return concept;
 	}
 
