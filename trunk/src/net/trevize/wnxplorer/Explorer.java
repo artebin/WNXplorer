@@ -339,7 +339,7 @@ public class Explorer implements ComponentListener, ActionListener {
 		initApplicationMenuBar();
 	}
 
-	public void initGraphView() {
+	private void initGraphView() {
 		//instantiate a new WNGraph
 		knetgraph = new KNetGraphImplementation(JWIResource.getResource());
 
@@ -362,6 +362,8 @@ public class Explorer implements ComponentListener, ActionListener {
 						return new BasicStroke(2f);
 					}
 				});
+		
+		knetgraph_viewer.getVisualizationViewer().setDoubleBuffered(true);
 	}
 
 	private void initApplicationMenuBar() {
