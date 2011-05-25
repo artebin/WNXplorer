@@ -13,7 +13,7 @@ import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.POS;
 import edu.mit.jwi.item.Pointer;
 
-public class WNConcept extends KNetConcept {
+public class JWIConcept extends KNetConcept {
 
 	private ISynset synset;
 	private String synset_words;
@@ -30,7 +30,7 @@ public class WNConcept extends KNetConcept {
 	private String description;
 	private String full_description;
 
-	public WNConcept(ISynset synset) {
+	public JWIConcept(ISynset synset) {
 		this.synset = synset;
 		synset_words = JWIUtils.getWords(synset);
 		pos = synset.getPOS();
@@ -123,12 +123,12 @@ public class WNConcept extends KNetConcept {
 	@Override
 	public List<KNetConcept> getRelatedConcepts(
 			KNetSemanticRelation semantic_relation) {
-		Pointer pointer = ((WNSemanticRelation) semantic_relation).getPointer();
+		Pointer pointer = ((JWISemanticRelation) semantic_relation).getPointer();
 		List<ISynsetID> related_synsets = synset.getRelatedSynsets(pointer);
 
 		ArrayList<KNetConcept> related_concepts = new ArrayList<KNetConcept>();
 		for (ISynsetID synset_id : related_synsets) {
-			related_concepts.add(WNResource.getResource().getKNetConcept(
+			related_concepts.add(JWIResource.getResource().getKNetConcept(
 					synset_id.toString()));
 		}
 
@@ -143,10 +143,10 @@ public class WNConcept extends KNetConcept {
 		for (IPointer pointer : related_synsets.keySet()) {
 			ArrayList<KNetConcept> concepts = new ArrayList<KNetConcept>();
 			for (ISynsetID synset_id : related_synsets.get(pointer)) {
-				concepts.add(new WNConcept(JWIUtils.getWN_JWI_dictionary()
+				concepts.add(new JWIConcept(JWIUtils.getWN_JWI_dictionary()
 						.getSynset(synset_id)));
 			}
-			related_concepts.put(WNResource.getResource()
+			related_concepts.put(JWIResource.getResource()
 					.getWNSemanticRelation(pointer), concepts);
 		}
 
