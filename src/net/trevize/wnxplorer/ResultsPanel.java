@@ -7,6 +7,7 @@ import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
 
 import org.xhtmlrenderer.simple.XHTMLPanel;
 import org.xhtmlrenderer.simple.extend.XhtmlNamespaceHandler;
+import org.xhtmlrenderer.swing.SelectionHighlighter;
 
 import edu.mit.jwi.item.ISynset;
 
@@ -37,6 +38,8 @@ public class ResultsPanel {
 		xhtml_panel = new XHTMLPanel();
 		xhtml_panel.getSharedContext().getTextRenderer()
 				.setSmoothingThreshold(1.f);
+		SelectionHighlighter sh = new SelectionHighlighter();
+		sh.install(xhtml_panel);
 	}
 
 	/**
@@ -62,12 +65,11 @@ public class ResultsPanel {
 			sb.append("<a href=\"synset_id:" + synset_id + "\">");
 			sb.append(synset_id);
 			sb.append("</a>");
-			sb.append("<p>");
+			sb.append("<br/>");
 			sb.append("<b>" + JWIUtils.getWords(results.get(result_id))
 					+ "</b>");
-			sb.append("\n");
+			sb.append("<br/>");
 			sb.append(results.get(result_id).getGloss());
-			sb.append("</p>");
 			sb.append("</div>");
 		}
 
