@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,8 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
@@ -27,6 +26,9 @@ import net.trevize.wnxplorer.jwiknetvis.JWIConcept;
 import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
 
 import org.xhtmlrenderer.simple.FSScrollPane;
+import org.xhtmlrenderer.swing.BasicPanel;
+import org.xhtmlrenderer.swing.FSMouseListener;
+import org.xhtmlrenderer.swing.LinkListener;
 
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
@@ -38,7 +40,7 @@ import edu.mit.jwi.item.ISynsetID;
  * SearchPanel.java - Mar 30, 2010
  */
 
-public class SearchPanel implements ActionListener, HyperlinkListener,
+public class SearchPanel extends LinkListener implements ActionListener,
 		KeyListener {
 
 	public static final String ACTION_COMMAND_DO_QUERY = "ACTION_COMMAND_DO_QUERY";
@@ -186,7 +188,18 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 
 		//instantiate the ResultsPanel.
 		results_panel = new ResultsPanel(searcher.getResults());
-		//results_panel.getView().addHyperlinkListener(this);
+
+		//remove the default LinkListener
+		List<FSMouseListener> mouse_tracking_listeners = results_panel
+				.getView().getMouseTrackingListeners();
+		for (FSMouseListener listener : mouse_tracking_listeners) {
+			if (listener instanceof LinkListener) {
+				results_panel.getView().removeMouseTrackingListener(listener);
+			}
+		}
+		//install our LinkListener
+		results_panel.getView().addMouseTrackingListener(this);
+
 		results_panel.retrievePage(0);
 
 		//update the results_status.
@@ -259,33 +272,30 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	}
 
 	/***************************************************************************
-	 * implementation of HyperlinkListener.
+	 * implementation of LinkListener.
 	 **************************************************************************/
 
 	@Override
-	public void hyperlinkUpdate(HyperlinkEvent e) {
-		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			String concept_key = e.getDescription().split(":")[1];
+	public void linkClicked(BasicPanel panel, String uri) {
+		String concept_key = uri.split(":")[1];
 
-			ISynsetID synset_id = JWIUtils.getISynsetIDFromString(concept_key);
-			ISynset synset = JWIUtils.getWN_JWI_dictionary().getSynset(
-					synset_id);
-			JWIConcept concept = new JWIConcept(synset);
-			explorer.getKnetGraph().addVertexForConcept(concept);
-			explorer.getKNetGraphViewer().fireGraphStructureChanged();
+		ISynsetID synset_id = JWIUtils.getISynsetIDFromString(concept_key);
+		ISynset synset = JWIUtils.getWN_JWI_dictionary().getSynset(synset_id);
+		JWIConcept concept = new JWIConcept(synset);
+		explorer.getKnetGraph().addVertexForConcept(concept);
+		explorer.getKNetGraphViewer().fireGraphStructureChanged();
 
-			//center the graph view of the added node
-			explorer.getKNetGraphViewer().centerGraphViewOnConcept(concept);
+		//center the graph view of the added node
+		explorer.getKNetGraphViewer().centerGraphViewOnConcept(concept);
 
-			//there is a bug in the KNetGraphViewer.centerSatelliteViewOn... method
-			//			if (explorer.getKnetGraph().getFilteredGraph().getVertices().size() == 1) {
-			//				explorer.getKNetGraphViewer().centerSatelliteViewOnConcept(
-			//						concept);
-			//			}
+		//there is a bug in the KNetGraphViewer.centerSatelliteViewOn... method
+		//			if (explorer.getKnetGraph().getFilteredGraph().getVertices().size() == 1) {
+		//				explorer.getKNetGraphViewer().centerSatelliteViewOnConcept(
+		//						concept);
+		//			}
 
-			//refresh the views.
-			explorer.refreshViews();
-		}
+		//refresh the views.
+		explorer.refreshViews();
 	}
 
 	/***************************************************************************
