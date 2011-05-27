@@ -2,6 +2,8 @@ body {
   border: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
+  font-size: 14px; 
+  font-family: arial, helvetica, sans-serif;
 }
 
 a:hover {
@@ -46,6 +48,10 @@ li {
 
 .style1 li {
   padding-bottom: 8px;
+}
+
+.style1 div {
+  border-bottom: 3px solid #88b6e3;
 }
 
 .help {
