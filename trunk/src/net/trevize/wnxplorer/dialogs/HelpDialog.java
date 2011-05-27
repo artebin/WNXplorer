@@ -20,8 +20,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 
 import net.trevize.wnxplorer.WNXplorerProperties;
 
@@ -39,8 +37,7 @@ import org.xhtmlrenderer.swing.SelectionHighlighter;
  * HelpDialog.java - Oct 29, 2010
  */
 
-public class HelpDialog extends JDialog implements WindowListener,
-		HyperlinkListener {
+public class HelpDialog extends JDialog implements WindowListener {
 
 	private JPanel main_panel;
 	private XHTMLPanel xhtml_panel;
@@ -162,27 +159,6 @@ public class HelpDialog extends JDialog implements WindowListener,
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-	}
-
-	/***************************************************************************
-	 * implementation of HyperlinkListener.
-	 **************************************************************************/
-
-	@Override
-	public void hyperlinkUpdate(HyperlinkEvent e) {
-		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			System.out.println("link clicked");
-			System.out.println(e.getDescription());
-
-			try {
-				java.awt.Desktop.getDesktop().browse(
-						new URI(e.getDescription()));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (URISyntaxException e1) {
-				e1.printStackTrace();
-			}
-		}
 	}
 
 }
