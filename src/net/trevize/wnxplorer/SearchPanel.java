@@ -23,8 +23,11 @@ import javax.swing.event.HyperlinkListener;
 
 import net.trevize.gui.layout.CellStyle;
 import net.trevize.gui.layout.XGridBag;
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
 import net.trevize.wnxplorer.jwiknetvis.JWIConcept;
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+
+import org.xhtmlrenderer.simple.FSScrollPane;
+
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 
@@ -63,7 +66,7 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 	private JLabel results_status; //how many results etc.
 
 	//components for displaying the results.
-	private JScrollPane scrollpane;
+	private FSScrollPane scrollpane;
 	private ResultsPanel results_panel;
 
 	private CellStyle style_p0 = new CellStyle(1., 0.,
@@ -139,7 +142,9 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 		xgb.add(p1, style_p0, 1, 0);
 
 		//setting the scrollpane for the results panel.
-		scrollpane = new JScrollPane();
+		scrollpane = new FSScrollPane();
+		scrollpane
+				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollpane.setViewportView(new JPanel()); //at starting time no results, hence an empty panel is used.
 
 		xgb.add(scrollpane, style_p1, 2, 0);
@@ -263,8 +268,8 @@ public class SearchPanel implements ActionListener, HyperlinkListener,
 			String concept_key = e.getDescription().split(":")[1];
 
 			ISynsetID synset_id = JWIUtils.getISynsetIDFromString(concept_key);
-			ISynset synset = JWIUtils.getWN_JWI_dictionary()
-					.getSynset(synset_id);
+			ISynset synset = JWIUtils.getWN_JWI_dictionary().getSynset(
+					synset_id);
 			JWIConcept concept = new JWIConcept(synset);
 			explorer.getKnetGraph().addVertexForConcept(concept);
 			explorer.getKNetGraphViewer().fireGraphStructureChanged();
