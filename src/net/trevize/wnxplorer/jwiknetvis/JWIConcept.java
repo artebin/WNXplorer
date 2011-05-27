@@ -20,7 +20,9 @@ public class JWIConcept extends KNetConcept {
 	private POS pos;
 
 	private boolean leaf;
-	private static final char CHAR_LEAF_INDICATOR = '\u25C6';
+	private boolean isolated;
+	private static final char CHAR_ISOLATED_INDICATOR = '\u21CD';
+	private static final char CHAR_LEAF_INDICATOR = '\u21D0';
 
 	private String key;
 	private String short_label;
@@ -35,6 +37,7 @@ public class JWIConcept extends KNetConcept {
 		synset_words = JWIUtils.getWords(synset);
 		pos = synset.getPOS();
 
+		isolated = (synset.getRelatedSynsets().size() == 0);
 		leaf = (synset.getRelatedSynsets().size() == 1);
 
 		key = synset.getID().toString();
@@ -57,7 +60,9 @@ public class JWIConcept extends KNetConcept {
 
 	@Override
 	public String getShortLabel() {
-		return (leaf ? CHAR_LEAF_INDICATOR : "") + short_label;
+		return (leaf ? CHAR_LEAF_INDICATOR
+				: (isolated ? CHAR_ISOLATED_INDICATOR : ""))
+				+ short_label;
 	}
 
 	@Override
@@ -123,7 +128,8 @@ public class JWIConcept extends KNetConcept {
 	@Override
 	public List<KNetConcept> getRelatedConcepts(
 			KNetSemanticRelation semantic_relation) {
-		Pointer pointer = ((JWISemanticRelation) semantic_relation).getPointer();
+		Pointer pointer = ((JWISemanticRelation) semantic_relation)
+				.getPointer();
 		List<ISynsetID> related_synsets = synset.getRelatedSynsets(pointer);
 
 		ArrayList<KNetConcept> related_concepts = new ArrayList<KNetConcept>();
