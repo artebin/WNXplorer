@@ -1,9 +1,8 @@
-package net.trevize.wnxplorer;
+package net.trevize.wnxplorer.jwiknetvis;
 
 import java.awt.Shape;
 
 import net.trevize.knetvis.KNetVertex;
-import net.trevize.wnxplorer.jwiknetvis.JWIConcept;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -20,14 +19,14 @@ import edu.uci.ics.jung.visualization.decorators.AbstractVertexShapeTransformer;
  * @param <E>
  */
 
-public class WNVertexShapeSizeAspectTransformer<V, E> extends
+public class JWIVertexShapeSizeAspectTransformer<V, E> extends
 		AbstractVertexShapeTransformer<V> implements Transformer<V, Shape> {
 
 	protected boolean stretch = false;
 	protected boolean scale = false;
 	protected Graph<V, E> graph;
 
-	public WNVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
+	public JWIVertexShapeSizeAspectTransformer(Graph<V, E> graphIn) {
 		this.graph = graphIn;
 		setSizeTransformer(new Transformer<V, Integer>() {
 			public Integer transform(V v) {
