@@ -1,19 +1,12 @@
 package net.trevize.wnxplorer;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JEditorPane;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
-
 import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+
+import org.xhtmlrenderer.simple.XHTMLPanel;
+import org.xhtmlrenderer.simple.extend.XhtmlNamespaceHandler;
 
 import edu.mit.jwi.item.ISynset;
 
@@ -28,9 +21,7 @@ public class ResultsPanel {
 
 	private ArrayList<ISynset> results;
 
-	//swing components.
-	private JEditorPane view;
-	private HTMLEditorKit kit;
+	private XHTMLPanel xhtml_panel;
 
 	private int num_of_results_per_page = WNXplorerProperties
 			.getNum_of_results_per_page_into_search_panel();
@@ -43,41 +34,9 @@ public class ResultsPanel {
 	}
 
 	private void init() {
-		//create a new JEditorPane derived for setting ANTIALIASING ON
-		view = new JEditorPane() {
-			public void paintComponent(Graphics g) {
-				Graphics2D g2d = (Graphics2D) g;
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				super.paintComponent(g);
-			}
-		};
-		view.setEditable(false);
-		kit = new HTMLEditorKit();
-		view.setEditorKit(kit);
-
-		//loading the stylesheet.
-		StyleSheet ss = new StyleSheet();
-		StringBuffer sb = new StringBuffer();
-
-		try {
-			FileReader fr = new FileReader(
-					WNXplorerProperties.getCss_path_main());
-			BufferedReader br = new BufferedReader(fr);
-			sb = new StringBuffer();
-			String line;
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-			br.close();
-			fr.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		ss.addRule(sb.toString());
-		kit.getStyleSheet().addStyleSheet(ss);
+		xhtml_panel = new XHTMLPanel();
+		xhtml_panel.getSharedContext().getTextRenderer()
+				.setSmoothingThreshold(1.f);
 	}
 
 	/**
@@ -89,30 +48,33 @@ public class ResultsPanel {
 	public void retrieveResults(int idx_start, int idx_stop) {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("<html><body class=\"style1\">");
-
-		sb.append("<ul>");
+		sb.append("<html>");
+		sb.append("<head><link rel=\"stylesheet\" type=\"text/css\" href=\""
+				+ new File(WNXplorerProperties.getCss_path_main()).toURI()
+						.toString() + "\" /></head>");
+		sb.append("<body class=\"style1\">");
 
 		for (int result_id = idx_start; result_id < results.size()
 				&& result_id < idx_stop; ++result_id) {
-			sb.append("<li>");
+			sb.append("<div>");
 			sb.append("[" + (result_id + 1) + "] ");
 			String synset_id = results.get(result_id).getID().toString();
 			sb.append("<a href=\"synset_id:" + synset_id + "\">");
 			sb.append(synset_id);
 			sb.append("</a>");
 			sb.append("<p>");
-			sb.append("<b>" + JWIUtils.getWords(results.get(result_id)) + "</b>");
+			sb.append("<b>" + JWIUtils.getWords(results.get(result_id))
+					+ "</b>");
 			sb.append("\n");
 			sb.append(results.get(result_id).getGloss());
 			sb.append("</p>");
-			sb.append("</li>");
+			sb.append("</div>");
 		}
 
-		sb.append("</ul>");
 		sb.append("</body></html>");
 
-		view.setText(sb.toString());
+		xhtml_panel.setDocumentFromString(sb.toString(), null,
+				new XhtmlNamespaceHandler());
 	}
 
 	public void retrievePage(int page_number) {
@@ -192,8 +154,8 @@ public class ResultsPanel {
 	 * getters and setters.
 	 **************************************************************************/
 
-	public JEditorPane getView() {
-		return view;
+	public XHTMLPanel getView() {
+		return xhtml_panel;
 	}
 
 	public int getCurrent_page_number() {
