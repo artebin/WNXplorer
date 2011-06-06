@@ -9,7 +9,7 @@ software for the WordNet database.
 See http://njames.trevize.net/wiki/projects:wnxplorer and
 https://code.google.com/p/wnxplorer/
 
-You can check out the code using the google code:
+You can check out the code on the Google Code repository:
 svn checkout http://wnxplorer.googlecode.com/svn/trunk/ wnxplorer-read-only
 
 Copyright 2010-2011 Nicolas James
