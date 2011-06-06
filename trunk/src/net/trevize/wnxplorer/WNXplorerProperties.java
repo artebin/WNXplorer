@@ -15,7 +15,7 @@ import java.util.Properties;
 
 public class WNXplorerProperties {
 
-	public static final String PROPERTIES_FILEPATH = "./WNXplorer.properties";
+	public static final String PROPERTIES_FILEPATH = "./config/WNXplorer.properties";
 	public static Properties properties;
 	private static final String PROPERTIES_COMMENTS = "This is the properties file of WNXplorer, a Java application for navigating into WordNet\n#Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]";
 
