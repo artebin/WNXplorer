@@ -1,0 +1,23 @@
+WNXplorer 2.1 (May 12, 2011)
+============================
+
+Author: Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
+
+This is version 2.1 of WNXplorer, an interactive and graph-based navigation 
+software for the WordNet database.
+
+See http://njames.trevize.net/wiki/projects:wnxplorer and
+https://code.google.com/p/wnxplorer/
+
+You can check out the code using the google code:
+svn checkout http://wnxplorer.googlecode.com/svn/trunk/ wnxplorer-read-only
+
+Copyright 2010-2011 Nicolas James
+WNXplorer is published under GPLv3 license, see the COPYING file.
+
+Installation Instructions
+=========================
+
+Simply execute the shell script WNXplorer.sh if you are using a GNU/Linux 
+system, or the batch file WNXplorer.bat if you are not lucky and you have to
+use MS-Windows.
