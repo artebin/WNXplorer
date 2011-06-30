@@ -50,8 +50,8 @@ import net.trevize.knetvis.KNetVertex;
 import net.trevize.wnxplorer.dialogs.AboutDialog;
 import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
-import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
 import net.trevize.wnxplorer.jwiknetvis.JWIResource;
+import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
 import net.trevize.wnxplorer.jwiknetvis.JWIVertexShapeSizeAspectTransformer;
 
 import org.apache.commons.collections15.Transformer;
@@ -192,6 +192,89 @@ public class Explorer implements ComponentListener, ActionListener {
 		//				});
 	}
 
+	private void initInfonodeTabWindow(final TabWindow tab_window) {
+		tab_window.addListener(new DockingWindowListener() {
+			@Override
+			public void windowUndocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowUndocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowShown(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRestoring(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowRestored(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowRemoved(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void windowMinimizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMinimized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowMaximizing(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowMaximized(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowHidden(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowDocking(DockingWindow arg0)
+					throws OperationAbortedException {
+			}
+
+			@Override
+			public void windowDocked(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowClosing(DockingWindow arg0)
+					throws OperationAbortedException {
+				int window_count = tab_window.getChildWindowCount();
+				for (int i = 0; i < window_count; ++i) {
+					DockingWindow window = tab_window.getChildWindow(i);
+					window.close();
+				}
+			}
+
+			@Override
+			public void windowClosed(DockingWindow arg0) {
+			}
+
+			@Override
+			public void windowAdded(DockingWindow arg0, DockingWindow arg1) {
+			}
+
+			@Override
+			public void viewFocusChanged(View arg0, View arg1) {
+			}
+		});
+	}
+
 	private void init() {
 		/* setting the main frame *********************************************/
 
@@ -272,7 +355,8 @@ public class Explorer implements ComponentListener, ActionListener {
 				root_window.getRootWindowProperties().setRecursiveTabsEnabled(
 						false);
 				root_window.getWindowBar(Direction.RIGHT).setEnabled(true);
-				root_window.getWindowBar(Direction.RIGHT).setContentPanelSize(256);
+				root_window.getWindowBar(Direction.RIGHT).setContentPanelSize(
+						256);
 
 				root_window.getRootWindowProperties()
 						.getDockingWindowProperties().getDropFilterProperties()
@@ -293,17 +377,20 @@ public class Explorer implements ComponentListener, ActionListener {
 				//the TabWindow for Search
 				TabWindow tab_windows_1 = new TabWindow(
 						new View[] { views[VIEW_SEARCH] });
+				initInfonodeTabWindow(tab_windows_1);
 				tab_windows_1.setSelectedTab(0);
 
 				//the TabWindow for SatelliteView
 				TabWindow tab_windows_2 = new TabWindow(
 						new View[] { views[VIEW_SATELLITE_VIEW] });
+				initInfonodeTabWindow(tab_windows_2);
 				tab_windows_2.setSelectedTab(0);
 
 				//the TabWindow for ConceptDescriptionPanel and GraphInfoPanel
 				TabWindow tab_windows_3 = new TabWindow(
 						new View[] { views[VIEW_SYNSET_DESCRIPTION],
 								views[VIEW_GRAPH_INFO] });
+				initInfonodeTabWindow(tab_windows_3);
 				tab_windows_3.setSelectedTab(0);
 
 				SplitWindow split_window = new SplitWindow(true, 0.2f,
@@ -363,7 +450,7 @@ public class Explorer implements ComponentListener, ActionListener {
 						return new BasicStroke(2f);
 					}
 				});
-		
+
 		knetgraph_viewer.getVisualizationViewer().setDoubleBuffered(true);
 	}
 
