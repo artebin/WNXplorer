@@ -3,6 +3,7 @@ package net.trevize.wnxplorer;
 import java.awt.AWTEvent;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.Toolkit;
@@ -52,6 +53,7 @@ import net.trevize.wnxplorer.dialogs.GetWordNetPathDialog;
 import net.trevize.wnxplorer.dialogs.HelpDialog;
 import net.trevize.wnxplorer.jwiknetvis.JWIResource;
 import net.trevize.wnxplorer.jwiknetvis.JWIUtils;
+import net.trevize.wnxplorer.jwiknetvis.JWIVertexLabelRenderer;
 import net.trevize.wnxplorer.jwiknetvis.JWIVertexShapeSizeAspectTransformer;
 
 import org.apache.commons.collections15.Transformer;
@@ -450,6 +452,12 @@ public class Explorer implements ComponentListener, ActionListener {
 						return new BasicStroke(2f);
 					}
 				});
+
+		//setting a VertexLabelRenderer
+		JWIVertexLabelRenderer<KNetVertex> vertex_label_renderer = new JWIVertexLabelRenderer<KNetVertex>(
+				Color.YELLOW);
+		knetgraph_viewer.getVisualizationViewer().getRenderContext()
+				.setVertexLabelRenderer(vertex_label_renderer);
 
 		knetgraph_viewer.getVisualizationViewer().setDoubleBuffered(true);
 	}
