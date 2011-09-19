@@ -25,20 +25,6 @@ public class GlobalKeyListener implements AWTEventListener {
 		fullscreen = false;
 	}
 
-	public void eventDispatched(AWTEvent e) {
-		switch (e.getID()) {
-		case KeyEvent.KEY_PRESSED:
-			keyPressed((KeyEvent) e);
-			break;
-		case KeyEvent.KEY_RELEASED:
-			keyReleased((KeyEvent) e);
-			break;
-		case KeyEvent.KEY_TYPED:
-			keyTyped((KeyEvent) e);
-			break;
-		}
-	}
-
 	public void keyPressed(KeyEvent e) {
 		if ((e.getModifiers() & KeyEvent.ALT_MASK) != 0
 				&& e.getKeyCode() == KeyEvent.VK_S) {
@@ -94,6 +80,25 @@ public class GlobalKeyListener implements AWTEventListener {
 	}
 
 	public void keyTyped(KeyEvent e) {
+	}
+
+	/***************************************************************************
+	 * implementation of AWTEventListener
+	 **************************************************************************/
+
+	@Override
+	public void eventDispatched(AWTEvent e) {
+		switch (e.getID()) {
+		case KeyEvent.KEY_PRESSED:
+			keyPressed((KeyEvent) e);
+			break;
+		case KeyEvent.KEY_RELEASED:
+			keyReleased((KeyEvent) e);
+			break;
+		case KeyEvent.KEY_TYPED:
+			keyTyped((KeyEvent) e);
+			break;
+		}
 	}
 
 }
