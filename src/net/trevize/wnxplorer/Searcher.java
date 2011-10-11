@@ -30,7 +30,7 @@ public class Searcher {
 
 	public void search(List<POS> pos_list, String queryString) {
 		//calling the stemmer.
-		List<String> stems = stemmer.findStems(queryString);
+		List<String> stems = stemmer.findStems(queryString, null);
 
 		ArrayList<IWordID> all_word_id = new ArrayList<IWordID>();
 

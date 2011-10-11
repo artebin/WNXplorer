@@ -32,6 +32,10 @@ li {
   border: 0px 0px 0px 0px;
 }
 
+.result_item {
+  padding: 3px 3px 3px 3px;
+}
+
 .style1 h2 {
   color: #ffffff;
   font-size: 14px;

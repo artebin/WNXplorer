@@ -59,24 +59,30 @@ public class ResultsPanel {
 
 		for (int result_id = idx_start; result_id < results.size()
 				&& result_id < idx_stop; ++result_id) {
-			sb.append("<div>");
-			sb.append("[" + (result_id + 1) + "] ");
-			String synset_id = results.get(result_id).getID().toString();
-			sb.append("<a href=\"synset_id:" + synset_id + "\">");
-			sb.append(synset_id);
-			sb.append("</a>");
-			sb.append("<br/>");
-			sb.append("<b>" + JWIUtils.getWords(results.get(result_id))
-					+ "</b>");
-			sb.append("<br/>");
-			sb.append(results.get(result_id).getGloss());
-			sb.append("</div>");
+			ISynset isynset = results.get(result_id);
+			sb.append(getResultItemHTMLFragment(result_id, isynset));
 		}
 
 		sb.append("</body></html>");
 
 		xhtml_panel.setDocumentFromString(sb.toString(), null,
 				new XhtmlNamespaceHandler());
+	}
+
+	private String getResultItemHTMLFragment(int result_id, ISynset synset) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("<div class='result_item'>");
+		sb.append("[" + (result_id + 1) + "] ");
+		String synset_id = results.get(result_id).getID().toString();
+		sb.append("<a href=\"synset_id:" + synset_id + "\">");
+		sb.append(synset_id);
+		sb.append("</a>");
+		sb.append("<br/>");
+		sb.append("<b>" + JWIUtils.getWords(results.get(result_id)) + "</b>");
+		sb.append("<br/>");
+		sb.append(results.get(result_id).getGloss());
+		sb.append("</div>");
+		return sb.toString();
 	}
 
 	public void retrievePage(int page_number) {
