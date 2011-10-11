@@ -1,23 +1,32 @@
-WNXplorer 2.1 (May 12, 2011)
-============================
+/*******************************************************************************
+ * Copyright (c) 2010-2011 Nicolas James.
+ * All rights reserved.
+ * WNXplorer is published under the GPLv3 Licence, see the COPYING file.
+ *
+ * Nicolas James
+ * email: nicolas.james@gmail.com
+ * web: http://njames.trevize.net
+ ******************************************************************************/
 
-Author: Nicolas James <nicolas.james@gmail.com> [[http://njames.trevize.net]]
+                          WNXplorer 2.1 (May 12, 2011)
 
 This is version 2.1 of WNXplorer, an interactive and graph-based navigation 
 software for the WordNet database.
 
-See http://njames.trevize.net/wiki/projects:wnxplorer and
-https://code.google.com/p/wnxplorer/
+Wiki:   http://njames.trevize.net/wiki/projects:wnxplorer/
+GoogleCode:  https://code.google.com/p/wnxplorer/
 
 You can check out the code on the Google Code repository:
 svn checkout http://wnxplorer.googlecode.com/svn/trunk/ wnxplorer-read-only
 
-Copyright 2010-2011 Nicolas James
-WNXplorer is published under GPLv3 license, see the COPYING file.
-
 Installation Instructions
 =========================
 
-Simply execute the shell script WNXplorer.sh if you are using a GNU/Linux 
+The dict sub-directory of WordNet is needed. You can download WordNet 
+here: http://wordnet.princeton.edu/wordnet/download/
+Choose the tarball under the section WordNet 3.0 for UNIX-like systems 
+(including: Linux, Mac OS X, Solaris) even if you are using MS-Windows. 
+
+Then simply execute the shell script WNXplorer.sh if you are using a GNU/Linux 
 system, or the batch file WNXplorer.bat if you are not lucky and you have to
 use MS-Windows.

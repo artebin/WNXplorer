@@ -11,6 +11,7 @@ import net.trevize.tinker.X11Colors2;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IPointer;
+import edu.mit.jwi.item.ISenseEntry;
 import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.IWord;
@@ -245,6 +246,22 @@ public class JWIUtils {
 		pos_labels.put(POS.VERB, "VERB");
 	}
 
+	public static String getWordSenseReference(ISynset synset) {
+		String lemma = synset.getWords().get(0).getLemma();
+		String pos = "" + synset.getWords().get(0).getPOS().getTag();
+
+		//		String sense_number = ""
+		//				+ synset.getWords().get(0).getSenseKey().getID()
+		//						.getWordNumber();
+
+		ISenseEntry sense_entry = JWIUtils.getWN_JWI_dictionary()
+				.getSenseEntry(synset.getWords().get(0).getSenseKey());
+
+		String sense_number = "" + sense_entry.getSenseNumber();
+
+		return lemma + "#" + pos + "#" + sense_number;
+	}
+
 	public static ISynsetID getISynsetIDFromString(String concept_key) {
 		//retrieving an ISynset from the key
 		int offset = Integer.parseInt(concept_key.split("-")[1]); //get the offset.
@@ -303,4 +320,5 @@ public class JWIUtils {
 
 		return sb.toString();
 	}
+
 }

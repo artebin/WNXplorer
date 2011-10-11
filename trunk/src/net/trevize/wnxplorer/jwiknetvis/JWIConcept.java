@@ -60,9 +60,13 @@ public class JWIConcept extends KNetConcept {
 
 	@Override
 	public String getShortLabel() {
+		//		return (leaf ? CHAR_LEAF_INDICATOR
+		//				: (isolated ? CHAR_ISOLATED_INDICATOR : ""))
+		//				+ short_label;
+		
 		return (leaf ? CHAR_LEAF_INDICATOR
 				: (isolated ? CHAR_ISOLATED_INDICATOR : ""))
-				+ short_label;
+				+ JWIUtils.getWordSenseReference(synset);
 	}
 
 	@Override
