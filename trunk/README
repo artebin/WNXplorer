@@ -13,8 +13,8 @@
 This is version 2.1 of WNXplorer, an interactive and graph-based navigation 
 software for the WordNet database.
 
-Wiki:   http://njames.trevize.net/wiki/projects:wnxplorer/
-GoogleCode:  https://code.google.com/p/wnxplorer/
+Wiki: http://njames.trevize.net/wiki/projects:wnxplorer/
+GoogleCode: https://code.google.com/p/wnxplorer/
 
 You can check out the code on the Google Code repository:
 svn checkout http://wnxplorer.googlecode.com/svn/trunk/ wnxplorer-read-only
@@ -22,8 +22,11 @@ svn checkout http://wnxplorer.googlecode.com/svn/trunk/ wnxplorer-read-only
 Installation Instructions
 =========================
 
-The dict sub-directory of WordNet is needed. You can download WordNet 
-here: http://wordnet.princeton.edu/wordnet/download/
+The folder named "dict" that is a sub-directory of each WordNet installation
+is needed. You can download WordNet at: 
+
+http://wordnet.princeton.edu/wordnet/download/
+
 Choose the tarball under the section WordNet 3.0 for UNIX-like systems 
 (including: Linux, Mac OS X, Solaris) even if you are using MS-Windows. 
 
