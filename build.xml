@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WNXplorer" default="build_dist" basedir=".">
+	<property name="build_dir" value="dist" />
+	<property name="version" value="2.2" />
+	<property name="date" value="2011.10.26" />
+
+	<target name="clean">
+		<delete dir="${build_dir}" />
+		<mkdir dir="${build_dir}" />
+	</target>
+
+	<target name="build_dist">
+		<jar destfile="./${build_dir}/wnxplorer-${version}-${date}.jar">
+			<fileset dir="./bin" />
+			<fileset dir="./src" />
+			<fileset dir="./javadoc" />
+		</jar>
+
+		<copy todir="./${build_dir}">
+			<fileset dir="./config" includes="**" />
+		</copy>
+
+		<copy todir="./${build_dir}">
+			<fileset dir="./gfx" includes="**" />
+		</copy>
+
+		<copy todir="./${build_dir}">
+			<fileset dir="./html" includes="**" />
+		</copy>
+
+		<copy todir="./${build_dir}">
+			<fileset dir="./lib" includes="**" />
+		</copy>
+	</target>
+</project>
