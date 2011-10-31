@@ -1,9 +1,9 @@
 #!/bin/sh
 
 #indicate here your path to WNXplorer
-cd /home/nicolas/apps/WNXplorer/WNXplorer-2.1-2011.05.12
+#cd /home/nicolas/apps/WNXplorer/WNXplorer-2.1-2011.05.12
 
-libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
+libraries="./lib/edu.mit.jwi_2.2.1.jar:\
 ./lib/lucene-core-3.0.1.jar:\
 ./lib/jung2-2_0_1/collections-generic-4.01.jar:\
 ./lib/jung2-2_0_1/jung-io-2.0.1.jar:\
@@ -32,6 +32,6 @@ libraries="./lib/edu.mit.jwi_2.1.5_jdk.jar:\
 ./lib/core-renderer-minimal-NJ_modified_issue150.jar:\
 ./lib/core-renderer.jar:\
 ./lib/KNetVis-0.3-2011.05.11.jar:\
-./WNXplorer-2.1-2011.05.12.jar"
+./WNXplorer-2.2-2011.10.26.jar"
 
 java -cp ${libraries} net.trevize.wnxplorer.WNXplorer
