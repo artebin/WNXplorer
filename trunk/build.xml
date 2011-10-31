@@ -10,26 +10,43 @@
 	</target>
 
 	<target name="build_dist">
-		<jar destfile="./${build_dir}/wnxplorer-${version}-${date}.jar">
+		<jar destfile="./${build_dir}/WNXplorer-${version}-${date}.jar">
 			<fileset dir="./bin" />
 			<fileset dir="./src" />
 			<fileset dir="./javadoc" />
 		</jar>
 
-		<copy todir="./${build_dir}">
-			<fileset dir="./config" includes="**" />
+		<mkdir dir="./${build_dir}/config" />
+		<copy todir="./${build_dir}/config">
+			<fileset dir="./config" />
+		</copy>
+
+		<mkdir dir="./${build_dir}/gfx" />
+		<copy todir="./${build_dir}/gfx">
+			<fileset dir="./gfx" />
+		</copy>
+
+		<mkdir dir="./${build_dir}/html" />
+		<copy todir="./${build_dir}/html">
+			<fileset dir="./html" />
+		</copy>
+
+		<mkdir dir="./${build_dir}/javadoc" />
+		<copy todir="./${build_dir}/javadoc">
+			<fileset dir="./javadoc" />
+		</copy>
+
+		<mkdir dir="./${build_dir}/lib" />
+		<copy todir="./${build_dir}/lib">
+			<fileset dir="./lib" />
 		</copy>
 
 		<copy todir="./${build_dir}">
-			<fileset dir="./gfx" includes="**" />
+			<fileset file="./WNXplorer.sh" />
 		</copy>
 
 		<copy todir="./${build_dir}">
-			<fileset dir="./html" includes="**" />
-		</copy>
-
-		<copy todir="./${build_dir}">
-			<fileset dir="./lib" includes="**" />
+			<fileset file="./WNXplorer.bat" />
 		</copy>
 	</target>
 </project>
