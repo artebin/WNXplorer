@@ -2,7 +2,10 @@
 <project name="WNXplorer" default="build_dist" basedir=".">
 	<property name="build_dir" value="dist" />
 	<property name="version" value="2.2" />
-	<property name="date" value="2011.10.26" />
+	<property name="date" value="2011.11.02" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
 
 	<target name="clean">
 		<delete dir="${build_dir}" />
@@ -10,11 +13,10 @@
 	</target>
 
 	<target name="build_dist">
-		<jar destfile="./${build_dir}/WNXplorer-${version}-${date}.jar">
-			<fileset dir="./bin" />
+		<mkdir dir="./${build_dir}/src" />
+		<copy todir="./${build_dir}/src">
 			<fileset dir="./src" />
-			<fileset dir="./javadoc" />
-		</jar>
+		</copy>
 
 		<mkdir dir="./${build_dir}/config" />
 		<copy todir="./${build_dir}/config">
@@ -48,5 +50,25 @@
 		<copy todir="./${build_dir}">
 			<fileset file="./WNXplorer.bat" />
 		</copy>
+
+		<path id="WNXplorer.classpath">
+			<pathelement location="bin" />
+			<fileset dir="./${build_dir}/lib" includes="**/*.jar" />
+		</path>
+
+		<echo message="WNXplorer.classpath=${toString:WNXplorer.classpath}" />
+
+		<mkdir dir="./${build_dir}/bin" />
+
+		<javac debug="true" debuglevel="${debuglevel}" destdir="./${build_dir}/bin" source="${source}" target="${target}">
+			<src path="./${build_dir}/src" />
+			<classpath refid="WNXplorer.classpath" />
+		</javac>
+
+		<jar destfile="./${build_dir}/WNXplorer-${version}-${date}.jar">
+			<fileset dir="./bin" />
+			<fileset dir="./src" />
+			<fileset dir="./javadoc" />
+		</jar>
 	</target>
 </project>
