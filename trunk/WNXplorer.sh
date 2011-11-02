@@ -32,6 +32,6 @@ libraries="./lib/edu.mit.jwi_2.2.1.jar:\
 ./lib/core-renderer-minimal-NJ_modified_issue150.jar:\
 ./lib/core-renderer.jar:\
 ./lib/KNetVis-0.3-2011.05.11.jar:\
-./WNXplorer-2.2-2011.10.26.jar"
+./WNXplorer-2.2-2011.11.02.jar"
 
 java -cp ${libraries} net.trevize.wnxplorer.WNXplorer
