@@ -45,10 +45,9 @@
 
 		<copy todir="./${build_dir}">
 			<fileset file="./WNXplorer.sh" />
-		</copy>
-
-		<copy todir="./${build_dir}">
 			<fileset file="./WNXplorer.bat" />
+			<fileset file="./README" />
+			<fileset file="./COPYING" />
 		</copy>
 
 		<path id="WNXplorer.classpath">
