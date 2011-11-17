@@ -13,6 +13,8 @@
 	</target>
 
 	<target name="build_dist">
+		<antcall target="clean" />
+
 		<mkdir dir="./${build_dir}/src" />
 		<copy todir="./${build_dir}/src">
 			<fileset dir="./src" />
@@ -33,15 +35,12 @@
 			<fileset dir="./html" />
 		</copy>
 
-		<mkdir dir="./${build_dir}/javadoc" />
-		<copy todir="./${build_dir}/javadoc">
-			<fileset dir="./javadoc" />
-		</copy>
-
 		<mkdir dir="./${build_dir}/lib" />
 		<copy todir="./${build_dir}/lib">
 			<fileset dir="./lib" />
 		</copy>
+
+		<mkdir dir="./${build_dir}/logs" />
 
 		<copy todir="./${build_dir}">
 			<fileset file="./WNXplorer.sh" />
@@ -51,7 +50,7 @@
 		</copy>
 
 		<path id="WNXplorer.classpath">
-			<pathelement location="bin" />
+			<pathelement location="./${build_dir}/bin" />
 			<fileset dir="./${build_dir}/lib" includes="**/*.jar" />
 		</path>
 
@@ -64,10 +63,15 @@
 			<classpath refid="WNXplorer.classpath" />
 		</javac>
 
+		<javadoc destdir="./${build_dir}/javadoc" author="true" version="true" use="true" windowtitle="WNXplorer v${version} API">
+			<packageset dir="./${build_dir}/src" defaultexcludes="yes">
+			</packageset>
+		</javadoc>
+
 		<jar destfile="./${build_dir}/WNXplorer-${version}-${date}.jar">
-			<fileset dir="./bin" />
-			<fileset dir="./src" />
-			<fileset dir="./javadoc" />
+			<fileset dir="./${build_dir}/bin" />
+			<fileset dir="./${build_dir}/src" />
+			<fileset dir="./${build_dir}/javadoc" />
 		</jar>
 	</target>
 </project>
