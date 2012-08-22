@@ -8,7 +8,7 @@ Choose the tarball under the section "WordNet 3.0 for UNIX-like systems (includi
 
 [http://njames.trevize.net/wiki/_media/projects:screenshot-wnxplorer2.png]
 
-Feel free to send me an email at [[nicolas.james@gmail.com]] if you are interested by this application or if you encounter a problem.
+Feel free to send me an email at [mailto:nicolas.james@gmail.com] if you are interested by this application or if you encounter a problem.
 
 [http://njames.trevize.net/wiki/_media/projects:screenshot-wnxplorer140.png]
 
